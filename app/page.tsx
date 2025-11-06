@@ -25,7 +25,7 @@ export default function Home() {
           {/* Logo Centralizada */}
           <div className="flex items-center justify-center mb-12">
             <img
-              src="/images/soulsync-logo.png"
+              src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1762405382/soulsync/root/soulsync-logo.png"
               alt="SoulSync"
               className="w-64 sm:w-80 md:w-96 h-auto"
             />

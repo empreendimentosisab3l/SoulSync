@@ -1,4 +1,4 @@
-// Script para fazer upload dos áudios e imagens para o Cloudinary
+// Script para fazer upload das imagens para o Cloudinary
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const path = require('path');
@@ -19,7 +19,7 @@ async function uploadFile(filePath, folder) {
     const normalizedFolder = folder.replace(/\\/g, '/');
 
     const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: 'auto', // Detecta automaticamente (audio, image, etc)
+      resource_type: 'auto',
       folder: `soulsync/${normalizedFolder}`,
       use_filename: true,
       unique_filename: false,
@@ -46,12 +46,11 @@ async function uploadDirectory(dirPath, basePath = '') {
       const subUrls = await uploadDirectory(fullPath, path.join(basePath, item.name));
       urls.push(...subUrls);
     } else if (item.isFile()) {
-      // Fazer upload de arquivos de áudio e imagem
+      // Fazer upload de imagens
       const ext = path.extname(item.name).toLowerCase();
-      const audioExts = ['.mp3', '.wav', '.m4a'];
       const imageExts = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 
-      if (audioExts.includes(ext) || imageExts.includes(ext)) {
+      if (imageExts.includes(ext)) {
         const folder = basePath || 'root';
         const url = await uploadFile(fullPath, folder);
 
@@ -74,27 +73,43 @@ async function uploadDirectory(dirPath, basePath = '') {
 }
 
 async function main() {
-  console.log('🚀 Iniciando upload para Cloudinary...\n');
+  console.log('🚀 Iniciando upload de imagens para Cloudinary...\n');
 
-  const audiosPath = path.join(__dirname, 'public', 'audios');
+  const imagePaths = [
+    path.join(__dirname, 'public', 'animations', 'images'),
+    path.join(__dirname, 'public', 'images')
+  ];
 
-  if (!fs.existsSync(audiosPath)) {
-    console.error('❌ Pasta public/audios não encontrada!');
-    process.exit(1);
+  let allUrls = [];
+
+  for (const imagePath of imagePaths) {
+    if (fs.existsSync(imagePath)) {
+      console.log(`📁 Processando: ${imagePath}\n`);
+      const urls = await uploadDirectory(imagePath);
+      allUrls.push(...urls);
+    } else {
+      console.log(`⚠️ Pasta não encontrada: ${imagePath}`);
+    }
   }
 
-  const urls = await uploadDirectory(audiosPath);
+  // Carregar URLs existentes de áudios
+  const audioUrlsPath = path.join(__dirname, 'cloudinary-urls.json');
+  let existingUrls = [];
 
-  // Salvar mapeamento de URLs em arquivo JSON
+  if (fs.existsSync(audioUrlsPath)) {
+    existingUrls = JSON.parse(fs.readFileSync(audioUrlsPath, 'utf-8'));
+  }
+
+  // Combinar URLs de áudios e imagens
+  const combinedUrls = [...existingUrls, ...allUrls];
+
+  // Salvar mapeamento combinado
   const mappingPath = path.join(__dirname, 'cloudinary-urls.json');
-  fs.writeFileSync(mappingPath, JSON.stringify(urls, null, 2));
+  fs.writeFileSync(mappingPath, JSON.stringify(combinedUrls, null, 2));
 
-  console.log(`\n✅ Upload completo! ${urls.length} arquivos enviados.`);
+  console.log(`\n✅ Upload completo! ${allUrls.length} imagens enviadas.`);
+  console.log(`📝 Total de ${combinedUrls.length} arquivos no mapeamento.`);
   console.log(`📝 Mapeamento salvo em: ${mappingPath}`);
-  console.log('\n💡 Próximos passos:');
-  console.log('1. Atualize as URLs dos áudios no código para usar as URLs do Cloudinary');
-  console.log('2. Remova a pasta public/audios local');
-  console.log('3. Faça commit e push das mudanças');
 }
 
 main().catch(console.error);
