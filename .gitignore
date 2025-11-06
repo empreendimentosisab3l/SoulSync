@@ -37,6 +37,5 @@ next-env.d.ts
 # Windows system files
 nul
 
-# Audio files (too large for Git/Vercel)
-public/audios/**/*.mp3
-public/audios/**/*.MP3
+# Audio files (too large for Git/Vercel) - host on CDN instead
+public/audios/
