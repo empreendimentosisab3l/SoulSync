@@ -11,7 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/blob": "^2.0.0",
     "autoprefixer": "^10.4.21",
+    "cloudinary": "^2.8.0",
+    "dotenv": "^17.2.3",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.552.0",
     "next": "^15",
