@@ -1,0 +1,13 @@
+# Ignore audio files - too large for deployment
+public/audios/
+*.mp3
+*.MP3
+*.wav
+*.m4a
+
+# Development files
+.env.local
+.env*.local
+
+# Node modules already ignored by default
+node_modules/
