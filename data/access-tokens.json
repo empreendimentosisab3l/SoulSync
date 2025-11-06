@@ -1,0 +1,74 @@
+[
+  {
+    "token": "3780b445603fd667be00f8073796c394cfb2710983c2945021b2154984ffe2bb",
+    "email": "lucassouto2009@gmail.com",
+    "name": "Lucas",
+    "planType": "SoulSync - Anual",
+    "orderId": "ORD-123456",
+    "customerId": "CUST-789",
+    "subscriptionId": "SUB-321",
+    "createdAt": "2025-11-03T22:53:36.422Z",
+    "expiresAt": null,
+    "isActive": true
+  },
+  {
+    "token": "1c1ab9f27b0af6b209a673ea60dabbc23c2eff1fef57e8ea7420481ccdafc0f0",
+    "email": "lsbempreendimentos@gmail.com",
+    "name": "Lucas",
+    "planType": "SoulSync - Anual",
+    "orderId": "ORD-TEST-001",
+    "customerId": "CUST-TEST",
+    "subscriptionId": "SUB-TEST",
+    "createdAt": "2025-11-03T22:53:51.935Z",
+    "expiresAt": null,
+    "isActive": true
+  },
+  {
+    "token": "d4720f14be3ccf24e9929970f67c7afdfa322e5b3e78ca87296398784e5261ae",
+    "email": "maria.teste@gmail.com",
+    "name": "Maria Silva",
+    "planType": "SoulSync - Teste Gratuito",
+    "orderId": "TEST-1762210982489",
+    "customerId": "MANUAL-TEST",
+    "subscriptionId": null,
+    "createdAt": "2025-11-03T23:03:02.489Z",
+    "expiresAt": null,
+    "isActive": true
+  },
+  {
+    "token": "0762afc3abbbf140da5c6610092eb3298677b3f307b8d7f51233435eeda29f9e",
+    "email": "lsbempreendimentos@gmail.com",
+    "name": "Lucas",
+    "planType": "SoulSync - Anual",
+    "orderId": "ORD-TEST-001",
+    "customerId": "CUST-TEST",
+    "subscriptionId": "SUB-TEST",
+    "createdAt": "2025-11-03T23:07:54.648Z",
+    "expiresAt": null,
+    "isActive": true
+  },
+  {
+    "token": "7247efcfd33a152b47f9bd3582e8df3b4a233a88fc243c18acfe0db776ce03ed",
+    "email": "batmansilva74@gmail.com",
+    "name": "batman",
+    "planType": "SoulSync - Teste Gratuito",
+    "orderId": "TEST-1762211413378",
+    "customerId": "MANUAL-TEST",
+    "subscriptionId": null,
+    "createdAt": "2025-11-03T23:10:13.378Z",
+    "expiresAt": null,
+    "isActive": true
+  },
+  {
+    "token": "6cf3a51562a35605c8b49f1ddc26d5cb0002c23df961f568b746053d4b457172",
+    "email": "teste@onboarding.com",
+    "name": "Teste Onboarding",
+    "planType": "SoulSync - Teste Gratuito",
+    "orderId": "TEST-1762358935151",
+    "customerId": "MANUAL-TEST",
+    "subscriptionId": null,
+    "createdAt": "2025-11-05T16:08:55.151Z",
+    "expiresAt": null,
+    "isActive": true
+  }
+]

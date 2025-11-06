@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Limpar Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .success {
+            color: green;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Limpar LocalStorage</h1>
+        <p>Clique no botão abaixo para limpar todo o localStorage e ver o onboarding novamente</p>
+        <button onclick="clearAndRedirect()">Limpar e Ver Onboarding</button>
+        <button onclick="clearOnly()">Apenas Limpar Storage</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        function clearAndRedirect() {
+            localStorage.clear();
+            document.getElementById('message').innerHTML = '<p class="success">✅ Storage limpo! Redirecionando...</p>';
+            setTimeout(() => {
+                window.location.href = '/membros';
+            }, 1000);
+        }
+
+        function clearOnly() {
+            localStorage.clear();
+            document.getElementById('message').innerHTML = '<p class="success">✅ Storage limpo com sucesso!</p>';
+        }
+    </script>
+</body>
+</html>
