@@ -40,72 +40,9 @@ export default function CoursePage() {
   const [coursesData, setCoursesData] = useState<{ [key: string]: Course }>({});
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
 
-  // Dados dos cursos
-  const courses: { [key: string]: Course } = {
-    '1': {
-      id: 1,
-      title: 'Mudando a relação com a comida',
-      description: 'Transforme sua relação com a alimentação através da hipnoterapia',
-      longDescription: 'Mergulhe em uma jornada de transformação que irá mudar para sempre sua relação com a comida e com seu corpo.',
-      thumbnail: '/images/course-1.jpg',
-      sessions: [
-        // Introdução à autoconsciência
-        { id: 1, title: 'Comece sua trajetória aqui', duration: '02:04', section: 'Introdução à autoconsciência', audioUrl: '/audios/sessao-1.mp3', requiredPlays: 3 },
-        { id: 2, title: 'O que significa hipnose?', duration: '01:51', section: 'Introdução à autoconsciência', audioUrl: '/audios/sessao-2.mp3', requiredPlays: 3 },
-        { id: 3, title: 'Instruções para ouvir', duration: '01:50', section: 'Introdução à autoconsciência', audioUrl: '/audios/sessao-3.mp3', requiredPlays: 3 },
-        { id: 4, title: 'O que é fome de verdade em diferença da sede emocional?', duration: '02:39', section: 'Introdução à autoconsciência', audioUrl: '/audios/sessao-4.mp3', requiredPlays: 3 },
-        { id: 5, title: 'Compreenda a relevância alimentar', duration: '03:22', section: 'Introdução à autoconsciência', audioUrl: '/audios/sessao-5.mp3', requiredPlays: 3 },
-
-        // Acesse sua autoconsciência emocional
-        { id: 6, title: 'Conecte-se com sua alimentação', duration: '11:36', section: 'Acesse sua autoconsciência emocional', audioUrl: '/audios/sessao-6.mp3', requiredPlays: 3 },
-        { id: 7, title: 'Compreendendo gatilhos', duration: '11:01', section: 'Acesse sua autoconsciência emocional', audioUrl: '/audios/sessao-7.mp3', requiredPlays: 3 },
-        { id: 8, title: 'Liberando ansiedade finalmente', duration: '13:52', section: 'Acesse sua autoconsciência emocional', audioUrl: '/audios/sessao-8.mp3', requiredPlays: 3 },
-        { id: 9, title: 'Gerenciando suas emoções', duration: '11:05', section: 'Acesse sua autoconsciência emocional', audioUrl: '/audios/sessao-9.mp3', requiredPlays: 3 },
-        { id: 10, title: 'Elimine beliscar entre as refeições', duration: '10:58', section: 'Acesse sua autoconsciência emocional', audioUrl: '/audios/sessao-10.mp3', requiredPlays: 3 },
-
-        // Pare de comer quando estiver satisfeito
-        { id: 11, title: 'Escute sobre saciedade adequada', duration: '09:38', section: 'Pare de comer quando estiver satisfeito', audioUrl: '/audios/sessao-11.mp3', requiredPlays: 3 },
-        { id: 12, title: 'Desenvolvendo amor próprio', duration: '11:35', section: 'Pare de comer quando estiver satisfeito', audioUrl: '/audios/sessao-12.mp3', requiredPlays: 3 },
-        { id: 13, title: 'Libertar sentimentos', duration: '09:27', section: 'Pare de comer quando estiver satisfeito', audioUrl: '/audios/sessao-13.mp3', requiredPlays: 3 },
-        { id: 14, title: 'Descubra sinais internos', duration: '12:20', section: 'Pare de comer quando estiver satisfeito', audioUrl: '/audios/sessao-14.mp3', requiredPlays: 3 },
-
-        // Desenvolvendo da curiosidade para estar Anonimo
-        { id: 15, title: 'Explorando os ganhos do jejum', duration: '05:33', section: 'Desenvolvendo da curiosidade para estar Anonimo', audioUrl: '/audios/sessao-15.mp3', requiredPlays: 3 },
-        { id: 16, title: 'Qual é a sua percepção?', duration: '02:51', section: 'Desenvolvendo da curiosidade para estar Anonimo', audioUrl: '/audios/sessao-16.mp3', requiredPlays: 3 },
-        { id: 17, title: 'Cultivando a curiosidade', duration: '11:34', section: 'Desenvolvendo da curiosidade para estar Anonimo', audioUrl: '/audios/sessao-17.mp3', requiredPlays: 3 },
-        { id: 18, title: 'Atividade física', duration: '11:40', section: 'Desenvolvendo da curiosidade para estar Anonimo', audioUrl: '/audios/sessao-18.mp3', requiredPlays: 3 },
-        { id: 19, title: 'Visualize o seu futuro ideal', duration: '15:58', section: 'Desenvolvendo da curiosidade para estar Anonimo', audioUrl: '/audios/sessao-19.mp3', requiredPlays: 3 },
-      ],
-    },
-    '2': {
-      id: 2,
-      title: 'Descodificação da procrastinação',
-      description: 'Supere a procrastinação e seja mais produtivo',
-      longDescription: 'Aprenda técnicas comprovadas de hipnoterapia para eliminar a procrastinação e aumentar sua produtividade.',
-      thumbnail: '/images/course-2.jpg',
-      sessions: [
-        { id: 19, title: 'Introdução à produtividade', duration: '05:00', section: 'Fundamentos', audioUrl: '/audios/sessao-19.mp3' },
-        { id: 20, title: 'Quebrando padrões de procrastinação', duration: '12:30', section: 'Fundamentos', audioUrl: '/audios/sessao-20.mp3' },
-        { id: 21, title: 'Foco e concentração', duration: '15:00', section: 'Técnicas avançadas', audioUrl: '/audios/sessao-21.mp3' },
-      ],
-    },
-    '3': {
-      id: 3,
-      title: 'Bem-estar natural',
-      description: 'Encontre equilíbrio e bem-estar através da hipnoterapia',
-      longDescription: 'Uma jornada holística para alcançar bem-estar físico, mental e emocional através de técnicas de hipnoterapia.',
-      thumbnail: '/images/course-3.jpg',
-      sessions: [
-        { id: 22, title: 'Relaxamento profundo', duration: '20:00', section: 'Práticas iniciais', audioUrl: '/audios/sessao-22.mp3' },
-        { id: 23, title: 'Conexão mente-corpo', duration: '18:00', section: 'Práticas iniciais', audioUrl: '/audios/sessao-23.mp3' },
-        { id: 24, title: 'Harmonia interior', duration: '22:00', section: 'Práticas avançadas', audioUrl: '/audios/sessao-24.mp3' },
-      ],
-    },
-  };
-
   const courseId = params?.id as string;
-  // Usar dados dinâmicos se disponíveis, senão usar hardcoded
-  const course = coursesData[courseId] || courses[courseId];
+  // Usar apenas dados dinâmicos da API
+  const course = coursesData[courseId];
 
   useEffect(() => {
     // Carregar cursos da API

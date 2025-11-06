@@ -63,14 +63,15 @@ export async function GET() {
   }
 
   // Get image URL for a course
-  function getCourseImage(courseFolder: string): string {
-    const imageMapping = mappings.find(m =>
-      m.folder.startsWith(courseFolder) &&
-      (m.filename.toLowerCase().includes('capa') ||
-       m.filename.toLowerCase().includes('lucid'))
-    );
+  function getCourseImage(courseId: number): string {
+    // Course images from Cloudinary
+    const courseImages: { [key: number]: string } = {
+      1: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1762408521/soulsync/courses/course-1.jpg',
+      2: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1762408522/soulsync/courses/course-2.jpg',
+      3: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1762408524/soulsync/courses/course-3.jpg',
+    };
 
-    return imageMapping?.cloudinaryUrl || '';
+    return courseImages[courseId] || '';
   }
 
   // Build courses with actual Cloudinary data
@@ -88,7 +89,7 @@ export async function GET() {
       id: sessionCounter++,
       title: session.filename.replace('.mp3', '').replace('.MP3', ''),
       duration: '10-15 min',
-      audioUrl: session.cloudinaryUrl,
+      audioUrl: `/api/proxy-audio?url=${encodeURIComponent(session.cloudinaryUrl)}`,
       order: sessionIdx + 1,
     }))
   }));
@@ -98,7 +99,7 @@ export async function GET() {
     title: 'Mudando a relação com a comida',
     description: 'Curso completo para transformar sua relação com a alimentação',
     totalSessions: foodAudios.length,
-    imageUrl: getCourseImage('Mudando a relação com a comida'),
+    imageUrl: getCourseImage(1),
     sections: foodSectionArray
   });
 
@@ -113,7 +114,7 @@ export async function GET() {
       id: sessionCounter++,
       title: session.filename.replace('.mp3', '').replace('.MP3', ''),
       duration: '10-15 min',
-      audioUrl: session.cloudinaryUrl,
+      audioUrl: `/api/proxy-audio?url=${encodeURIComponent(session.cloudinaryUrl)}`,
       order: sessionIdx + 1,
     }))
   }));
@@ -123,7 +124,7 @@ export async function GET() {
     title: 'Decodificação da mentalidade procrastinadora',
     description: 'Supere a procrastinação e aumente sua produtividade',
     totalSessions: procAudios.length,
-    imageUrl: getCourseImage('Decodificação da mentalidade procrastinadora'),
+    imageUrl: getCourseImage(2),
     sections: procSectionArray
   });
 
@@ -138,7 +139,7 @@ export async function GET() {
       id: sessionCounter++,
       title: session.filename.replace('.mp3', '').replace('.MP3', ''),
       duration: '10-15 min',
-      audioUrl: session.cloudinaryUrl,
+      audioUrl: `/api/proxy-audio?url=${encodeURIComponent(session.cloudinaryUrl)}`,
       order: sessionIdx + 1,
     }))
   }));
@@ -148,7 +149,7 @@ export async function GET() {
     title: 'Bem-estar sexual',
     description: 'Melhore sua confiança e desempenho íntimo',
     totalSessions: sexualAudios.length,
-    imageUrl: getCourseImage('Bem-estar sexual'),
+    imageUrl: getCourseImage(3),
     sections: sexualSectionArray
   });
 

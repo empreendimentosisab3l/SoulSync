@@ -14,6 +14,7 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({
+  id,
   title,
   image,
   isLocked = false,
@@ -27,6 +28,16 @@ export default function CourseCard({
     if (onClick) {
       onClick();
     }
+  };
+
+  // Gradientes diferentes para cada curso
+  const getGradient = (courseId: number) => {
+    const gradients: { [key: number]: string } = {
+      1: 'from-orange-400 via-red-400 to-pink-500', // Comida - cores quentes
+      2: 'from-blue-500 via-purple-500 to-indigo-600', // Procrastinação - cores produtivas
+      3: 'from-pink-400 via-rose-400 to-red-400', // Bem-estar sexual - cores românticas
+    };
+    return gradients[courseId] || 'from-teal-400 to-teal-600';
   };
 
   return (
@@ -48,7 +59,7 @@ export default function CourseCard({
             onError={() => setImageError(true)}
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-teal-400 to-teal-600" />
+          <div className={`w-full h-full bg-gradient-to-br ${getGradient(id)}`} />
         )}
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
