@@ -10,10 +10,10 @@ export default function Home() {
   const handleStart = () => {
     setIsLoading(true);
     // Clear previous quiz data
-    localStorage.removeItem("quizAnswers");
-    localStorage.removeItem("userData");
+    localStorage.removeItem("quizV2Answers");
+    localStorage.removeItem("quizV2UserData");
     setTimeout(() => {
-      router.push("/quiz/1");
+      router.push("/quiz-v2/2");
     }, 500);
   };
 
