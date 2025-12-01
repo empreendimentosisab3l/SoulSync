@@ -3,25 +3,14 @@
 // Force HMR update
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useQuizTracking } from '@/lib/hooks/useQuizTracking';
 
 export default function QuizV2Landing() {
   const router = useRouter();
-  const tracker = useQuizTracking('hypnozio-quiz-v2');
 
-  useEffect(() => {
-    // Track landing page view
-    tracker?.trackCardView(1, 'Landing Page');
-  }, [tracker]);
-
-  const handleStart = async () => {
+  const handleStart = () => {
     // Clear any previous quiz data
     localStorage.removeItem('quizV2Answers');
     localStorage.removeItem('quizV2UserData');
-
-    // Track quiz start
-    await tracker?.trackStart();
 
     // Start quiz
     router.push('/quiz-v2/2');

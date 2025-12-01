@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Timer } from 'lucide-react';
-import WeightLossChart from '@/components/WeightLossChart';
-import { useQuizTracking } from '@/lib/hooks/useQuizTracking';
 
 interface UserData {
   name?: string;
@@ -26,8 +24,6 @@ export default function QuizV2Checkout() {
   const [eventType, setEventType] = useState<string>(''); // Evento escolhido no card 41
   const [eventDate, setEventDate] = useState<string>(''); // Data do evento do card 42
   const [couponCode, setCouponCode] = useState<string>('HYPNO50'); // Código do cupom dinâmico
-
-  const tracker = useQuizTracking('hypnozio-quiz-v2');
 
   useEffect(() => {
     // Load user data from localStorage
@@ -87,11 +83,8 @@ export default function QuizV2Checkout() {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
-    // Track checkout view
-    tracker?.trackCardView(999, 'Checkout Page');
-
     return () => clearInterval(timer);
-  }, [tracker]);
+  }, []);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -137,18 +130,7 @@ export default function QuizV2Checkout() {
   };
 
   const handleCheckout = () => {
-    // Track initiate checkout
-    tracker?.trackInitiateCheckout(userData.email, 39.00);
-
     // TODO: Integração com pagamento (LastLink)
-    // Quando implementar o pagamento, adicione tracking de conversão aqui:
-    //
-    // import { useQuizTracking } from '@/lib/hooks/useQuizTracking';
-    // const tracker = useQuizTracking('hypnozio-quiz-v2');
-    //
-    // Após confirmação de pagamento, chame:
-    // tracker?.trackConversion(userData.email, valorPago, orderId);
-
     alert('Integração com pagamento será implementada aqui!');
   };
 
@@ -220,17 +202,6 @@ export default function QuizV2Checkout() {
             </p>
           )}
         </div>
-
-        {/* Weight Loss Chart */}
-        {userData.weight && userData.targetWeight && (
-          <div className="mb-8 max-w-2xl mx-auto">
-            <WeightLossChart
-              currentWeight={userData.weight}
-              targetWeight={userData.targetWeight}
-              eventDate={eventDate}
-            />
-          </div>
-        )}
 
         {/* Card de Transformação - Antes/Depois */}
         <div className="mb-8">

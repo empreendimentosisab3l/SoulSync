@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getQuizV2Question, getTotalQuizV2Questions } from '@/lib/quizDataV2';
-import { useQuizTracking } from '@/lib/hooks/useQuizTracking';
 import QuizV2Card from '@/components/QuizV2Card';
 import QuizV2Choice from '@/components/QuizV2Choice';
 import QuizV2Multiple from '@/components/QuizV2Multiple';
@@ -25,9 +24,6 @@ export default function QuizV2StepPage() {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initialize tracking for Quiz V2
-  const tracker = useQuizTracking('hypnozio-quiz-v2');
-
   const totalSteps = getTotalQuizV2Questions();
   const questionData = getQuizV2Question(step);
 
@@ -44,16 +40,8 @@ export default function QuizV2StepPage() {
       localStorage.removeItem('quizV2Answers');
       localStorage.removeItem('quizV2UserData');
       setAnswers({});
-      // Track quiz start
-      tracker?.trackStart();
     }
-
-    // Track card view
-    if (questionData && tracker) {
-      const cardName = questionData.title || questionData.question || questionData.content || `Card ${step}`;
-      tracker.trackCardView(step, cardName);
-    }
-  }, [step, tracker, questionData]);
+  }, [step, questionData]);
 
   const saveAnswer = (value: any) => {
     const newAnswers = { ...answers, [step]: value };
@@ -64,25 +52,10 @@ export default function QuizV2StepPage() {
   const handleNext = (value?: any) => {
     if (value !== undefined) {
       saveAnswer(value);
-
-      // Track answer
-      if (questionData && tracker) {
-        const cardName = questionData.title || questionData.question || questionData.content || `Card ${step}`;
-        tracker.trackCardAnswer(step, cardName, value);
-
-        // Specific tracking for email and name to link session
-        if (step === 46) {
-          tracker.trackEmail(value);
-        } else if (step === 47) {
-          tracker.trackName(value);
-        }
-      }
     }
 
     // After card 49 (scratch card), go directly to checkout
     if (step === 49) {
-      // Track quiz completion
-      tracker?.trackComplete();
       router.push('/quiz-v2/checkout');
       return;
     }
@@ -92,7 +65,6 @@ export default function QuizV2StepPage() {
       router.push(`/quiz-v2/${step + 1}`);
     } else {
       // Quiz completed - go to checkout
-      tracker?.trackComplete();
       router.push('/quiz-v2/checkout');
     }
   };
