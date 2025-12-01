@@ -471,13 +471,21 @@ export default function QuizV2Checkout() {
 
                 // Criar token de teste válido
                 const testToken = 'test-free-trial-' + Date.now();
-                localStorage.setItem('accessToken', testToken);
 
-                // Marcar como teste grátis
+                // Criar dados de usuário de teste
+                const testUser = {
+                  name: userData.name || 'Usuário Teste',
+                  email: userData.email || 'teste@soulsync.com',
+                  planType: 'free-trial'
+                };
+
+                // Salvar token e dados do usuário
+                localStorage.setItem('accessToken', testToken);
+                localStorage.setItem('userData', JSON.stringify(testUser));
                 localStorage.setItem('isFreeTrial', 'true');
 
-                // Redirecionar para membros
-                router.push("/membros");
+                // Redirecionar para membros com o token como parâmetro
+                router.push(`/membros?token=${testToken}`);
               }}
               className="w-full py-4 bg-gradient-to-r from-orange-400 to-pink-500 text-white rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-[1.02] shadow-lg border-2 border-white/20 mt-4"
             >
