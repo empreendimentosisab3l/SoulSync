@@ -3,6 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { quizQuestions, getTotalSteps } from "@/lib/quizData";
+import { useQuizTracking } from "@/lib/hooks/useQuizTracking";
 import ProgressBar from "@/components/ProgressBar";
 import QuizChoice from "@/components/QuizChoice";
 import QuizRange from "@/components/QuizRange";
@@ -18,6 +19,7 @@ export default function QuizStep() {
   const [selectedMultiple, setSelectedMultiple] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const tracker = useQuizTracking();
 
   useEffect(() => {
     // Load saved answers from localStorage
@@ -37,6 +39,19 @@ export default function QuizStep() {
       }
     }
   }, [step]);
+
+  useEffect(() => {
+    // Rastrear início do quiz
+    if (step === 1) {
+      tracker?.trackStart();
+    }
+
+    // Rastrear visualização de card
+    const question = quizQuestions[step - 1];
+    if (question) {
+      tracker?.trackCardView(step, question.question || question.content || `Step ${step}`);
+    }
+  }, [step, tracker]);
 
   const question = quizQuestions[step - 1];
   const totalSteps = getTotalSteps();
@@ -77,6 +92,13 @@ export default function QuizStep() {
     const newAnswers = { ...answers, [step]: answer };
     setAnswers(newAnswers);
     localStorage.setItem("quizAnswers", JSON.stringify(newAnswers));
+
+    // Rastrear resposta
+    const question = quizQuestions[step - 1];
+    if (question && tracker) {
+      tracker.trackCardAnswer(step, question.question || question.content || `Step ${step}`, answer);
+    }
+
     navigateNext();
   };
 

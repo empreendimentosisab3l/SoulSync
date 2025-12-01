@@ -4,6 +4,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { sendAccessEmail } from '@/lib/email/sendAccessEmail';
+import { prisma } from '@/lib/prisma';
 
 // Diretório para armazenar tokens
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -84,6 +85,45 @@ export async function POST(request: NextRequest) {
         console.log('📧 Email do cliente:', accessData.email);
         console.log('🔗 Link de acesso:', `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3002'}/membros?token=${accessData.token}`);
 
+        // RASTREAMENTO DE CONVERSÃO
+        try {
+          const email = accessData.email;
+          const amount = data.order?.total_amount || 0;
+
+          // Encontrar a sessão mais recente para este email
+          const recentSession = await prisma.quizSession.findFirst({
+            where: { email: email },
+            orderBy: { startedAt: 'desc' }
+          });
+
+          if (recentSession) {
+            // Atualizar sessão com receita
+            await prisma.quizSession.update({
+              where: { id: recentSession.id },
+              data: {
+                convertedAt: new Date(),
+                revenue: amount
+              }
+            });
+
+            // Criar registro de conversão
+            await prisma.conversion.create({
+              data: {
+                sessionId: recentSession.id,
+                amount: amount,
+                paymentMethod: 'lastlink',
+                couponCode: data.order?.coupon_code
+              }
+            });
+            console.log('💰 Conversão registrada para sessão:', recentSession.id);
+          } else {
+            console.log('⚠️ Sessão não encontrada para conversão do email:', email);
+          }
+        } catch (trackError) {
+          console.error('❌ Erro ao rastrear conversão:', trackError);
+          // Não falhar o webhook por erro de tracking
+        }
+
         // Enviar email automático com link de acesso
         const emailResult = await sendAccessEmail(accessData);
 
@@ -95,7 +135,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: 'Acesso liberado e email enviado',
+          message: 'Acesso liberado, email enviado e conversão registrada',
           token: accessData.token,
           emailSent: emailResult.success
         });

@@ -12,17 +12,51 @@ This is a complete MVP combining:
 - Token-based access control
 - Email automation
 - Content delivery platform
+- **Analytics Dashboard**: Complete tracking and analytics system for quiz performance
+
+## Analytics Dashboard
+
+The project includes a comprehensive analytics dashboard for tracking quiz performance:
+
+- **Admin Login**: `/admin` (username: `admin`, password: `admin123`)
+- **Dashboard Overview**: `/dashboard` - General metrics, funnel, trends
+- **Quizzes List**: `/dashboard/quizzes` - All quizzes with performance metrics
+- **Quiz Details**: `/dashboard/quiz/[id]` - Detailed analysis per quiz
+- **Compare**: `/dashboard/compare` - Side-by-side quiz comparison
+- **Settings**: `/dashboard/settings` - Account and preferences
+
+### Analytics Features
+- Real-time tracking of quiz sessions
+- Conversion funnel visualization
+- Device and browser breakdown
+- UTM source tracking
+- Revenue and conversion rate metrics
+- Card-by-card performance analysis (ready for implementation)
+
+### Database (PostgreSQL + Prisma)
+- `quizzes`: Quiz configurations
+- `quiz_sessions`: User sessions with UTM and device data
+- `quiz_events`: Individual user interactions (views, answers)
+- `conversions`: Payment and conversion data
+- `users`: Admin authentication
+
+### Integration
+See `INTEGRACAO-ANALYTICS.md` for step-by-step integration guide with the existing quiz.
 
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS 3.4.1
+- **Database**: PostgreSQL (Supabase) + Prisma ORM 5.22
+- **Authentication**: NextAuth 4.24 (for admin dashboard)
 - **Email**: Resend API 6.4.0
 - **Payment**: LastLink webhook integration
-- **State Management**: React hooks + localStorage + file-based JSON
-- **Authentication**: Token-based access control
+- **State Management**: React hooks + localStorage + SWR (for API data)
+- **Access Control**: Token-based (members area) + Session-based (admin)
 - **Audio**: HTML5 Audio API with custom player
+- **Charts**: Recharts for data visualization
+- **Validation**: Zod for API schemas
 
 ## Development Commands
 
@@ -48,12 +82,18 @@ npm start
 # Run linter
 npm lint
 
+# Prisma / Database commands
+npm run db:generate      # Generate Prisma Client
+npm run db:push          # Push schema changes to database (no migration)
+npm run db:migrate       # Create and run migration
+npm run db:seed          # Seed database (creates admin user)
+
 # Quick start script (Windows)
 # Double-click iniciar.bat or run from terminal
 .\iniciar.bat
 ```
 
-The development server runs on `http://localhost:3000` by default.
+The development server runs on `http://localhost:3000` by default (or next available port like 3001).
 
 ## Project Structure
 
@@ -62,13 +102,43 @@ hypnozio-mvp/
 ├── app/
 │   ├── layout.tsx                    # Root layout with SoulSync branding
 │   ├── page.tsx                      # Landing page with hero CTA
+│   ├── providers.tsx                 # SessionProvider wrapper
 │   ├── globals.css                   # Global styles + Tailwind + custom colors
 │   ├── api/
+│   │   ├── auth/
+│   │   │   └── [...nextauth]/
+│   │   │       └── route.ts          # NextAuth API route
+│   │   ├── track/
+│   │   │   └── route.ts              # POST /api/track (analytics tracking)
+│   │   ├── dashboard/
+│   │   │   ├── overview/
+│   │   │   │   └── route.ts          # GET dashboard metrics
+│   │   │   ├── quizzes/
+│   │   │   │   └── route.ts          # GET all quizzes with stats
+│   │   │   ├── quiz/
+│   │   │   │   └── [id]/
+│   │   │   │       └── route.ts      # GET single quiz details
+│   │   │   └── compare/
+│   │   │       └── route.ts          # GET compare two quizzes
 │   │   ├── validate-token/
 │   │   │   └── route.ts              # GET /api/validate-token?token=xxx
 │   │   └── webhook/
 │   │       └── lastlink/
 │   │           └── route.ts          # POST webhook for payment events
+│   ├── admin/
+│   │   └── page.tsx                  # Admin login page
+│   ├── dashboard/
+│   │   ├── layout.tsx                # Dashboard layout with Sidebar
+│   │   ├── page.tsx                  # Dashboard overview
+│   │   ├── quizzes/
+│   │   │   └── page.tsx              # Quizzes list page
+│   │   ├── quiz/
+│   │   │   └── [id]/
+│   │   │       └── page.tsx          # Quiz detail page
+│   │   ├── compare/
+│   │   │   └── page.tsx              # Compare quizzes page
+│   │   └── settings/
+│   │       └── page.tsx              # Settings page
 │   ├── quiz/
 │   │   ├── [step]/
 │   │   │   └── page.tsx              # Dynamic quiz steps (1-21)
@@ -95,25 +165,45 @@ hypnozio-mvp/
 │   ├── QuizMultiple.tsx              # Multiple selection questions
 │   ├── QuizRange.tsx                 # Range/slider questions
 │   ├── QuizMeasurements.tsx          # Body measurements input
-│   └── QuizInfo.tsx                  # Info/testimonial screens
+│   ├── QuizInfo.tsx                  # Info/testimonial screens
+│   └── dashboard/
+│       ├── Sidebar.tsx               # Dashboard navigation sidebar
+│       ├── StatCard.tsx              # Metric card component
+│       ├── FunnelChart.tsx           # Conversion funnel visualization
+│       └── LineChart.tsx             # Trend line chart
+│
+├── components/ui/
+│   ├── button.tsx                    # UI button component
+│   ├── card.tsx                      # UI card component
+│   └── input.tsx                     # UI input component
 │
 ├── lib/
 │   ├── quizData.ts                   # Quiz configuration (21 questions)
+│   ├── prisma.ts                     # Prisma client singleton
+│   ├── auth.ts                       # NextAuth configuration
 │   ├── auth/
 │   │   └── validateToken.ts          # Token validation logic
-│   └── email/
-│       └── sendAccessEmail.ts        # Email sending via Resend
+│   ├── email/
+│   │   └── sendAccessEmail.ts        # Email sending via Resend
+│   └── hooks/
+│       └── useQuizTracking.ts        # Custom hook for quiz tracking
+│
+├── prisma/
+│   ├── schema.prisma                 # Database schema
+│   └── seed.js                       # Database seeding script
 │
 ├── data/
 │   └── access-tokens.json            # User access tokens storage
 │
 ├── public/
+│   ├── tracking.js                   # Quiz tracking script (legacy)
 │   └── audios/
 │       └── sessao-1.mp3              # Hypnotherapy audio files
 │
 └── Documentation/
     ├── CLAUDE.md                     # This file (for AI assistance)
     ├── README.md                     # Project documentation
+    ├── INTEGRACAO-ANALYTICS.md      # Analytics integration guide
     ├── FLUXO-COMPLETO.md            # Complete user flow
     ├── CONFIGURAR-EMAIL.md          # Email setup guide
     ├── INTEGRACAO-LASTLINK.md       # LastLink integration

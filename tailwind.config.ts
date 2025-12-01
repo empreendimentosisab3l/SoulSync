@@ -29,6 +29,13 @@ const config: Config = {
           cream: '#F5F3ED',
           sand: '#E8E4DC',
         },
+        // Premium Dark palette for Quiz V2 (Hypnotherapy)
+        hypno: {
+          'dark': '#1A1A2E',      // Roxo escuro - Primária
+          'purple': '#6A4C93',     // Roxo médio - Secundária
+          'accent': '#00D9FF',     // Azul neon - Accent
+          'bg': '#0F0F1E',         // Quase preto - Background
+        },
       },
     },
   },

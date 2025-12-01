@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useQuizTracking } from "@/lib/hooks/useQuizTracking";
 import ProgressBar from "@/components/ProgressBar";
 import { quizQuestions } from "@/lib/quizData";
 
 export default function EmailCapture() {
   const router = useRouter();
+  const tracker = useQuizTracking();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,6 +34,11 @@ export default function EmailCapture() {
 
     // Save user data
     localStorage.setItem("userData", JSON.stringify(formData));
+
+    // Rastrear conclusão do quiz
+    if (tracker) {
+      tracker.trackComplete(formData.email);
+    }
 
     // Navigate to loading page first
     setTimeout(() => {

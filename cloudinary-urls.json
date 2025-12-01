@@ -364,5 +364,40 @@
     "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762405382/soulsync/root/soulsync-logo.png",
     "filename": "soulsync-logo.png",
     "folder": "root"
+  },
+  {
+    "originalPath": "public/images/body-parts/arms.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762916019/hypnozio/quiz/body-parts/arms.png",
+    "filename": "arms.png",
+    "folder": "quiz/body-parts",
+    "type": "quiz-v2-body-part"
+  },
+  {
+    "originalPath": "public/images/body-parts/belly.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762916020/hypnozio/quiz/body-parts/belly.png",
+    "filename": "belly.png",
+    "folder": "quiz/body-parts",
+    "type": "quiz-v2-body-part"
+  },
+  {
+    "originalPath": "public/images/body-parts/face.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762916021/hypnozio/quiz/body-parts/face.png",
+    "filename": "face.png",
+    "folder": "quiz/body-parts",
+    "type": "quiz-v2-body-part"
+  },
+  {
+    "originalPath": "public/images/body-parts/glutes.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762916023/hypnozio/quiz/body-parts/glutes.png",
+    "filename": "glutes.png",
+    "folder": "quiz/body-parts",
+    "type": "quiz-v2-body-part"
+  },
+  {
+    "originalPath": "public/images/body-parts/legs.png",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1762916024/hypnozio/quiz/body-parts/legs.png",
+    "filename": "legs.png",
+    "folder": "quiz/body-parts",
+    "type": "quiz-v2-body-part"
   }
 ]
