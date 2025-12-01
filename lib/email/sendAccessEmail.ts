@@ -1,7 +1,5 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 interface AccessData {
   token: string;
   email: string;
@@ -11,7 +9,19 @@ interface AccessData {
 
 export async function sendAccessEmail(accessData: AccessData) {
   try {
-    const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL}/membros?token=${accessData.token}`;
+    // Check if RESEND_API_KEY is configured
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('⚠️ RESEND_API_KEY não configurada. Email não será enviado.');
+      return {
+        success: false,
+        error: 'RESEND_API_KEY não configurada. Configure a variável de ambiente para enviar emails.'
+      };
+    }
+
+    // Initialize Resend only when needed (lazy initialization)
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/membros?token=${accessData.token}`;
 
     const { data, error } = await resend.emails.send({
       from: 'SoulSync <onboarding@resend.dev>', // Você vai trocar por seu domínio
