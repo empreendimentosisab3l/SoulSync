@@ -4,8 +4,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'lottie-react'],
   },
-  // Reduce function size
-  serverComponentsExternalPackages: [],
   // Optimize images
   images: {
     remotePatterns: [

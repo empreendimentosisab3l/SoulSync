@@ -7,7 +7,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -16,7 +16,8 @@ export async function GET(
   }
 
   try {
-    const quizId = params.id;
+    const { id } = await params;
+    const quizId = id;
 
     // Buscar quiz
     const quiz = await prisma.quiz.findUnique({
