@@ -856,28 +856,11 @@ export default function QuizV2Checkout() {
         </div>
 
         {/* Card de Garantia de 30 Dias */}
-        <div className="bg-hypno-dark/60 backdrop-blur-sm rounded-3xl p-8 mb-8 max-w-2xl mx-auto border border-white/10">
-          <div className="flex items-start gap-6">
-            {/* Texto à esquerda */}
-            <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                Garantia de devolução
-              </h2>
-              <p className="text-white/70 mb-4 leading-relaxed">
-                Estamos confiantes com a qualidade do nosso serviço e seus resultados. Então, se você quiser dar o primeiro passo para alcançar seus objetivos, experimente o SoulSync! Se você não gostar dos resultados, basta nos informar dentro de 30 dias após a compra, e nós providenciaremos um reembolso total. Note que você precisará provar que seguiu o programa.
-              </p>
-              <p className="text-white/70">
-                Saiba mais sobre os limites aplicáveis na nossa{' '}
-                <a href="#" className="text-hypno-accent underline hover:text-hypno-accent/80">
-                  Política de Cancelamento e Reembolso
-                </a>
-                .
-              </p>
-            </div>
-
-            {/* Badge 30 dias à direita */}
-            <div className="flex-shrink-0">
-              <div className="relative w-32 h-32">
+        <div className="bg-hypno-dark/60 backdrop-blur-sm rounded-3xl p-4 sm:p-6 md:p-8 mb-8 max-w-2xl mx-auto border border-white/10">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+            {/* Badge 30 dias - Mobile: No topo, Desktop: À direita */}
+            <div className="flex-shrink-0 order-first sm:order-last">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
                 {/* Selo de garantia */}
                 <svg viewBox="0 0 100 100" className="w-full h-full">
                   {/* Estrela de fundo */}
@@ -904,6 +887,23 @@ export default function QuizV2Checkout() {
                   </text>
                 </svg>
               </div>
+            </div>
+
+            {/* Texto - Mobile: Abaixo do badge, Desktop: À esquerda */}
+            <div className="flex-1 text-center sm:text-left">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4">
+                Garantia de devolução
+              </h2>
+              <p className="text-sm sm:text-base text-white/70 mb-3 sm:mb-4 leading-relaxed">
+                Estamos confiantes com a qualidade do nosso serviço e seus resultados. Então, se você quiser dar o primeiro passo para alcançar seus objetivos, experimente o SoulSync! Se você não gostar dos resultados, basta nos informar dentro de 30 dias após a compra, e nós providenciaremos um reembolso total. Note que você precisará provar que seguiu o programa.
+              </p>
+              <p className="text-xs sm:text-sm text-white/70">
+                Saiba mais sobre os limites aplicáveis na nossa{' '}
+                <a href="#" className="text-hypno-accent underline hover:text-hypno-accent/80 transition-colors">
+                  Política de Cancelamento e Reembolso
+                </a>
+                .
+              </p>
             </div>
           </div>
         </div>
