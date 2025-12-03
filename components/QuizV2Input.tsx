@@ -33,6 +33,34 @@ export default function QuizV2Input({
 }: QuizV2InputProps) {
   const [value, setValue] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showConsentNotification, setShowConsentNotification] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
+
+  const triggerShake = () => {
+    setIsShaking(true);
+    setShowConsentNotification(true);
+    setTimeout(() => setIsShaking(false), 500);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    // Check for consent notification
+    if (showTerms && !termsAccepted && newValue.length >= 3) {
+      triggerShake();
+    } else {
+      setShowConsentNotification(false);
+    }
+  };
+
+  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setTermsAccepted(checked);
+    if (checked) {
+      setShowConsentNotification(false);
+    }
+  };
 
   // Calculate BMI if we have both values
   const calculateBMI = (currentVal: string) => {
@@ -98,7 +126,10 @@ export default function QuizV2Input({
     : null;
 
   const handleContinue = () => {
-    if (showTerms && !termsAccepted) return;
+    if (showTerms && !termsAccepted) {
+      triggerShake();
+      return;
+    }
 
     if (value.trim()) {
       onContinue(value.trim());
@@ -111,8 +142,21 @@ export default function QuizV2Input({
     }
   };
 
+  const handleContainerClick = (e: React.MouseEvent) => {
+    // If clicking on checkbox or label, don't trigger shake
+    const target = e.target as HTMLElement;
+    if (target.closest('input[type="checkbox"]') || target.closest('label[for="terms"]')) {
+      return;
+    }
+
+    // If input has 3+ chars, terms required but not accepted -> shake
+    if (showTerms && !termsAccepted && value.length >= 3) {
+      triggerShake();
+    }
+  };
+
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in" onClick={handleContainerClick}>
       {/* Question */}
       <div className="text-center space-y-3">
         <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
@@ -136,7 +180,7 @@ export default function QuizV2Input({
           <input
             type={inputType}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleInputChange}
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
             className="w-full bg-hypno-dark/50 border-2 border-hypno-purple/30 focus:border-hypno-accent rounded-2xl px-6 py-5 text-white text-xl placeholder:text-white/30 outline-none transition-all"
@@ -218,7 +262,7 @@ export default function QuizV2Input({
                 type="checkbox"
                 id="terms"
                 checked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
+                onChange={handleTermsChange}
                 className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/30 bg-white/10 transition-all checked:border-hypno-purple checked:bg-hypno-purple hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-hypno-purple/50"
               />
               <svg
@@ -238,9 +282,25 @@ export default function QuizV2Input({
                 />
               </svg>
             </div>
-            <label htmlFor="terms" className="text-sm text-white/70 cursor-pointer select-none">
-              Eu concordo com os <span className="text-hypno-purple underline">Termos e Condições</span> e <span className="text-hypno-purple underline">Política de Privacidade</span>.
+            <label htmlFor="terms" className="text-sm text-white/70 cursor-pointer select-none leading-relaxed">
+              Eu concordo que o SoulSync processe meus dados de saúde cadastrados para fornecer serviços e aprimorar minha experiência de usuário. <span className="text-hypno-purple underline">Política de Privacidade</span>.
             </label>
+          </div>
+        )}
+
+        {/* Consent Notification */}
+        {showConsentNotification && (
+          <div className={`${isShaking ? 'animate-shake' : ''} bg-[#E55858] text-white px-4 py-3 rounded-xl flex items-center justify-between shadow-lg mx-auto max-w-md`}>
+            <span className="font-medium text-sm">É necessário o seu consentimento para continuar.</span>
+            <button
+              onClick={() => setShowConsentNotification(false)}
+              className="text-white/80 hover:text-white ml-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
           </div>
         )}
 
@@ -249,8 +309,8 @@ export default function QuizV2Input({
           <div className="w-full max-w-md">
             <button
               onClick={handleContinue}
-              disabled={!value.trim() || (showTerms && !termsAccepted)}
-              className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-hypno-purple/25 ${!value.trim() || (showTerms && !termsAccepted)
+              disabled={!value.trim()}
+              className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-hypno-purple/25 ${!value.trim()
                 ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
                 : 'bg-hypno-purple text-white hover:bg-hypno-purple-light'
                 }`}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface QuizV2VisualizationProps {
     currentWeight?: number;
@@ -8,142 +8,146 @@ interface QuizV2VisualizationProps {
     onContinue: () => void;
     buttonText?: string;
     name?: string;
+    beforeImage?: string;
+    bodyParts?: string[];
+    activityLevel?: string;
 }
 
 export default function QuizV2Visualization({
-    currentWeight = 85,
-    targetWeight = 65,
+    currentWeight,
+    targetWeight,
     onContinue,
     buttonText = "Continuar",
-    name = "Visitante"
+    name = "Visitante",
+    beforeImage,
+    bodyParts,
+    activityLevel
 }: QuizV2VisualizationProps) {
-    const [showAfter, setShowAfter] = useState(false);
-
-    // Animate the transition to "After" state
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowAfter(true);
-        }, 1500);
-        return () => clearTimeout(timer);
-    }, []);
 
     // Calculate stats
-    const weightLoss = currentWeight - targetWeight;
-    const currentBodyFat = 35; // Estimated
-    const targetBodyFat = 22; // Estimated
-    const weeks = Math.round(weightLoss * 0.8); // Rough estimate: 0.8 weeks per kg
+    const weightLoss = (currentWeight && targetWeight) ? (currentWeight - targetWeight) : 0;
+
+    // Map body parts to display labels
+    const bodyPartLabels: Record<string, string> = {
+        'pernas': 'Pernas',
+        'barriga': 'Barriga',
+        'bracos': 'Braços',
+        'bumbum': 'Bumbum',
+        'rosto': 'Rosto',
+        'costas': 'Costas'
+    };
+
+    const selectedParts = bodyParts?.map(p => bodyPartLabels[p] || p).join(', ') || 'Geral';
+
+    // Map activity level to display text
+    const activityLabels: Record<string, string> = {
+        'sedentario': 'Sedentário',
+        'leve': 'Levemente Ativo',
+        'moderado': 'Moderadamente Ativo',
+        'muito-ativo': 'Muito Ativo',
+        'extremo': 'Extremamente Ativo'
+    };
+
+    const activityText = activityLevel ? activityLabels[activityLevel] || 'Ativo' : 'Ativo';
 
     return (
-        <div className="space-y-8 animate-fade-in pb-32">
-            <div className="text-center space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
-                    {name}, aqui está seu plano!
+        <div className="w-full max-w-md mx-auto animate-fade-in pb-32">
+            {/* Header Title */}
+            <div className="text-center mb-6 px-4">
+                <h2 className="text-2xl font-bold text-white leading-tight">
+                    Conheça sua futura versão.<br />
+                    <span className="text-hypno-purple">Confiante</span> em seu próprio corpo
                 </h2>
-                <p className="text-white/60">
-                    Baseado nas suas respostas:
-                </p>
             </div>
 
-            {/* Visualization Card */}
-            <div className="relative bg-gradient-to-br from-hypno-accent/10 via-hypno-dark/90 to-hypno-purple/20 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-hypno-accent/30 overflow-hidden">
+            {/* Main Card */}
+            <div className="bg-white rounded-[2rem] p-5 shadow-xl overflow-hidden mb-6 relative">
 
-                {/* Header Tabs */}
-                <div className="flex gap-2 mb-8">
-                    <div className={`flex-1 rounded-xl px-4 py-2 text-center transition-all duration-500 ${!showAfter ? 'bg-hypno-accent text-white font-bold shadow-lg shadow-hypno-accent/30' : 'bg-white/5 text-white/50'}`}>
-                        AGORA
-                    </div>
-                    <div className={`flex-1 rounded-xl px-4 py-2 text-center transition-all duration-500 flex items-center justify-center gap-2 ${showAfter ? 'bg-hypno-accent text-white font-bold shadow-lg shadow-hypno-accent/30' : 'bg-white/5 text-white/50'}`}>
-                        META <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded">Em {weeks} semanas</span>
-                    </div>
+                {/* Top Labels */}
+                <div className="flex justify-between mb-4 px-8">
+                    <span className="text-gray-800 font-bold">Agora</span>
+                    <span className="text-green-500 font-bold">Meta</span>
                 </div>
 
-                {/* Avatars & Stats */}
-                <div className="relative min-h-[300px]">
+                {/* Image Container */}
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-100">
+                    {beforeImage ? (
+                        <img
+                            src={beforeImage}
+                            alt="Transformação Antes e Depois"
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center h-full text-gray-400">
+                            Imagem não disponível
+                        </div>
+                    )}
+                </div>
 
-                    {/* BEFORE STATE */}
-                    <div className={`absolute inset-0 transition-all duration-700 transform ${showAfter ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'}`}>
-                        <div className="flex flex-col items-center">
-                            {/* Avatar Placeholder */}
-                            <div className="w-32 h-32 rounded-full bg-gray-700 mb-6 flex items-center justify-center border-4 border-gray-600">
-                                <span className="text-4xl">😐</span>
-                            </div>
-
-                            {/* Stats Grid */}
-                            <div className="w-full grid grid-cols-2 gap-4">
-                                <div className="bg-white/5 rounded-xl p-3 text-center">
-                                    <div className="text-xs text-white/40 uppercase tracking-wider">Peso</div>
-                                    <div className="text-xl font-bold text-white">{currentWeight} kg</div>
-                                </div>
-                                <div className="bg-white/5 rounded-xl p-3 text-center">
-                                    <div className="text-xs text-white/40 uppercase tracking-wider">Gordura</div>
-                                    <div className="text-xl font-bold text-white">{currentBodyFat}%</div>
-                                </div>
-                                <div className="col-span-2 bg-white/5 rounded-xl p-3">
-                                    <div className="flex justify-between text-xs text-white/40 uppercase tracking-wider mb-1">
-                                        <span>Energia</span>
-                                        <span>Baixa</span>
-                                    </div>
-                                    <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                                        <div className="h-full w-[30%] bg-red-400 rounded-full"></div>
-                                    </div>
-                                </div>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                    {/* Left Column (Agora) */}
+                    <div className="space-y-4">
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-1">Peso</p>
+                            <p className="text-sm text-gray-600">{currentWeight ? `${currentWeight} kg` : '---'}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-1">Gordura corporal</p>
+                            <p className="text-sm text-gray-600">32%+</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-2">Nível de energia</p>
+                            <div className="flex gap-1">
+                                <div className="h-1.5 w-6 rounded-full bg-green-500"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-gray-200"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-gray-200"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-gray-200"></div>
                             </div>
                         </div>
                     </div>
 
-                    {/* AFTER STATE */}
-                    <div className={`absolute inset-0 transition-all duration-700 transform ${showAfter ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
-                        <div className="flex flex-col items-center">
-                            {/* Avatar Placeholder */}
-                            <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-hypno-purple to-hypno-accent mb-6 flex items-center justify-center border-4 border-hypno-accent shadow-lg shadow-hypno-accent/50">
-                                <span className="text-4xl">😍</span>
-                                <div className="absolute -bottom-2 -right-2 bg-hypno-accent text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                                    -{weightLoss}kg
-                                </div>
-                            </div>
-
-                            {/* Stats Grid */}
-                            <div className="w-full grid grid-cols-2 gap-4">
-                                <div className="bg-hypno-accent/10 border border-hypno-accent/30 rounded-xl p-3 text-center">
-                                    <div className="text-xs text-hypno-accent uppercase tracking-wider">Peso</div>
-                                    <div className="text-xl font-bold text-white">{targetWeight} kg</div>
-                                </div>
-                                <div className="bg-hypno-accent/10 border border-hypno-accent/30 rounded-xl p-3 text-center">
-                                    <div className="text-xs text-hypno-accent uppercase tracking-wider">Gordura</div>
-                                    <div className="text-xl font-bold text-white">{targetBodyFat}%</div>
-                                </div>
-                                <div className="col-span-2 bg-hypno-accent/10 border border-hypno-accent/30 rounded-xl p-3">
-                                    <div className="flex justify-between text-xs text-hypno-accent uppercase tracking-wider mb-1">
-                                        <span>Energia</span>
-                                        <span>Máxima</span>
-                                    </div>
-                                    <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                                        <div className="h-full w-[90%] bg-gradient-to-r from-hypno-purple to-hypno-accent rounded-full shadow-[0_0_10px_rgba(0,217,255,0.5)]"></div>
-                                    </div>
-                                </div>
+                    {/* Right Column (Meta) */}
+                    <div className="space-y-4">
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-1">Objetivo de peso</p>
+                            <p className="text-sm text-gray-600">{targetWeight ? `${targetWeight} kg` : '---'}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-1">Gordura corporal</p>
+                            <p className="text-sm text-gray-600">14-20%</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-gray-800 mb-2">Nível de energia</p>
+                            <div className="flex gap-1">
+                                <div className="h-1.5 w-6 rounded-full bg-green-500"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-green-500"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-green-500"></div>
+                                <div className="h-1.5 w-6 rounded-full bg-green-500"></div>
                             </div>
                         </div>
                     </div>
-
                 </div>
+            </div>
 
-                {/* Footer Message */}
-                <div className="mt-6 text-center">
-                    <p className="text-sm text-white/70">
-                        Este é o SEU objetivo - vamos reprogramar sua mente para alcançá-lo <span className="text-hypno-accent font-bold">AUTOMATICAMENTE</span>.
-                    </p>
-                </div>
+            {/* Footer Message */}
+            <div className="text-center px-6">
+                <p className="text-sm text-white/70 font-medium leading-relaxed">
+                    Este é o seu objetivo — <span className="font-bold text-white">nós vamos te guiar até lá, um hábito de cada vez.</span>
+                </p>
             </div>
 
             {/* Continue Button - Sticky Footer */}
             <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-hypno-bg via-hypno-bg/95 to-transparent z-50 flex justify-center">
                 <div className="w-full max-w-md">
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={onContinue}
-                        className="w-full bg-gradient-to-r from-hypno-purple to-hypno-accent text-white py-4 rounded-full font-bold text-lg hover:scale-105 hover:shadow-lg hover:shadow-hypno-accent/50 transition-all duration-300"
+                        className="w-full bg-hypno-purple text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-hypno-purple/30"
                     >
                         {buttonText}
-                    </button>
+                    </motion.button>
                 </div>
             </div>
         </div>

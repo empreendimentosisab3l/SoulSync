@@ -399,5 +399,22 @@
     "filename": "legs.png",
     "folder": "quiz/body-parts",
     "type": "quiz-v2-body-part"
+  },
+  {
+    "originalPath": "public/images/quiz-v2/plus-sized-v2.webp",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1764703106/soulsync/quiz-v2/card-11-plus-sized-v2.webp",
+    "filename": "plus-sized-v2.webp",
+    "folder": "quiz-v2",
+    "type": "quiz-v2-card",
+    "cardId": 11
+  },
+  {
+    "originalPath": "public/images/quiz-v2/mid-sized.webp",
+    "cloudinaryUrl": "https://res.cloudinary.com/dw1p11dgq/image/upload/v1764703550/soulsync/quiz-v2/card-11-mid-sized-healthy.webp",
+    "filename": "mid-sized.webp",
+    "folder": "quiz-v2",
+    "type": "quiz-v2-card",
+    "cardId": 11,
+    "bmiCategory": "normal"
   }
 ]

@@ -22,7 +22,7 @@ export default function QuizV2Info({
       case "testimonial":
         return "⭐";
       case "educational":
-        return "💡";
+        return ""; // Removido emoji de lâmpada
       case "social-proof":
         return "🏆";
       case "comparison":

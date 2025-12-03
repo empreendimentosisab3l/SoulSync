@@ -15,6 +15,7 @@ import QuizV2Analysis from '@/components/QuizV2Analysis';
 import QuizV2Scratch from '@/components/QuizV2Scratch';
 import QuizV2DatePicker from '@/components/QuizV2DatePicker';
 import QuizV2Visualization from '@/components/QuizV2Visualization';
+import QuizV2SummaryBMI from '@/components/QuizV2SummaryBMI';
 
 export default function QuizV2StepPage() {
   const router = useRouter();
@@ -149,13 +150,13 @@ export default function QuizV2StepPage() {
             onContinue={handleNext}
             buttonText={questionData.buttonText}
             otherValue={
-              step === 7 ? answers[6] : // If on weight card (7), pass height (6)
-                step === 8 ? answers[7] : // If on goal weight card (8), pass current weight (7)
+              step === 9 ? answers[8] : // If on weight card (9), pass height (8)
+                step === 10 ? answers[9] : // If on goal weight card (10), pass current weight (9)
                   undefined
             }
             measurementType={
-              step === 6 ? 'height' :
-                step === 7 ? 'weight' :
+              step === 8 ? 'height' :
+                step === 9 ? 'weight' :
                   undefined
             }
             showTerms={questionData.showTerms}
@@ -256,11 +257,27 @@ export default function QuizV2StepPage() {
       case 'visualization':
         return (
           <QuizV2Visualization
-            currentWeight={answers[7] ? parseFloat(answers[7]) : undefined}
-            targetWeight={answers[8] ? parseFloat(answers[8]) : undefined}
+            currentWeight={answers[9] ? parseFloat(answers[9].toString().replace(',', '.')) : undefined}
+            targetWeight={answers[10] ? parseFloat(answers[10].toString().replace(',', '.')) : undefined}
             name={answers[47] || answers[48] || 'Visitante'}
             onContinue={() => handleNext()}
             buttonText={questionData.buttonText}
+            beforeImage={questionData.image}
+            bodyParts={answers[11] || []}
+            activityLevel={answers[7]}
+          />
+        );
+
+      case 'bmi-summary':
+        return (
+          <QuizV2SummaryBMI
+            height={answers[8] ? parseFloat(answers[8]) : 0}
+            weight={answers[9] ? parseFloat(answers[9]) : 0}
+            bodyParts={answers[11] || []}
+            activityLevel={answers[7]}
+            onContinue={() => handleNext()}
+            buttonText={questionData.buttonText}
+            image={questionData.image}
           />
         );
 

@@ -32,9 +32,9 @@ export default function QuizV2Checkout() {
 
     if (answers) {
       const parsed = JSON.parse(answers);
-      const weight = parsed['7'] ? parseFloat(parsed['7']) : undefined;
-      const height = parsed['6'] ? parseFloat(parsed['6']) : undefined;
-      const targetWeight = parsed['8'] ? parseFloat(parsed['8']) : undefined;
+      const height = parsed['8'] ? parseFloat(parsed['8']) : undefined;
+      const weight = parsed['9'] ? parseFloat(parsed['9'].toString().replace(',', '.')) : undefined;
+      const targetWeight = parsed['10'] ? parseFloat(parsed['10'].toString().replace(',', '.')) : undefined;
 
       // Get event from card 41
       const event = parsed['41'] || '';
@@ -681,11 +681,11 @@ export default function QuizV2Checkout() {
           <h2 className="text-2xl sm:text-3xl font-bold text-hypno-accent text-center mb-6">
             Conforme apresentado em
           </h2>
-          <div className="flex items-center justify-center bg-white/5 rounded-2xl p-6">
+          <div className="flex items-center justify-center bg-white rounded-2xl p-6">
             <img
               src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763608547/soulsync/authority/featured-in-logos.png"
               alt="Conforme apresentado em USA Today, Forbes, WSJ, New York Post, Mashable"
-              className="w-full max-w-3xl h-auto opacity-80 brightness-110"
+              className="w-full max-w-3xl h-auto brightness-110"
             />
           </div>
         </div>
@@ -800,39 +800,33 @@ export default function QuizV2Checkout() {
                 <span className="text-xs text-white/60">SSL/TLS Encryption</span>
               </div>
             </div>
-          </div>
 
-          {/* Opção Cartão de Crédito (não selecionada) */}
-          <div className="border-2 border-white/20 rounded-2xl p-4 mb-6 hover:border-white/40 transition-colors cursor-pointer">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full border-2 border-white/40"></div>
-                <span className="font-bold text-white">Cartão de crédito</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <img
-                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606902/soulsync/payment-methods/visa.svg"
-                  alt="Visa"
-                  className="h-5 w-auto"
-                />
-                <img
-                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606903/soulsync/payment-methods/mastercard.svg"
-                  alt="Mastercard"
-                  className="h-5 w-auto"
-                />
-                <img
-                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606905/soulsync/payment-methods/maestro.svg"
-                  alt="Maestro"
-                  className="h-5 w-auto"
-                />
-                <img
-                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606906/soulsync/payment-methods/amex.svg"
-                  alt="American Express"
-                  className="h-5 w-auto"
-                />
-              </div>
+            {/* Bandeiras de Cartão */}
+            <div className="mt-6 flex items-center justify-center gap-3 opacity-80">
+              <img
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606902/soulsync/payment-methods/visa.svg"
+                alt="Visa"
+                className="h-5 w-auto"
+              />
+              <img
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606903/soulsync/payment-methods/mastercard.svg"
+                alt="Mastercard"
+                className="h-5 w-auto"
+              />
+              <img
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606905/soulsync/payment-methods/maestro.svg"
+                alt="Maestro"
+                className="h-5 w-auto"
+              />
+              <img
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763606906/soulsync/payment-methods/amex.svg"
+                alt="American Express"
+                className="h-5 w-auto"
+              />
             </div>
           </div>
+
+
 
           {/* Informações Adicionais */}
           <div className="space-y-4 text-sm text-white/70">

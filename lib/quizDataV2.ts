@@ -15,7 +15,9 @@ export type QuizV2QuestionType =
   | "analysis"      // Análise dinâmica com IA
   | "scratch"       // Raspadinha de desconto
   | "date"          // Seletor de data personalizado
-  | "visualization"; // Visualização antes/depois
+  | "date"          // Seletor de data personalizado
+  | "visualization" // Visualização antes/depois
+  | "bmi-summary";  // Resumo de IMC e riscos
 
 export interface QuizV2Option {
   label: string;
@@ -141,45 +143,9 @@ export const quizV2Data: QuizV2Question[] = [
     progress: 8
   },
 
-  // CARD 06: ALTURA (AGORA PRIMEIRO)
+  // CARD 06: FAIXA ETÁRIA (MOVIDO PARA CÁ)
   {
     id: 6,
-    type: "input",
-    question: "Qual é a sua altura?",
-    inputType: "number",
-    unit: "cm",
-    placeholder: "170",
-    showTerms: true, // Checkbox de termos
-    progress: 10
-  },
-
-  // CARD 07: PESO ATUAL (AGORA SEGUNDO)
-  {
-    id: 7,
-    type: "input",
-    question: "Qual é o seu peso atual?",
-    inputType: "number",
-    unit: "kg",
-    placeholder: "75",
-    description: "🔒 Não se preocupe, isso é completamente privado",
-    progress: 12
-  },
-
-  // CARD 08: PESO DESEJADO
-  {
-    id: 8,
-    type: "input",
-    question: "Qual é o seu peso desejado?",
-    inputType: "number",
-    unit: "kg",
-    placeholder: "65",
-    feedbackType: "weight-loss", // Feedback de perda de peso
-    progress: 14
-  },
-
-  // CARD 09: FAIXA ETÁRIA
-  {
-    id: 9,
     type: "choice",
     question: "Qual é a sua faixa etária?",
     options: [
@@ -189,23 +155,57 @@ export const quizV2Data: QuizV2Question[] = [
       { label: "46-55", value: "46-55" },
       { label: "56+", value: "56+" }
     ],
+    progress: 10
+  },
+
+  // CARD 07: NÍVEL DE ATIVIDADE FÍSICA (MOVIDO PARA ANTES DO IMC)
+  {
+    id: 7,
+    type: "choice",
+    question: "Qual é o seu nível de atividade física atual?",
+    options: [
+      { label: "Sedentário (pouco/nenhum exercício)", value: "sedentario" },
+      { label: "Levemente ativo (1-2x/semana)", value: "leve" },
+      { label: "Moderadamente ativo (3-4x/semana)", value: "moderado" },
+      { label: "Muito ativo (5-6x/semana)", value: "muito-ativo" },
+      { label: "Extremamente ativo (diariamente)", value: "extremo" }
+    ],
+    progress: 12
+  },
+
+  // CARD 08: ALTURA
+  {
+    id: 8,
+    type: "input",
+    question: "Qual é a sua altura?",
+    inputType: "number",
+    unit: "cm",
+    placeholder: "0",
+    showTerms: true, // Checkbox de termos
+    progress: 14
+  },
+
+  // CARD 09: PESO ATUAL
+  {
+    id: 9,
+    type: "input",
+    question: "Qual é o seu peso atual?",
+    inputType: "number",
+    unit: "kg",
+    placeholder: "0",
+    description: "🔒 Não se preocupe, isso é completamente privado",
     progress: 16
   },
 
-  // CARD 10: MOTIVAÇÃO PRINCIPAL
+  // CARD 10: PESO DESEJADO
   {
     id: 10,
-    type: "choice",
-    question: "Por que você quer perder peso?",
-    options: [
-      { label: "Melhorar minha saúde (pressão, diabetes, etc)", value: "saude" },
-      { label: "Aumentar minha autoestima e confiança", value: "autoestima" },
-      { label: "Ter mais energia para o dia a dia", value: "energia" },
-      { label: "Me sentir melhor no meu corpo", value: "bem-estar" },
-      { label: "Melhorar meus relacionamentos", value: "relacionamentos" },
-      { label: "Evento importante (casamento, viagem)", value: "evento" },
-      { label: "Outro motivo", value: "outro" }
-    ],
+    type: "input",
+    question: "Qual é o seu peso desejado?",
+    inputType: "number",
+    unit: "kg",
+    placeholder: "0",
+    feedbackType: "weight-loss", // Feedback de perda de peso
     progress: 18
   },
 
@@ -226,9 +226,35 @@ export const quizV2Data: QuizV2Question[] = [
     progress: 20
   },
 
-  // CARD 12: PROVA SOCIAL #1
+  // CARD 12: BMI SUMMARY
   {
     id: 12,
+    type: "bmi-summary",
+    title: "Seu ponto de partida",
+    image: "https://res.cloudinary.com/dw1p11dgq/image/upload/v1764703106/soulsync/quiz-v2/card-11-plus-sized-v2.webp",
+    progress: 22
+  },
+
+  // CARD 13: MOTIVAÇÃO PRINCIPAL
+  {
+    id: 13,
+    type: "choice",
+    question: "Por que você quer perder peso?",
+    options: [
+      { label: "Melhorar minha saúde (pressão, diabetes, etc)", value: "saude" },
+      { label: "Aumentar minha autoestima e confiança", value: "autoestima" },
+      { label: "Ter mais energia para o dia a dia", value: "energia" },
+      { label: "Me sentir melhor no meu corpo", value: "bem-estar" },
+      { label: "Melhorar meus relacionamentos", value: "relacionamentos" },
+      { label: "Evento importante (casamento, viagem)", value: "evento" },
+      { label: "Outro motivo", value: "outro" }
+    ],
+    progress: 24
+  },
+
+  // CARD 14: PROVA SOCIAL #1
+  {
+    id: 14,
     type: "info",
     infoType: "testimonial",
     title: "🏆 Mais de 180.000 transformações",
@@ -238,24 +264,9 @@ export const quizV2Data: QuizV2Question[] = [
     progress: 22
   },
 
-  // CARD 13: NÍVEL DE ATIVIDADE FÍSICA
+  // CARD 15: ALIMENTAÇÃO ATUAL
   {
-    id: 13,
-    type: "choice",
-    question: "Qual é o seu nível de atividade física atual?",
-    options: [
-      { label: "Sedentário (pouco/nenhum exercício)", value: "sedentario" },
-      { label: "Levemente ativo (1-2x/semana)", value: "leve" },
-      { label: "Moderadamente ativo (3-4x/semana)", value: "moderado" },
-      { label: "Muito ativo (5-6x/semana)", value: "muito-ativo" },
-      { label: "Extremamente ativo (diariamente)", value: "extremo" }
-    ],
-    progress: 24
-  },
-
-  // CARD 14: ALIMENTAÇÃO ATUAL
-  {
-    id: 14,
+    id: 15,
     type: "choice",
     question: "Como você descreveria sua alimentação atual?",
     options: [
@@ -270,7 +281,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 15: REFEIÇÕES POR DIA
   {
-    id: 15,
+    id: 16,
     type: "choice",
     question: "Quantas refeições você faz por dia?",
     subtitle: "Geralmente, quantas refeições ou lanches você come diariamente?",
@@ -285,7 +296,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 16: DIFICULDADES FÍSICAS
   {
-    id: 16,
+    id: 17,
     type: "multiple",
     question: "Quais dificuldades físicas você sente por causa do seu peso?",
     subtitle: "Selecione quantas quiser:",
@@ -304,7 +315,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 17: HÁBITOS ALIMENTARES RUINS
   {
-    id: 17,
+    id: 18,
     type: "multiple",
     question: "Com quais hábitos você se identifica?",
     subtitle: "Selecione todos que se aplicam:",
@@ -323,7 +334,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 18: IDENTIFICAÇÃO EMOCIONAL - ESCALA
   {
-    id: 18,
+    id: 19,
     type: "range",
     question: "Você se identifica com esta afirmação?",
     description: "\"Mesmo depois de me saciar, eu costumo limpar o prato\"",
@@ -336,7 +347,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 19: CARD EDUCACIONAL #1
   {
-    id: 19,
+    id: 20,
     type: "info",
     infoType: "educational",
     content: "{{IMAGE}}\n\n\"87% das dietas falham porque focam apenas no QUE comer, não no PORQUÊ você come.\"\n\nSeus hábitos alimentares são controlados por padrões mentais inconscientes criados ao longo dos anos.\n\nNossa hipnoterapia reprograma esses padrões na RAIZ, eliminando desejos e criando novos hábitos automaticamente.",
@@ -347,7 +358,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 20: OBSTÁCULOS PRINCIPAIS
   {
-    id: 20,
+    id: 21,
     type: "choice",
     question: "O que mais te impede de emagrecer?",
     options: [
@@ -364,7 +375,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 21: QUEBRA DE OBJEÇÃO #1
   {
-    id: 21,
+    id: 22,
     type: "info",
     infoType: "comparison",
     title: "Como o SoulSync pode te ajudar?",
@@ -376,7 +387,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 22: QUALIDADE DO SONO
   {
-    id: 22,
+    id: 23,
     type: "choice",
     question: "Como é a qualidade do seu sono?",
     options: [
@@ -390,7 +401,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 23: HIDRATAÇÃO
   {
-    id: 23,
+    id: 24,
     type: "choice",
     question: "Quanta água você bebe por dia?",
     options: [
@@ -405,7 +416,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 24: NÍVEL DE ESTRESSE
   {
-    id: 24,
+    id: 25,
     type: "choice",
     question: "Qual é o seu nível de estresse no dia a dia?",
     options: [
@@ -419,7 +430,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 25: CONDIÇÕES DE SAÚDE
   {
-    id: 25,
+    id: 26,
     type: "multiple",
     question: "Você ganhou peso devido a algum dos acontecimentos abaixo?",
     subtitle: "Selecione todos que se aplicam:",
@@ -439,7 +450,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 26: QUEBRA DE OBJEÇÃO #2 (NOVO)
   {
-    id: 26,
+    id: 27,
     type: "info",
     infoType: "comparison",
     title: "Você NÃO precisa...",
@@ -450,7 +461,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 27: DISPONIBILIDADE DE TEMPO
   {
-    id: 27,
+    id: 28,
     type: "choice",
     question: "Quanto tempo você tem disponível por dia para cuidar da sua saúde?",
     subtitle: "(Exercícios, preparo de refeições, autocuidado)",
@@ -465,7 +476,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 28: ROTINA DE TRABALHO
   {
-    id: 28,
+    id: 29,
     type: "choice",
     question: "Como é sua rotina de trabalho?",
     options: [
@@ -480,7 +491,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 29: COM QUEM MORA
   {
-    id: 29,
+    id: 30,
     type: "choice",
     question: "Com quem você mora?",
     options: [
@@ -495,7 +506,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 30: PROVA SOCIAL #2
   {
-    id: 30,
+    id: 31,
     type: "info",
     infoType: "testimonial",
     content: "\"Perdi 11kg em 9 semanas sem me privar! A hipnose eliminou meus desejos por doces COMPLETAMENTE. Pela primeira vez, alimentação saudável não parece sacrifício. 😊\"\n\n⭐⭐⭐⭐⭐\n- Ana Paula, 34 anos",
@@ -505,7 +516,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 31: RESTRIÇÕES ALIMENTARES
   {
-    id: 31,
+    id: 32,
     type: "multiple",
     question: "Você tem alguma restrição alimentar?",
     subtitle: "Selecione todas que se aplicam:",
@@ -523,7 +534,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 32: PREFERÊNCIA DE ABORDAGEM
   {
-    id: 32,
+    id: 33,
     type: "choice",
     question: "Qual abordagem você prefere para emagrecer?",
     options: [
@@ -537,7 +548,7 @@ export const quizV2Data: QuizV2Question[] = [
 
   // CARD 33: SUPLEMENTOS
   {
-    id: 33,
+    id: 34,
     type: "choice",
     question: "Você toma ou já tomou suplementos para emagrecimento?",
     options: [
@@ -549,17 +560,6 @@ export const quizV2Data: QuizV2Question[] = [
     progress: 62
   },
 
-  // CARD 34: INTRODUÇÃO DA URGÊNCIA
-  {
-    id: 34,
-    type: "info",
-    infoType: "educational",
-    title: "⚠️ ATENÇÃO",
-    content: "Com base no seu perfil, você pode estar em risco de desenvolver:\n\n• Diabetes tipo 2\n• Hipertensão (pressão alta)\n• Doenças cardiovasculares\n• Problemas articulares crônicos\n• Apneia do sono\n\n━━━━━━━━━━━━━━━━━━━━━━\n\nMAS temos uma boa notícia...\n\n━━━━━━━━━━━━━━━━━━━━━━",
-    buttonText: "Continuar",
-    progress: 64
-  },
-
   // CARD 35: TESE PRINCIPAL
   {
     id: 35,
@@ -568,7 +568,7 @@ export const quizV2Data: QuizV2Question[] = [
     title: "A TRANSFORMAÇÃO DO CORPO COMEÇA NA SUA MENTE",
     content: "Métodos tradicionais como dietas e exercícios físicos muitas vezes não produzem resultados duradouros.\n\nO aplicativo SoulSync ataca a causa raiz do ganho de peso e a elimina. É a solução mais fácil para emagrecer.\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n\"Reprogramamos os padrões mentais inconscientes que sabotam seus esforços, criando mudanças automáticas e permanentes.\"",
     buttonText: "Como funciona?",
-    progress: 66
+    progress: 64
   },
 
   // CARD 36: COMO FUNCIONA - 4 BENEFÍCIOS
@@ -579,7 +579,7 @@ export const quizV2Data: QuizV2Question[] = [
     title: "Como a hipnoterapia te ajuda:",
     content: "✓ Chega de desejos por comida\n   Reprograma padrões mentais que causam compulsão\n\n✓ Hábitos alimentares ruins bloqueados\n   Elimina gatilhos de comer emocional\n\n✓ Elimina as crenças limitantes\n   Remove bloqueios mentais que impedem sucesso\n\n✓ Restaura conexão intestino-cérebro\n   Melhora sinais de saciedade e fome natural",
     buttonText: "Continuar",
-    progress: 68
+    progress: 66
   },
 
   // CARD 37: PROVA CIENTÍFICA
@@ -587,10 +587,10 @@ export const quizV2Data: QuizV2Question[] = [
     id: 37,
     type: "info",
     infoType: "educational",
-    title: "🔬 COMPROVADO PELA CIÊNCIA",
-    content: "📚 Journal of Consulting and Clinical Psychology (2014)\n\nPacientes que utilizaram hipnoterapia para perda de peso perderam DUAS VEZES MAIS peso do que aqueles que seguiram apenas dieta e exercício.\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n📚 International Journal of Clinical and Experimental Hypnosis (2018)\n\nHipnose demonstrou eficácia significativa na redução de peso, especialmente quando combinada com terapia cognitivo-comportamental.\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n*Fontes: Kirsch, I. (1996). Journal of Consulting and Clinical Psychology. | Milling, L. S. et al. (2018).*",
+    title: "COMPROVADO PELA CIÊNCIA",
+    content: "Journal of Consulting and Clinical Psychology (2014)\n\nPacientes que utilizaram hipnoterapia para perda de peso perderam DUAS VEZES MAIS peso do que aqueles que seguiram apenas dieta e exercício.\n\n━━━━━━━━━━━━━━━━━━━━━━\n\nInternational Journal of Clinical and Experimental Hypnosis (2018)\n\nHipnose demonstrou eficácia significativa na redução de peso, especialmente quando combinada com terapia cognitivo-comportamental.\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n*Fontes: Kirsch, I. (1996). Journal of Consulting and Clinical Psychology. | Milling, L. S. et al. (2018).*",
     buttonText: "Impressionante!",
-    progress: 70
+    progress: 68
   },
 
   // CARD 38: QUEBRA DE OBJEÇÃO #2 - COMPARAÇÃO
@@ -601,7 +601,7 @@ export const quizV2Data: QuizV2Question[] = [
     title: "Por que isso é diferente?",
     content: "❌ Dietas Tradicionais:\n   • Restritivas e difíceis de seguir\n   • Exigem força de vontade constante\n   • Resultados temporários (efeito sanfona)\n   • Foco apenas no que comer\n\n✅ Hipnoterapia SoulSync:\n   • Flexível e personalizada\n   • Mudanças automáticas (sem esforço)\n   • Resultados duradouros (sem sanfona)\n   • Muda sua relação com comida na RAIZ",
     buttonText: "Quero isso!",
-    progress: 72
+    progress: 70
   },
 
   // CARD 39: ANTECIPAÇÃO DO PLANO
@@ -610,9 +610,9 @@ export const quizV2Data: QuizV2Question[] = [
     type: "info",
     infoType: "educational",
     title: "Seu plano personalizado incluirá:",
-    content: "✓ Sessões de hipnose personalizadas\n✓ Áudios para reprogramação mental (15-20min)\n✓ Técnicas de autocontrole\n✓ Meditações anti-ansiedade\n✓ Acompanhamento de progresso\n✓ Comunidade exclusiva\n\n🎁 BÔNUS: Guia de Início Rápido\n   Protocolo dos primeiros 7 dias\n\n\"Vamos criar o SEU plano personalizado agora...\"",
+    content: "✓ Sessões de hipnose personalizadas\n✓ Áudios para reprogramação mental (15-20min)\n✓ Técnicas de autocontrole\n✓ Meditações anti-ansiedade\n✓ Acompanhamento de progresso\n✓ Comunidade exclusiva\n\nBÔNUS: Guia de Início Rápido\n   Protocolo dos primeiros 7 dias\n\n\"Vamos criar o SEU plano personalizado agora...\"",
     buttonText: "Criar meu plano",
-    progress: 74
+    progress: 72
   },
 
   // CARD 40: VISUALIZAÇÃO #1 - SENTIMENTO
@@ -627,7 +627,7 @@ export const quizV2Data: QuizV2Question[] = [
       { label: "Livre e leve", value: "livre" },
       { label: "Orgulhoso(a) de mim mesmo(a)", value: "orgulhoso" }
     ],
-    progress: 76
+    progress: 74
   },
 
   // CARD 41: VISUALIZAÇÃO #2 - MUDANÇAS NA VIDA
@@ -645,7 +645,7 @@ export const quizV2Data: QuizV2Question[] = [
       { label: "Usar roupas que sempre quis", value: "roupas" },
       { label: "Sentir-me bem em fotos", value: "fotos" }
     ],
-    progress: 78
+    progress: 76
   },
 
   // CARD 42: EVENTO ESPECÍFICO
@@ -665,18 +665,18 @@ export const quizV2Data: QuizV2Question[] = [
       { label: "Outra ocasião", value: "outro", icon: "😎" },
       { label: "Eu só quero mudar e me sentir o máximo!", value: "sem-evento", icon: "👗" }
     ],
-    progress: 79
+    progress: 78
   },
 
   // CARD 43: DATA DO EVENTO (PERSONALIZADA)
   {
     id: 43,
     type: "date",
-    // A pergunta será personalizada dinamicamente baseada na resposta do card 41
+    // A pergunta será personalizada dinamicamente baseada na resposta do card 42
     question: "Quando você quer atingir sua meta?",
     description: "Vamos lembrar disso durante a sua jornada.",
     buttonText: "Avançar",
-    progress: 81
+    progress: 80
   },
 
   // CARD 44: NÍVEL DE COMPROMISSO
@@ -737,6 +737,7 @@ export const quizV2Data: QuizV2Question[] = [
     id: 48,
     type: "visualization",
     title: "Aqui está seu plano!",
+    image: "https://res.cloudinary.com/dw1p11dgq/image/upload/v1764709910/soulsync/quiz-v2/overweight.webp",
     buttonText: "Ver meu plano completo",
     progress: 91
   },
@@ -759,7 +760,7 @@ export const quizV2Data: QuizV2Question[] = [
     type: "info",
     infoType: "educational",
     title: "Seu Plano de Hipnoterapia Inclui:",
-    content: "✅ Sessões de hipnose personalizadas\n   • 30+ sessões de áudio (15-25 min cada)\n\n✅ Reprogramação mental profunda\n   • Técnicas de visualização\n   • Sugestões pós-hipnóticas\n\n✅ Meditações anti-ansiedade\n   • 15+ meditações guiadas\n\n✅ Técnicas de autocontrole\n   • Protocolo de 60 segundos\n\n✅ Acompanhamento de progresso\n   • Gráficos visuais\n   • Celebração de marcos\n\n✅ Comunidade exclusiva\n   • Grupos de apoio\n   • Desafios semanais\n\n✅ Acesso vitalício\n   • Pague uma vez, use para sempre\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n🎁 BÔNUS EXCLUSIVO: Acelerador Mental\n   Protocolo intensivo dos primeiros 7 dias\n   (Valor: R$ 97,00) - GRÁTIS",
+    content: "✅ Sessões de hipnose personalizadas\n   • 30+ sessões de áudio (15-25 min cada)\n\n✅ Reprogramação mental profunda\n   • Técnicas de visualização\n   • Sugestões pós-hipnóticas\n\n✅ Meditações anti-ansiedade\n   • 15+ meditações guiadas\n\n✅ Técnicas de autocontrole\n   • Protocolo de 60 segundos\n\n✅ Acompanhamento de progresso\n   • Gráficos visuais\n   • Celebração de marcos\n\n✅ Comunidade exclusiva\n   • Grupos de apoio\n   • Desafios semanais\n\n✅ Acesso vitalício\n   • Pague uma vez, use para sempre\n\n━━━━━━━━━━━━━━━━━━━━━━\n\nBÔNUS EXCLUSIVO: Acelerador Mental\n   Protocolo intensivo dos primeiros 7 dias\n   (Valor: R$ 97,00) - GRÁTIS",
     buttonText: "Quero começar agora",
     progress: 94
   },
@@ -780,7 +781,7 @@ export const quizV2Data: QuizV2Question[] = [
     id: 52,
     type: "info",
     infoType: "social-proof",
-    title: "🎁 OFERTA EXCLUSIVA",
+    title: "OFERTA EXCLUSIVA",
     content: "PLANO COMPLETO DE HIPNOTERAPIA\n(Acesso Vitalício)\n\n❌ De: R$ 597,00\n✅ HOJE: R$ 297,00\n   💳 ou 12x de R$ 29,40\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n✅ Garantia incondicional de 30 dias\n✅ Acesso imediato ao programa completo\n✅ Suporte dedicado via chat\n🔒 Pagamento 100% seguro e criptografado",
     buttonText: "🚀 COMEÇAR AGORA - R$ 297,00",
     progress: 100
