@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Timer } from 'lucide-react';
+import { pageview, trackCheckoutView, trackPurchaseIntent, trackFreeTrialStart } from '@/lib/analytics';
 
 interface UserData {
   name?: string;
@@ -26,6 +27,10 @@ export default function QuizV2Checkout() {
   const [couponCode, setCouponCode] = useState<string>('HYPNO50'); // Código do cupom dinâmico
 
   useEffect(() => {
+    // Track checkout page view
+    pageview('/quiz-v2/checkout');
+    trackCheckoutView();
+
     // Load user data from localStorage
     const answers = localStorage.getItem('quizV2Answers');
     const userDataStr = localStorage.getItem('quizV2UserData');
@@ -130,6 +135,9 @@ export default function QuizV2Checkout() {
   };
 
   const handleCheckout = () => {
+    // Track purchase intent
+    trackPurchaseIntent('4 semanas', 39);
+
     // TODO: Integração com pagamento (LastLink)
     alert('Integração com pagamento será implementada aqui!');
   };
@@ -466,6 +474,9 @@ export default function QuizV2Checkout() {
             {/* Free Trial Button */}
             <button
               onClick={() => {
+                // Track free trial start
+                trackFreeTrialStart();
+
                 // Limpar onboarding para sempre mostrar
                 localStorage.removeItem('hasSeenOnboarding');
 

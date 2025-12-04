@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getQuizV2Question, getTotalQuizV2Questions } from '@/lib/quizDataV2';
+import { pageview, trackQuizStep, trackQuizAnswer, trackQuizComplete, trackEmailCapture } from '@/lib/analytics';
 import QuizV2Card from '@/components/QuizV2Card';
 import QuizV2Choice from '@/components/QuizV2Choice';
 import QuizV2Multiple from '@/components/QuizV2Multiple';
@@ -42,12 +43,26 @@ export default function QuizV2StepPage() {
       localStorage.removeItem('quizV2UserData');
       setAnswers({});
     }
+
+    // Track page view and step
+    if (questionData) {
+      pageview(`/quiz-v2/${step}`);
+      trackQuizStep(step, questionData.type);
+    }
   }, [step, questionData]);
 
   const saveAnswer = (value: any) => {
     const newAnswers = { ...answers, [step]: value };
     setAnswers(newAnswers);
     localStorage.setItem('quizV2Answers', JSON.stringify(newAnswers));
+
+    // Track answer
+    trackQuizAnswer(step, value);
+
+    // Track email capture specifically (assuming step 46 is email based on checkout page)
+    if (step === 46 && typeof value === 'string' && value.includes('@')) {
+      trackEmailCapture(value);
+    }
   };
 
   const handleNext = (value?: any) => {
@@ -57,6 +72,7 @@ export default function QuizV2StepPage() {
 
     // After card 49 (scratch card), go directly to checkout
     if (step === 49) {
+      trackQuizComplete(step);
       router.push('/quiz-v2/checkout');
       return;
     }
@@ -66,6 +82,7 @@ export default function QuizV2StepPage() {
       router.push(`/quiz-v2/${step + 1}`);
     } else {
       // Quiz completed - go to checkout
+      trackQuizComplete(step);
       router.push('/quiz-v2/checkout');
     }
   };

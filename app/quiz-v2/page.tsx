@@ -3,11 +3,21 @@
 // Force HMR update
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { pageview, trackQuizStart } from '@/lib/analytics';
 
 export default function QuizV2Landing() {
   const router = useRouter();
 
+  useEffect(() => {
+    // Track page view
+    pageview('/quiz-v2');
+  }, []);
+
   const handleStart = () => {
+    // Track quiz start
+    trackQuizStart();
+
     // Clear any previous quiz data
     localStorage.removeItem('quizV2Answers');
     localStorage.removeItem('quizV2UserData');
