@@ -40,6 +40,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '15 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-4.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359689/soulsync/sessions/Auto_estima.jpg',
       isLocked: true,
     },
     {
@@ -49,6 +50,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '20 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-5.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359692/soulsync/sessions/disturbios_do_sono.jpg',
       isLocked: true,
     },
     {
@@ -58,6 +60,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '18 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-6.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359691/soulsync/sessions/condicionamento_f%C3%ADsico.jpg',
       isLocked: true,
     },
     {
@@ -67,6 +70,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '25 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-7.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359690/soulsync/sessions/a%C3%A7ucar.jpg',
       isLocked: true,
     },
     {
@@ -76,6 +80,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '22 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-8.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/liberdade_financeira.jpg',
       isLocked: true,
     },
     {
@@ -85,6 +90,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '16 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-9.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/pare_de_procrastinar.jpg',
       isLocked: true,
     },
     {
@@ -94,6 +100,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '20 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-10.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359698/soulsync/sessions/liberte-se_da_dor.jpg',
       isLocked: false,
     },
     {
@@ -103,6 +110,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '18 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-11.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359699/soulsync/sessions/sa%C3%BAde_intestinal.jpg',
       isLocked: false,
     },
     {
@@ -121,6 +129,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '19 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-13.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359697/soulsync/sessions/p%C3%A2nico.jpg',
       isLocked: false,
     },
     {
@@ -130,6 +139,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '17 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-14.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359695/soulsync/sessions/relaxamento_profundo.jpg',
       isLocked: true,
     },
     {
@@ -139,6 +149,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '14 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-15.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359697/soulsync/sessions/respire.jpg',
       isLocked: false,
     },
     {
@@ -157,6 +168,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '16 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-17.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359702/soulsync/sessions/futuro.jpg',
       isLocked: false,
     },
     {
@@ -175,6 +187,7 @@ function getQuickReliefSessions(): AudioSession[] {
       duration: '15 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-19.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359700/soulsync/sessions/produtividade.jpg',
       isLocked: false,
     },
     {
