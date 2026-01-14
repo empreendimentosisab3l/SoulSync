@@ -158,7 +158,7 @@ export default function QuizStep() {
         )}
 
         {/* Answer Options */}
-        <div className="mb-8">
+        <div className={question.type === "multiple" ? "mb-8 pb-32" : "mb-8"}>
           {question.type === "choice" && question.options && (
             <QuizChoice
               options={question.options}
@@ -199,16 +199,25 @@ export default function QuizStep() {
           )}
         </div>
 
-        {/* Next Button - Only show for multiple choice questions */}
+        {/* Next Button - Sticky footer for multiple choice questions */}
         {question.type === "multiple" && (
-          <div className="text-center">
-            <button
-              onClick={() => handleNext(answers[step])}
-              disabled={!answers[step] || (Array.isArray(answers[step]) && (answers[step] as string[]).length === 0) || isLoading}
-              className="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white bg-purple-700 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-            >
-              {isLoading ? "Carregando..." : "Próxima"}
-            </button>
+          <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-50 flex justify-center">
+            <div className="w-full max-w-md">
+              <button
+                onClick={() => handleNext(answers[step])}
+                disabled={!answers[step] || (Array.isArray(answers[step]) && (answers[step] as string[]).length === 0) || isLoading}
+                className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg ${
+                  answers[step] && Array.isArray(answers[step]) && (answers[step] as string[]).length > 0
+                    ? 'bg-purple-700 text-white hover:scale-105 hover:shadow-purple-500/50'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {isLoading ? "Carregando..." : "Próxima"}
+                {answers[step] && Array.isArray(answers[step]) && (answers[step] as string[]).length > 0 &&
+                  ` (${(answers[step] as string[]).length})`
+                }
+              </button>
+            </div>
           </div>
         )}
       </div>
