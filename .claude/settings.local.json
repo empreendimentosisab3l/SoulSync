@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(dir:*)",
+      "Bash(curl:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nOtimização completa de performance da aplicação\n\n🚀 Melhorias de Performance:\n\n- Navegação instantânea com router.back\\(\\) nos botões voltar\n- Sistema de cache em memória para API calls \\(5min TTL\\)\n- Lazy loading do AudioPlayer com React.lazy + Suspense\n- Imagens otimizadas com Next.js Image \\(AVIF/WebP\\)\n- Memoização completa com useCallback/useMemo\n- Audio streaming direto sem buffer \\(Range requests\\)\n- CSS performance \\(content-visibility, tap-highlight\\)\n\n📦 Novos Arquivos:\n- lib/cache.ts: Sistema de cache reutilizável\n- lib/hooks/useCoursesAPI.ts: Hook customizado com cache\n\n🔧 Otimizações Next.js:\n- optimizePackageImports para Lottie, Lucide, Framer Motion\n- React Strict Mode habilitado\n- Compression habilitado\n- Formatos de imagem modernos \\(AVIF, WebP\\)\n\n⚡ Resultados:\n- Build time: 13.2s\n- Dev server ready: 2.9s\n- Navegação instantânea\n- Redução de re-renders\n- Menor bundle inicial\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix: Atualização de segurança - Next.js 16.1.1\n\n🔒 Correção de Vulnerabilidade CVE-2025-66478\n\nAtualizações:\n- Next.js: 15.5.6 → 16.1.1 \\(correção de vulnerabilidade\\)\n- React: 18.x → 19.2.3 \\(compatibilidade com Next.js 16\\)\n- React-DOM: 18.x → 19.2.3 \\(compatibilidade\\)\n\nReferência: https://vercel.link/CVE-2025-66478\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git reset:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix: Atualização completa para Next.js 16 + React 19\n\n🔒 Correções de Segurança e Compatibilidade:\n\nAtualizações de dependências:\n- Next.js: 15.5.6 → 16.1.1 \\(CVE-2025-66478 corrigido\\)\n- React: 18.x → 19.2.3\n- React-DOM: 18.x → 19.2.3  \n- ESLint: 8.x → 9.39.2\n- eslint-config-next: 15 → 16.1.1\n\nCorreções TypeScript para React 19:\n- AudioPlayer: Corrigido tipo do useRef para animationFrameRef\n- QuizV2DatePicker: Corrigido tipo RefObject para aceitar null\n\nBuild testado e funcionando:\n✓ TypeScript compilation\n✓ Static pages generation\n✓ Zero vulnerabilities\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(ping:*)",
+      "Bash(git fetch:*)",
+      "Bash(node scripts/upload-session-images.js:*)",
+      "Bash(node scripts/add-thumbnails-to-sessions.js:*)",
+      "Bash(findstr:*)",
+      "Bash(node scripts/upload-cannabis-image.js:*)"
+    ]
+  }
+}
