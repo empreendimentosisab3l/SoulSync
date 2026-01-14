@@ -8,7 +8,6 @@ import QuizChoice from "@/components/quiz-v3/QuizChoice";
 import QuizRange from "@/components/quiz-v3/QuizRange";
 import QuizMultiple from "@/components/quiz-v3/QuizMultiple";
 import QuizInfo from "@/components/quiz-v3/QuizInfo";
-import QuizMeasurements from "@/components/quiz-v3/QuizMeasurements";
 
 export default function QuizStep() {
   const params = useParams();
@@ -187,17 +186,25 @@ export default function QuizStep() {
             />
           )}
 
-          {question.type === "input" && question.id === 17 && (
-            <QuizMeasurements
-              onComplete={(data) => {
-                handleNext(JSON.stringify(data));
-              }}
-              defaultValues={
-                typeof answers[step] === "string" && (answers[step] as string).startsWith("{")
-                  ? JSON.parse(answers[step] as string)
-                  : undefined
-              }
-            />
+          {question.type === "input" && (
+            <div className="max-w-md mx-auto space-y-6">
+              <input
+                type="text"
+                placeholder={question.placeholder}
+                defaultValue={typeof answers[step] === 'string' ? answers[step] as string : ''}
+                onBlur={(e) => {
+                  if (e.target.value) {
+                    handleNext(e.target.value);
+                  }
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && e.currentTarget.value) {
+                    handleNext(e.currentTarget.value);
+                  }
+                }}
+                className="w-full px-6 py-4 text-lg text-center border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+              />
+            </div>
           )}
         </div>
 

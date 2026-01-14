@@ -207,18 +207,30 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: 17,
-    question: "Insira suas medidas",
+    question: "Qual é a sua altura?",
     type: "input",
-    placeholder: "Altura, Peso, Peso desejado",
+    placeholder: "0",
   },
   {
     id: 18,
+    question: "Qual é o seu peso atual?",
+    type: "input",
+    placeholder: "0",
+  },
+  {
+    id: 19,
+    question: "Qual é o seu peso desejado?",
+    type: "input",
+    placeholder: "0",
+  },
+  {
+    id: 20,
     type: "info",
     content: "A maioria das soluções para perda de peso não tem como alvo a causa real do excesso de peso, como a falta de comunicação entre o cérebro e o estômago.\n\nA hipnoterapia é diferente.\n\nDe acordo com estudos clínicos, a hipnoterapia demonstra ser eficaz para abordar e resolver esse problema de comunicação.",
     image: "weight-journey-graph",
   },
   {
-    id: 19,
+    id: 21,
     question: "O que você gostaria de fazer se estivesse no peso desejado?",
     subtitle: "Você pode selecionar quantos quiser.",
     type: "multiple",
@@ -232,7 +244,7 @@ export const quizQuestions: QuizQuestion[] = [
     ],
   },
   {
-    id: 20,
+    id: 22,
     question: "Quanto tempo você poderia dedicar diariamente para lidar com seus problemas de perda de peso?",
     type: "choice",
     options: [
@@ -243,7 +255,7 @@ export const quizQuestions: QuizQuestion[] = [
     ],
   },
   {
-    id: 21,
+    id: 23,
     type: "info",
     content: "O Hypnozio pode ajudar você a controlar seu peso em apenas 15 minutos por dia. Você receberá um programa de hipnoterapia personalizado, elaborado por nossa equipe de hipnoterapeutas experientes, para melhorar sua relação com a comida e ajudá-lo a atingir o peso desejado.",
     testimonial: {
