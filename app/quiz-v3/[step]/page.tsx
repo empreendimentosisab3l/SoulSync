@@ -158,7 +158,7 @@ export default function QuizStep() {
         )}
 
         {/* Answer Options */}
-        <div className={question.type === "multiple" ? "mb-8 pb-32" : "mb-8"}>
+        <div className={(question.type === "multiple" || question.type === "range") ? "mb-8 pb-32" : "mb-8"}>
           {question.type === "choice" && question.options && (
             <QuizChoice
               options={question.options}
@@ -180,7 +180,7 @@ export default function QuizStep() {
               min={question.min!}
               max={question.max!}
               unit={question.unit!}
-              onSelect={(value) => handleNext(value)}
+              onSelect={(value) => saveAnswer(value)}
               defaultValue={typeof answers[step] === 'string' ? parseInt(answers[step] as string) : undefined}
             />
           )}
@@ -199,21 +199,21 @@ export default function QuizStep() {
           )}
         </div>
 
-        {/* Next Button - Sticky footer for multiple choice questions */}
-        {question.type === "multiple" && (
+        {/* Next Button - Sticky footer for multiple choice and range questions */}
+        {(question.type === "multiple" || question.type === "range") && (
           <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-50 flex justify-center">
             <div className="w-full max-w-md">
               <button
                 onClick={() => handleNext(answers[step])}
                 disabled={!answers[step] || (Array.isArray(answers[step]) && (answers[step] as string[]).length === 0) || isLoading}
                 className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg ${
-                  answers[step] && Array.isArray(answers[step]) && (answers[step] as string[]).length > 0
+                  answers[step] && (question.type === "range" || (Array.isArray(answers[step]) && (answers[step] as string[]).length > 0))
                     ? 'bg-purple-700 text-white hover:scale-105 hover:shadow-purple-500/50'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 {isLoading ? "Carregando..." : "Próxima"}
-                {answers[step] && Array.isArray(answers[step]) && (answers[step] as string[]).length > 0 &&
+                {question.type === "multiple" && answers[step] && Array.isArray(answers[step]) && (answers[step] as string[]).length > 0 &&
                   ` (${(answers[step] as string[]).length})`
                 }
               </button>
