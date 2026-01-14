@@ -29,7 +29,7 @@ function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onCompl
   const [autoPlayAttempted, setAutoPlayAttempted] = useState(false);
   const analyzerRef = useRef<AnalyserNode | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   // Carregar animação Lottie
   useEffect(() => {

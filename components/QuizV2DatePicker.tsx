@@ -93,7 +93,7 @@ export default function QuizV2DatePicker({
   const renderWheel = (
     items: string[],
     selectedIndex: number,
-    scrollRef: React.RefObject<HTMLDivElement>,
+    scrollRef: React.RefObject<HTMLDivElement | null>,
     onScroll: () => void
   ) => {
     return (
