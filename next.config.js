@@ -2,7 +2,7 @@
 const nextConfig = {
   // Optimize for Vercel deployment
   experimental: {
-    optimizePackageImports: ['lucide-react', 'lottie-react'],
+    optimizePackageImports: ['lucide-react', 'lottie-react', 'framer-motion'],
   },
   // Optimize images
   images: {
@@ -12,7 +12,12 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
   },
+  // Enable compression
+  compress: true,
+  // Enable React strict mode for better performance
+  reactStrictMode: true,
 }
 
 module.exports = nextConfig

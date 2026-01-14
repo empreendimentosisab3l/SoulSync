@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface CourseCardProps {
   id: number;
@@ -24,7 +25,9 @@ export default function CourseCard({
 }: CourseCardProps) {
   const [imageError, setImageError] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (onClick) {
       onClick();
     }
@@ -50,14 +53,19 @@ export default function CourseCard({
       }`}
     >
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 pointer-events-none">
         {!imageError && image ? (
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
-          />
+          <>
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes={size === 'large' ? '(max-width: 768px) 100vw, 33vw' : '(max-width: 768px) 50vw, 20vw'}
+              className="object-cover pointer-events-none"
+              onError={() => setImageError(true)}
+              priority={size === 'large'}
+            />
+          </>
         ) : (
           <div className={`w-full h-full bg-gradient-to-br ${getGradient(id)}`} />
         )}

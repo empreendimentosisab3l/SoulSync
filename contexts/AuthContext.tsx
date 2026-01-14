@@ -23,12 +23,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar se já está autenticado ao carregar
-    checkAuth();
-  }, []);
+    // Verificar se já está autenticado ao carregar (apenas uma vez)
+    if (!hasCheckedAuth) {
+      checkAuth();
+      setHasCheckedAuth(true);
+    }
+  }, [hasCheckedAuth]);
 
   async function checkAuth() {
     const savedToken = localStorage.getItem('accessToken');

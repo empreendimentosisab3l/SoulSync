@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { upsellCourses } from '@/lib/upsellCourses';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function UpsellPage() {
   const params = useParams();
@@ -10,6 +11,22 @@ export default function UpsellPage() {
   const courseId = params.courseId as string;
   const course = upsellCourses[courseId];
   const [showPaymentOnce, setShowPaymentOnce] = useState(true);
+  const [imageError, setImageError] = useState(false);
+
+  // Gradientes para cada tipo de curso
+  const getGradient = (id: string) => {
+    const gradients: Record<string, string> = {
+      'autoestima': 'from-pink-400 via-purple-400 to-indigo-500',
+      'sono': 'from-indigo-400 via-blue-400 to-cyan-500',
+      'fitness': 'from-green-400 via-emerald-400 to-teal-500',
+      'acucar': 'from-orange-400 via-red-400 to-pink-500',
+      'financeira': 'from-yellow-400 via-amber-400 to-orange-500',
+      'procrastinacao': 'from-purple-400 via-fuchsia-400 to-pink-500',
+      'relaxamento': 'from-teal-400 via-cyan-400 to-blue-500',
+      'adhd': 'from-rose-400 via-pink-400 to-purple-500',
+    };
+    return gradients[id] || 'from-teal-400 to-teal-600';
+  };
 
   if (!course) {
     return (
@@ -34,7 +51,7 @@ export default function UpsellPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => router.push('/membros')}
+              onClick={() => router.back()}
               className="text-white/80 hover:text-white transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,16 +73,23 @@ export default function UpsellPage() {
               <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">
                 OFERTA ESPECIAL
               </div>
-              <div className="aspect-square bg-gradient-to-br from-teal-100 to-teal-200 rounded-2xl overflow-hidden">
-                {course.image ? (
-                  <img
+              <div className="aspect-square rounded-2xl overflow-hidden relative">
+                {!imageError && course.image ? (
+                  <Image
                     src={course.image}
                     alt={course.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                    onError={() => setImageError(true)}
+                    priority
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-6xl">
-                    🎧
+                  <div className={`w-full h-full bg-gradient-to-br ${getGradient(courseId)} flex items-center justify-center`}>
+                    <div className="text-white text-center p-6">
+                      <div className="text-7xl mb-4">🎧</div>
+                      <h3 className="text-xl font-bold">{course.subtitle}</h3>
+                    </div>
                   </div>
                 )}
               </div>

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Performance optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, video {
+  content-visibility: auto;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

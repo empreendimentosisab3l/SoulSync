@@ -1,10 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import AudioPlayer from '@/components/AudioPlayer';
+import Image from 'next/image';
 import PreSessionModal from '@/components/PreSessionModal';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCourses } from '@/lib/hooks/useCoursesAPI';
+
+// Lazy load AudioPlayer
+const AudioPlayer = lazy(() => import('@/components/AudioPlayer'));
 
 interface CourseSession {
   id: number;
@@ -30,67 +34,55 @@ export default function CoursePage() {
   const router = useRouter();
   const params = useParams();
   const { isAuthenticated, isLoading } = useAuth();
+  const { courses, loading: loadingCourses } = useCourses();
   const [activeTab, setActiveTab] = useState<'todas' | 'suas'>('todas');
   const [currentAudio, setCurrentAudio] = useState<CourseSession | null>(null);
   const [completedSessions, setCompletedSessions] = useState<number[]>([]);
   const [sessionPlayCounts, setSessionPlayCounts] = useState<{ [key: number]: number }>({});
   const [showPreSessionModal, setShowPreSessionModal] = useState(false);
   const [pendingSession, setPendingSession] = useState<CourseSession | null>(null);
-  const [loadingCourses, setLoadingCourses] = useState(true);
-  const [coursesData, setCoursesData] = useState<{ [key: string]: Course }>({});
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
 
   const courseId = params?.id as string;
-  // Usar apenas dados dinâmicos da API
-  const course = coursesData[courseId];
 
-  useEffect(() => {
-    // Carregar cursos da API
-    async function fetchCourses() {
-      try {
-        const response = await fetch('/api/courses');
-        const data = await response.json();
+  // Memoize course data transformation
+  const course = useMemo(() => {
+    const apiCourse = courses.find(c => c.id.toString() === courseId);
+    if (!apiCourse) return null;
 
-        if (data.courses) {
-          // Converter array em objeto indexado por ID
-          const coursesMap: { [key: string]: Course } = {};
-          data.courses.forEach((course: any) => {
-            // Converter sections para o formato esperado
-            const sessions: CourseSession[] = [];
-            course.sections.forEach((section: any) => {
-              section.sessions.forEach((session: any) => {
-                sessions.push({
-                  id: session.id,
-                  title: session.title,
-                  duration: session.duration,
-                  audioUrl: session.audioUrl,
-                  section: section.name,
-                  thumbnail: session.thumbnail,
-                  requiredPlays: 3
-                });
-              });
-            });
+    const sessions: CourseSession[] = [];
+    apiCourse.sections.forEach((section) => {
+      section.sessions.forEach((session) => {
+        sessions.push({
+          id: session.id,
+          title: session.title,
+          duration: session.duration,
+          audioUrl: session.audioUrl,
+          section: section.name,
+          thumbnail: session.thumbnail,
+          requiredPlays: 3
+        });
+      });
+    });
 
-            coursesMap[course.id.toString()] = {
-              id: course.id,
-              title: course.title,
-              description: course.description,
-              longDescription: course.description,
-              thumbnail: course.imageUrl || '/images/course-placeholder.jpg',
-              sessions
-            };
-          });
+    return {
+      id: apiCourse.id,
+      title: apiCourse.title,
+      description: apiCourse.description,
+      longDescription: apiCourse.description,
+      thumbnail: apiCourse.imageUrl || '/images/course-placeholder.jpg',
+      sessions
+    } as Course;
+  }, [courses, courseId]);
 
-          setCoursesData(coursesMap);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar cursos:', error);
-      } finally {
-        setLoadingCourses(false);
-      }
-    }
 
-    fetchCourses();
+  const loadCompletedSessions = useCallback(() => {
+    const completed = JSON.parse(localStorage.getItem('completedSessions') || '[]');
+    setCompletedSessions(completed);
+
+    // Carregar contadores de reprodução
+    const playCounts = JSON.parse(localStorage.getItem('sessionPlayCounts') || '{}');
+    setSessionPlayCounts(playCounts);
   }, []);
 
   useEffect(() => {
@@ -101,62 +93,58 @@ export default function CoursePage() {
     if (course) {
       loadCompletedSessions();
     }
-  }, [isLoading, isAuthenticated, course]);
+  }, [isLoading, isAuthenticated, course, router, loadCompletedSessions]);
 
-  function loadCompletedSessions() {
-    const completed = JSON.parse(localStorage.getItem('completedSessions') || '[]');
-    setCompletedSessions(completed);
+  const incrementPlayCount = useCallback((sessionId: number) => {
+    setSessionPlayCounts(prevCounts => {
+      const currentCount = prevCounts[sessionId] || 0;
+      const newCount = currentCount + 1;
 
-    // Carregar contadores de reprodução
-    const playCounts = JSON.parse(localStorage.getItem('sessionPlayCounts') || '{}');
-    setSessionPlayCounts(playCounts);
-  }
+      const updatedCounts = {
+        ...prevCounts,
+        [sessionId]: newCount
+      };
 
-  function incrementPlayCount(sessionId: number) {
-    const currentCount = sessionPlayCounts[sessionId] || 0;
-    const newCount = currentCount + 1;
+      localStorage.setItem('sessionPlayCounts', JSON.stringify(updatedCounts));
+      return updatedCounts;
+    });
+  }, []);
 
-    const updatedCounts = {
-      ...sessionPlayCounts,
-      [sessionId]: newCount
-    };
-
-    setSessionPlayCounts(updatedCounts);
-    localStorage.setItem('sessionPlayCounts', JSON.stringify(updatedCounts));
-  }
-
-  const handleSessionClick = (session: CourseSession) => {
+  const handleSessionClick = useCallback((session: CourseSession) => {
     // Mostrar modal de pré-sessão antes de iniciar
     setPendingSession(session);
     setShowPreSessionModal(true);
-  };
+  }, []);
 
-  const handleStartSession = () => {
+  const handleStartSession = useCallback(() => {
     // Fechar modal de pré-sessão e iniciar áudio
     setShowPreSessionModal(false);
     if (pendingSession) {
       setCurrentAudio(pendingSession);
       setPendingSession(null);
     }
-  };
+  }, [pendingSession]);
 
-  const handleClosePreSessionModal = () => {
+  const handleClosePreSessionModal = useCallback(() => {
     setShowPreSessionModal(false);
     setPendingSession(null);
-  };
+  }, []);
 
-  // Agrupar sessões por seção
-  const sessionsBySection = course?.sessions.reduce((acc, session) => {
-    if (!acc[session.section]) {
-      acc[session.section] = [];
-    }
-    acc[session.section].push(session);
-    return acc;
-  }, {} as { [key: string]: CourseSession[] }) || {};
+  // Memoize sessões agrupadas por seção
+  const sessionsBySection = useMemo(() => {
+    return course?.sessions.reduce((acc, session) => {
+      if (!acc[session.section]) {
+        acc[session.section] = [];
+      }
+      acc[session.section].push(session);
+      return acc;
+    }, {} as { [key: string]: CourseSession[] }) || {};
+  }, [course]);
 
-  // Filtrar sessões completadas se tab "suas" estiver ativa
-  const filteredSections = activeTab === 'suas'
-    ? Object.keys(sessionsBySection).reduce((acc, sectionName) => {
+  // Memoize sessões filtradas
+  const filteredSections = useMemo(() => {
+    if (activeTab === 'suas') {
+      return Object.keys(sessionsBySection).reduce((acc, sectionName) => {
         const completedInSection = sessionsBySection[sectionName].filter(s =>
           completedSessions.includes(s.id)
         );
@@ -164,8 +152,10 @@ export default function CoursePage() {
           acc[sectionName] = completedInSection;
         }
         return acc;
-      }, {} as { [key: string]: CourseSession[] })
-    : sessionsBySection;
+      }, {} as { [key: string]: CourseSession[] });
+    }
+    return sessionsBySection;
+  }, [activeTab, sessionsBySection, completedSessions]);
 
   if (isLoading || loadingCourses) {
     return (
@@ -213,7 +203,7 @@ export default function CoursePage() {
       <div className="container mx-auto px-4 py-6">
         {/* Botão Voltar */}
         <button
-          onClick={() => router.push('/membros')}
+          onClick={() => router.back()}
           className="flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-6"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,12 +217,15 @@ export default function CoursePage() {
           <div className="flex flex-col md:flex-row gap-6">
             {/* Thumbnail */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 bg-gradient-to-br from-orange-400 to-red-400 rounded-2xl overflow-hidden">
+              <div className="w-32 h-32 bg-gradient-to-br from-orange-400 to-red-400 rounded-2xl overflow-hidden relative">
                 {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
-                  <img
+                  <Image
                     src={course.thumbnail}
                     alt={course.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="128px"
+                    className="object-cover"
+                    priority
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-white text-4xl">
@@ -302,13 +295,15 @@ export default function CoursePage() {
                         <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex-shrink-0 flex items-center justify-center relative overflow-hidden">
                           {session.thumbnail && !imageErrors[session.id] ? (
                             <>
-                              <img
+                              <Image
                                 src={session.thumbnail}
                                 alt={session.title}
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="64px"
+                                className="object-cover"
                                 onError={() => setImageErrors(prev => ({ ...prev, [session.id]: true }))}
                               />
-                              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                              <div className="absolute inset-0 bg-black/20 flex items-center justify-center z-[1]">
                                 <svg className="w-6 h-6 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -375,20 +370,29 @@ export default function CoursePage() {
 
       {/* Audio Player Modal */}
       {currentAudio && (
-        <AudioPlayer
-          audioUrl={currentAudio.audioUrl}
-          title={currentAudio.title}
-          description={`Duração: ${currentAudio.duration}`}
-          sessionId={currentAudio.id}
-          onComplete={() => {
-            // Incrementar contador quando completar o áudio
-            incrementPlayCount(currentAudio.id);
-          }}
-          onClose={() => {
-            setCurrentAudio(null);
-            loadCompletedSessions();
-          }}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800 z-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
+              <h2 className="text-xl font-bold">Carregando player...</h2>
+            </div>
+          </div>
+        }>
+          <AudioPlayer
+            audioUrl={currentAudio.audioUrl}
+            title={currentAudio.title}
+            description={`Duração: ${currentAudio.duration}`}
+            sessionId={currentAudio.id}
+            onComplete={() => {
+              // Incrementar contador quando completar o áudio
+              incrementPlayCount(currentAudio.id);
+            }}
+            onClose={() => {
+              setCurrentAudio(null);
+              loadCompletedSessions();
+            }}
+          />
+        </Suspense>
       )}
     </main>
   );

@@ -253,8 +253,13 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
           {/* Next Button */}
           {currentStep < 3 && (
             <button
-              onClick={handleNext}
-              className="w-full py-4 bg-teal-400 hover:bg-teal-300 text-teal-900 font-bold rounded-xl transition-all duration-300 hover:scale-105"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleNext();
+              }}
+              className="w-full py-4 bg-teal-400 hover:bg-teal-300 text-teal-900 font-bold rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
               Prosseguir
             </button>

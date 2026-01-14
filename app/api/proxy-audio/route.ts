@@ -10,7 +10,11 @@ export async function GET(request: NextRequest) {
 
   try {
     // Fetch the audio from Cloudinary
-    const response = await fetch(audioUrl);
+    const response = await fetch(audioUrl, {
+      headers: {
+        'Range': request.headers.get('range') || '',
+      },
+    });
 
     if (!response.ok) {
       return NextResponse.json(
@@ -19,18 +23,28 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get the audio data
-    const audioData = await response.arrayBuffer();
+    // Stream the audio directly (sem carregar tudo na memória)
+    const headers = new Headers({
+      'Content-Type': response.headers.get('Content-Type') || 'audio/mpeg',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Range',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Accept-Ranges': 'bytes',
+    });
 
-    // Return with CORS headers
-    return new NextResponse(audioData, {
-      headers: {
-        'Content-Type': response.headers.get('Content-Type') || 'audio/mpeg',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Cache-Control': 'public, max-age=31536000, immutable',
-      },
+    // Copiar headers importantes do Cloudinary
+    if (response.headers.get('Content-Length')) {
+      headers.set('Content-Length', response.headers.get('Content-Length')!);
+    }
+    if (response.headers.get('Content-Range')) {
+      headers.set('Content-Range', response.headers.get('Content-Range')!);
+    }
+
+    // Retornar stream diretamente
+    return new NextResponse(response.body, {
+      status: response.status,
+      headers,
     });
   } catch (error) {
     console.error('Error proxying audio:', error);
@@ -46,7 +60,7 @@ export async function OPTIONS() {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, Range',
     },
   });
 }

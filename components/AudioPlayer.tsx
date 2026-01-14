@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import dynamic from 'next/dynamic';
 import ExitConfirmationModal from './ExitConfirmationModal';
 
@@ -16,7 +16,7 @@ interface AudioPlayerProps {
   onComplete?: () => void;
 }
 
-export default function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onComplete }: AudioPlayerProps) {
+function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onComplete }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -24,6 +24,9 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
   const [showExitConfirmation, setShowExitConfirmation] = useState(false);
   const [audioLevel, setAudioLevel] = useState(0);
   const [lottieData, setLottieData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [canPlay, setCanPlay] = useState(false);
+  const [autoPlayAttempted, setAutoPlayAttempted] = useState(false);
   const analyzerRef = useRef<AnalyserNode | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const animationFrameRef = useRef<number>();
@@ -62,11 +65,43 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
+    const handleCanPlay = () => {
+      setCanPlay(true);
+      setIsLoading(false);
+
+      // Tentar auto-play assim que tiver buffer suficiente
+      if (!autoPlayAttempted) {
+        setAutoPlayAttempted(true);
+        audio.play()
+          .then(() => {
+            setIsPlaying(true);
+            setIsLoading(false);
+          })
+          .catch(() => {
+            // Auto-play bloqueado pelo navegador, usuário precisa clicar
+            console.log('Auto-play bloqueado, aguardando interação do usuário');
+            setIsPlaying(false);
+            setIsLoading(false);
+          });
+      }
+    };
+    const handleLoadStart = () => {
+      setIsLoading(true);
+    };
+    const handleWaiting = () => {
+      setIsLoading(true);
+    };
+    const handleCanPlayThrough = () => {
+      setIsLoading(false);
+    };
     const handlePlay = () => {
+      setIsPlaying(true);
+      setIsLoading(false);
       setupAudioAnalyzer();
       startAudioAnalysis();
     };
     const handlePause = () => {
+      setIsPlaying(false);
       stopAudioAnalysis();
     };
     const handleEnded = () => {
@@ -88,6 +123,10 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
 
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('canplaythrough', handleCanPlayThrough);
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('waiting', handleWaiting);
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handleEnded);
@@ -95,6 +134,10 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('canplaythrough', handleCanPlayThrough);
+      audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('waiting', handleWaiting);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
@@ -134,43 +177,51 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
     setAudioLevel(0);
   };
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     if (isPlaying) {
       audio.pause();
+      setIsPlaying(false);
     } else {
-      audio.play();
+      try {
+        setIsLoading(true);
+        await audio.play();
+        setIsPlaying(true);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Erro ao reproduzir áudio:', error);
+        setIsLoading(false);
+      }
     }
-    setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
-  const formatTime = (time: number) => {
+  const formatTime = useCallback((time: number) => {
     if (isNaN(time)) return '0:00';
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
+  }, []);
 
-  const handleCloseAttempt = () => {
+  const handleCloseAttempt = useCallback(() => {
     if (isPlaying) {
       togglePlay();
     }
     setShowExitConfirmation(true);
-  };
+  }, [isPlaying, togglePlay]);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     setShowExitConfirmation(false);
     if (!isPlaying && audioRef.current) {
       togglePlay();
     }
-  };
+  }, [isPlaying, togglePlay]);
 
-  const handleExit = () => {
+  const handleExit = useCallback(() => {
     setShowExitConfirmation(false);
     onClose();
-  };
+  }, [onClose]);
 
   // Calcular porcentagem de progresso
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -237,9 +288,16 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
           </div>
 
           {/* Título */}
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center mt-6 md:mt-8 leading-tight px-2">
-            {title}
-          </h2>
+          <div className="mt-6 md:mt-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center leading-tight px-2">
+              {title}
+            </h2>
+            {isLoading && !isPlaying && (
+              <p className="text-white/70 text-sm text-center mt-2">
+                Carregando áudio...
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Controles */}
@@ -248,9 +306,13 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
           <div className="flex justify-center">
             <button
               onClick={togglePlay}
-              className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
+              disabled={isLoading && !isPlaying}
+              className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPlaying ? (
+              {isLoading && !isPlaying ? (
+                // Loading Spinner
+                <div className="w-8 h-8 border-3 border-teal-700 border-t-transparent rounded-full animate-spin"></div>
+              ) : isPlaying ? (
                 // Pause Icon
                 <svg className="w-8 h-8 text-teal-700" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
@@ -284,7 +346,12 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
       </div>
 
       {/* Audio Element (hidden) */}
-      <audio ref={audioRef} src={audioUrl} preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        preload="auto"
+        crossOrigin="anonymous"
+      />
 
       {/* Exit Confirmation Modal */}
       {showExitConfirmation && (
@@ -296,3 +363,6 @@ export default function AudioPlayer({ audioUrl, title, description, onClose, ses
     </div>
   );
 }
+
+// Memoize component to prevent unnecessary re-renders
+export default memo(AudioPlayer);
