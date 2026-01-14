@@ -513,6 +513,7 @@ function MembersAreaContent() {
                 key={session.id}
                 id={session.id}
                 title={session.title}
+                image={session.image}
                 size="small"
                 isLocked={session.isLocked}
                 onClick={() => handleSessionClick(session)}
