@@ -14,8 +14,6 @@ export default function QuizStep() {
   const params = useParams();
   const router = useRouter();
   const step = parseInt(params.step as string);
-  const [selected, setSelected] = useState<string>("");
-  const [selectedMultiple, setSelectedMultiple] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,16 +23,6 @@ export default function QuizStep() {
     if (saved) {
       const parsed = JSON.parse(saved);
       setAnswers(parsed);
-      if (parsed[step]) {
-        if (Array.isArray(parsed[step])) {
-          setSelectedMultiple(parsed[step]);
-        } else {
-          setSelected(parsed[step]);
-        }
-      } else {
-        setSelected("");
-        setSelectedMultiple([]);
-      }
     }
   }, [step]);
 
@@ -46,38 +34,32 @@ export default function QuizStep() {
     return null;
   }
 
-  const handleSelect = (value: string) => {
-    setSelected(value);
+  const saveAnswer = (value: string | string[]) => {
+    const newAnswers = { ...answers, [step]: value };
+    setAnswers(newAnswers);
+    localStorage.setItem("quizV3Answers", JSON.stringify(newAnswers));
   };
 
-  const handleSelectMultiple = (values: string[]) => {
-    setSelectedMultiple(values);
-  };
+  const handleNext = (value?: string | string[]) => {
+    // If value is provided, save it
+    if (value !== undefined) {
+      saveAnswer(value);
+    }
 
-  const handleNext = () => {
-    // For info screens, no answer needed
+    // For info screens, just navigate
     if (question.type === "info") {
       navigateNext();
       return;
     }
 
-    // For multiple choice, check if at least one selected
-    if (question.type === "multiple") {
-      if (selectedMultiple.length === 0) return;
-      saveAndNavigate(selectedMultiple);
-      return;
+    // For questions with answers, if value was provided, navigate automatically
+    if (value !== undefined) {
+      navigateNext();
     }
-
-    // For single choice/range/input
-    if (!selected) return;
-    saveAndNavigate(selected);
   };
 
-  const saveAndNavigate = (answer: string | string[]) => {
-    const newAnswers = { ...answers, [step]: answer };
-    setAnswers(newAnswers);
-    localStorage.setItem("quizV3Answers", JSON.stringify(newAnswers));
-    navigateNext();
+  const handleSelectMultiple = (values: string[]) => {
+    saveAnswer(values);
   };
 
   const navigateNext = () => {
@@ -147,11 +129,6 @@ export default function QuizStep() {
   }
 
   // For question screens
-  const canProceed =
-    question.type === "multiple"
-      ? selectedMultiple.length > 0
-      : !!selected;
-
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="max-w-4xl w-full">
@@ -189,8 +166,8 @@ export default function QuizStep() {
           {question.type === "choice" && question.options && (
             <QuizChoice
               options={question.options}
-              onSelect={handleSelect}
-              selected={selected}
+              onSelect={(value) => handleNext(value)}
+              selected={typeof answers[step] === 'string' ? answers[step] as string : ''}
             />
           )}
 
@@ -198,7 +175,7 @@ export default function QuizStep() {
             <QuizMultiple
               options={question.options}
               onSelect={handleSelectMultiple}
-              selected={selectedMultiple}
+              selected={Array.isArray(answers[step]) ? answers[step] as string[] : []}
             />
           )}
 
@@ -207,31 +184,31 @@ export default function QuizStep() {
               min={question.min!}
               max={question.max!}
               unit={question.unit!}
-              onSelect={handleSelect}
-              defaultValue={selected ? parseInt(selected) : undefined}
+              onSelect={(value) => handleNext(value)}
+              defaultValue={typeof answers[step] === 'string' ? parseInt(answers[step] as string) : undefined}
             />
           )}
 
           {question.type === "input" && question.id === 17 && (
             <QuizMeasurements
               onComplete={(data) => {
-                saveAndNavigate(JSON.stringify(data));
+                handleNext(JSON.stringify(data));
               }}
               defaultValues={
-                selected && typeof selected === "string" && selected.startsWith("{")
-                  ? JSON.parse(selected)
+                typeof answers[step] === "string" && (answers[step] as string).startsWith("{")
+                  ? JSON.parse(answers[step] as string)
                   : undefined
               }
             />
           )}
         </div>
 
-        {/* Next Button - Only show if not measurements screen */}
-        {!(question.type === "input" && question.id === 17) && (
+        {/* Next Button - Only show for multiple choice questions */}
+        {question.type === "multiple" && (
           <div className="text-center">
             <button
-              onClick={handleNext}
-              disabled={!canProceed || isLoading}
+              onClick={() => handleNext(answers[step])}
+              disabled={!answers[step] || (Array.isArray(answers[step]) && (answers[step] as string[]).length === 0) || isLoading}
               className="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white bg-purple-700 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {isLoading ? "Carregando..." : "Próxima"}
