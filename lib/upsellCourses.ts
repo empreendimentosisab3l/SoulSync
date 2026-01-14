@@ -28,7 +28,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Essa sessão ajuda você a desenvolver uma poderosa autoestima, aumentar sua confiança interna e alcançar seu potencial pessoal de autoestima.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/autoestima.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359689/soulsync/sessions/Auto_estima.jpg',
     features: [
       'Criar uma autoimagem positiva',
       'Melhorar seus relacionamentos',
@@ -76,7 +76,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Uma sessão de hipnoterapia desenhada para ajudar você a dormir melhor através de técnicas de relaxamento e reprogramação do sono profundas e restauradoras com hábitos de sono saudáveis.',
     price: 80.00,
     originalPrice: 160.00,
-    image: '/images/sono.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359692/soulsync/sessions/disturbios_do_sono.jpg',
     features: [
       'Criar uma especialidades',
       'Técnicas comprovadas',
@@ -132,7 +132,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Aumente sua motivação para atividades físicas e mude suas crenças sobre o exercício com essa sessão de hipnoterapia. Ajuda a construir hábitos de exercícios.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/fitness.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359691/soulsync/sessions/condicionamento_f%C3%ADsico.jpg',
     features: [
       'Criar uma especialidades',
       'Técnicas comprovadas',
@@ -180,7 +180,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Liberte-se do vício em açúcar com hipnoterapia guiada que reprograma seus desejos e estabelece padrões alimentares saudáveis.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/acucar.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359690/soulsync/sessions/a%C3%A7ucar.jpg',
     features: [
       'Reduzir desejos por açúcar',
       'Técnicas comprovadas',
@@ -222,7 +222,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Transforme sua relação com dinheiro e desbloqueie sua abundância financeira através de hipnoterapia focada em crenças limitantes.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/financeira.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/liberdade_financeira.jpg',
     features: [
       'Mudar crenças sobre dinheiro',
       'Aumentar prosperidade',
@@ -264,7 +264,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Elimine a procrastinação e aumente sua produtividade com sessões de hipnoterapia focadas em ação e motivação.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/procrastinacao.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/pare_de_procrastinar.jpg',
     features: [
       'Eliminar procrastinação',
       'Aumentar produtividade',
@@ -306,7 +306,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Alcance estados profundos de relaxamento e reduza o estresse diário com técnicas avançadas de hipnoterapia.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/relaxamento.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359695/soulsync/sessions/relaxamento_profundo.jpg',
     features: [
       'Relaxamento profundo',
       'Reduzir estresse',
@@ -348,7 +348,7 @@ export const upsellCourses: Record<string, UpsellCourse> = {
     description: 'Desenvolva foco, organização e controle com sessões especializadas para gerenciamento de TDAH através de hipnoterapia.',
     price: 80.39,
     originalPrice: 160.99,
-    image: '/images/adhd.jpg',
+    image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359696/soulsync/sessions/tdah.jpg',
     features: [
       'Melhorar foco',
       'Aumentar organização',
