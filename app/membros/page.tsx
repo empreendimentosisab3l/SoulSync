@@ -115,11 +115,12 @@ function getQuickReliefSessions(): AudioSession[] {
     },
     {
       id: 12,
-      title: 'Em terra... consciência do corpo',
+      title: 'Quebre o Ciclo da Dependência',
       description: 'Conecte-se com seu corpo',
       duration: '17 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-12.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359702/soulsync/sessions/ciclos_da_dependencia.jpg',
       isLocked: false,
     },
     {
@@ -144,7 +145,7 @@ function getQuickReliefSessions(): AudioSession[] {
     },
     {
       id: 15,
-      title: 'Respire com iKambala e Equilibrasse',
+      title: 'Respire com Liberdade e Tranquilidade',
       description: 'Exercícios de respiração',
       duration: '14 min',
       category: 'alivio',
@@ -154,11 +155,12 @@ function getQuickReliefSessions(): AudioSession[] {
     },
     {
       id: 16,
-      title: 'Alcance o tratamento holístico',
+      title: 'Abrace a Conexão',
       description: 'Abordagem holística',
       duration: '21 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-16.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359701/soulsync/sessions/conex%C3%A3o.jpg',
       isLocked: false,
     },
     {
@@ -173,11 +175,12 @@ function getQuickReliefSessions(): AudioSession[] {
     },
     {
       id: 18,
-      title: 'Qui coincida for good',
+      title: 'Quit cannabis for good',
       description: 'Sincronicidade e manifestação',
       duration: '18 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-18.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768360644/soulsync/sessions/Quit_cannabis_for_good.jpg',
       isLocked: false,
     },
     {
@@ -192,20 +195,12 @@ function getQuickReliefSessions(): AudioSession[] {
     },
     {
       id: 20,
-      title: 'Atenque o cansaço',
-      description: 'Recupere sua energia',
-      duration: '17 min',
-      category: 'alivio',
-      audioUrl: '/audios/sessao-20.mp3',
-      isLocked: false,
-    },
-    {
-      id: 21,
       title: 'Programa de gerenciamento de TDAH',
       description: 'Gestão de TDAH',
       duration: '23 min',
       category: 'alivio',
       audioUrl: '/audios/sessao-21.mp3',
+      image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359696/soulsync/sessions/tdah.jpg',
       isLocked: true,
     },
   ];
