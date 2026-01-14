@@ -41,19 +41,15 @@ export default function QuizStep() {
   };
 
   const handleNext = (value?: string | string[]) => {
-    // If value is provided, save it
-    if (value !== undefined) {
-      saveAnswer(value);
-    }
-
-    // For info screens, just navigate
+    // For info screens, just navigate (no value needed)
     if (question.type === "info") {
       navigateNext();
       return;
     }
 
-    // For questions with answers, if value was provided, navigate automatically
+    // If value is provided, save it and navigate
     if (value !== undefined) {
+      saveAnswer(value);
       navigateNext();
     }
   };
