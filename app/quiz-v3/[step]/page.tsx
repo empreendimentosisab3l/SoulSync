@@ -101,7 +101,7 @@ export default function QuizStep() {
           </div>
 
           {/* Info Content */}
-          <div className="mb-12">
+          <div className="mb-12 pb-32">
             <QuizInfo
               content={question.content!}
               image={question.image}
@@ -109,15 +109,17 @@ export default function QuizStep() {
             />
           </div>
 
-          {/* Next Button */}
-          <div className="text-center">
-            <button
-              onClick={handleNext}
-              disabled={isLoading}
-              className="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white bg-purple-700 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-50"
-            >
-              {isLoading ? "Carregando..." : "Próxima"}
-            </button>
+          {/* Next Button - Sticky footer for info screens */}
+          <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-50 flex justify-center">
+            <div className="w-full max-w-md">
+              <button
+                onClick={handleNext}
+                disabled={isLoading}
+                className="w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg bg-purple-700 text-white hover:scale-105 hover:shadow-purple-500/50 disabled:opacity-50"
+              >
+                {isLoading ? "Carregando..." : "Próxima"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
