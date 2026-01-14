@@ -1,3 +1,12 @@
-.next
-node_modules
-.cache
+# Arquivos temporários do Claude
+tmpclaude-*
+
+# Cache local
+.next/
+node_modules/
+.cache/
+
+# Arquivos de desenvolvimento
+*.log
+.env.local
+.DS_Store
