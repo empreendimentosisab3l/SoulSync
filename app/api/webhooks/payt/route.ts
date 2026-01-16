@@ -3,6 +3,8 @@ import prisma from '@/lib/prisma';
 import { JWT } from 'google-auth-library';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 
+export const dynamic = 'force-dynamic';
+
 // Simple type definition for PayT payload
 interface PayTPayload {
     email: string;
