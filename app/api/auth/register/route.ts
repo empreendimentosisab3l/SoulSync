@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error('Registration error:', error);
         if (error instanceof z.ZodError) {
-            return NextResponse.json({ error: 'Dados inválidos', details: error.errors }, { status: 400 });
+            return NextResponse.json({ error: 'Dados inválidos', details: (error as any).errors }, { status: 400 });
         }
         return NextResponse.json({ error: 'Erro ao criar conta' }, { status: 500 });
     }
