@@ -46,7 +46,7 @@ export default function CourseCard({
   return (
     <button
       onClick={handleClick}
-      className={`relative overflow-hidden rounded-2xl group transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer ${
+      className={`relative overflow-hidden rounded-2xl sm:rounded-3xl group transition-all duration-300 active:scale-[0.98] sm:hover:scale-[1.02] shadow-md hover:shadow-xl cursor-pointer border border-gray-100 ${
         isLocked ? 'opacity-90' : ''
       } ${
         size === 'large' ? 'aspect-[4/3]' : 'aspect-square'
@@ -75,9 +75,9 @@ export default function CourseCard({
 
       {/* Lock Icon */}
       {isLocked && (
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 z-10">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white/90 backdrop-blur-sm rounded-full p-1.5 sm:p-2 z-10">
           <svg
-            className="w-4 h-4 text-gray-700"
+            className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -94,9 +94,9 @@ export default function CourseCard({
 
       {/* Headphones Icon (for available content) */}
       {!isLocked && (
-        <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-sm rounded-full p-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white/20 backdrop-blur-sm rounded-full p-1.5 sm:p-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
           <svg
-            className="w-4 h-4 text-white"
+            className="w-3 h-3 sm:w-4 sm:h-4 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -112,9 +112,9 @@ export default function CourseCard({
       )}
 
       {/* Title */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 z-10">
         <h3 className={`text-white font-semibold text-left leading-tight ${
-          size === 'large' ? 'text-lg' : 'text-sm'
+          size === 'large' ? 'text-sm sm:text-lg' : 'text-xs sm:text-sm'
         }`}>
           {title}
         </h3>

@@ -118,32 +118,32 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800 z-50 overflow-y-auto">
-      <div className="min-h-screen flex flex-col items-center justify-between p-6 py-12">
+    <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+      <div className="min-h-screen flex flex-col items-center justify-between p-4 sm:p-6 py-8 sm:py-12">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">SoulSync</h1>
+        <div className="text-center mb-4 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SoulSync</h1>
         </div>
 
         {/* Content */}
         <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl">
           {/* Step 1: Welcome */}
           {currentStep === 0 && (
-            <div className="text-center space-y-6 animate-fadeIn">
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
+            <div className="text-center space-y-4 sm:space-y-6 animate-fadeIn">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
                 {currentStepData.title}
               </h2>
-              <p className="text-white/90 text-lg">{currentStepData.subtitle}</p>
+              <p className="text-gray-600 text-base sm:text-lg">{currentStepData.subtitle}</p>
 
               {/* Image Card */}
               <div className="relative mx-auto max-w-md">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20">
+                <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-gray-100">
                   <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center">
-                    <div className="text-center p-8">
-                      <span className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm mb-4">
+                    <div className="text-center p-4 sm:p-8">
+                      <span className="inline-block bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-white text-xs sm:text-sm mb-3 sm:mb-4">
                         {currentStepData.card?.badge}
                       </span>
-                      <h3 className="text-2xl font-bold text-white">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white">
                         {currentStepData.card?.title}
                       </h3>
                     </div>
@@ -151,7 +151,7 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
                 </div>
               </div>
 
-              <p className="text-white/80 text-sm max-w-md mx-auto">
+              <p className="text-gray-500 text-sm max-w-md mx-auto">
                 {currentStepData.description}
               </p>
             </div>
@@ -159,21 +159,21 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
 
           {/* Step 2: Benefits */}
           {currentStep === 1 && (
-            <div className="text-center space-y-8 animate-fadeIn">
-              <p className="text-white/90 text-lg max-w-xl mx-auto leading-relaxed">
+            <div className="text-center space-y-4 sm:space-y-8 animate-fadeIn">
+              <p className="text-gray-700 text-base sm:text-lg max-w-xl mx-auto leading-relaxed px-2">
                 {currentStepData.title}
               </p>
 
               {/* Benefits Card */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 max-w-md mx-auto">
-                <h3 className="text-xl font-semibold text-white mb-6">
+              <div className="bg-teal-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 max-w-md mx-auto">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
                   {currentStepData.cardTitle}
                 </h3>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6">
                   {currentStepData.benefits?.map((benefit, index) => (
                     <div key={index} className="text-center">
-                      <div className="text-4xl mb-2">{benefit.icon}</div>
-                      <p className="text-white/90 text-sm">{benefit.title}</p>
+                      <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">{benefit.icon}</div>
+                      <p className="text-gray-700 text-xs sm:text-sm">{benefit.title}</p>
                     </div>
                   ))}
                 </div>
@@ -183,21 +183,21 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
 
           {/* Step 3: Tips */}
           {currentStep === 2 && (
-            <div className="text-center space-y-8 animate-fadeIn">
-              <p className="text-white/90 text-lg max-w-xl mx-auto">
+            <div className="text-center space-y-4 sm:space-y-8 animate-fadeIn">
+              <p className="text-gray-700 text-base sm:text-lg max-w-xl mx-auto px-2">
                 {currentStepData.title}
               </p>
 
               {/* Tips Card */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 max-w-md mx-auto">
-                <h3 className="text-xl font-semibold text-white mb-6">
+              <div className="bg-teal-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 max-w-md mx-auto">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
                   {currentStepData.cardTitle}
                 </h3>
-                <div className="space-y-4 text-left">
+                <div className="space-y-3 sm:space-y-4 text-left">
                   {currentStepData.tips?.map((tip, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <span className="text-2xl flex-shrink-0">{tip.icon}</span>
-                      <p className="text-white/90 text-sm">{tip.text}</p>
+                    <div key={index} className="flex items-start gap-3 sm:gap-4">
+                      <span className="text-xl sm:text-2xl flex-shrink-0">{tip.icon}</span>
+                      <p className="text-gray-700 text-xs sm:text-sm">{tip.text}</p>
                     </div>
                   ))}
                 </div>
@@ -207,22 +207,22 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
 
           {/* Step 4: Topics */}
           {currentStep === 3 && (
-            <div className="text-center space-y-8 animate-fadeIn w-full">
-              <p className="text-white text-xl max-w-2xl mx-auto">
+            <div className="text-center space-y-4 sm:space-y-8 animate-fadeIn w-full">
+              <p className="text-gray-900 font-medium text-base sm:text-xl max-w-2xl mx-auto px-2">
                 {currentStepData.title}
               </p>
 
               {/* Topics Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 max-w-4xl mx-auto">
                 {currentStepData.topics?.map((topic, index) => (
                   <button
                     key={index}
                     onClick={() => handleTopicClick(topic)}
-                    className="group relative overflow-hidden rounded-2xl aspect-[3/4] transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                    className="group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] transition-all duration-300 active:scale-95 sm:hover:scale-105 shadow-md hover:shadow-xl"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-teal-600 flex items-end p-4">
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-teal-700 flex items-end p-3 sm:p-4">
                       <div className="text-left">
-                        <p className="text-white text-sm font-semibold leading-tight">
+                        <p className="text-white text-xs sm:text-sm font-semibold leading-tight">
                           {topic.title}
                         </p>
                       </div>
@@ -235,16 +235,16 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
         </div>
 
         {/* Navigation */}
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-md space-y-4 sm:space-y-6 mt-4 sm:mt-0">
           {/* Progress Dots */}
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-1.5 sm:gap-2">
             {steps.map((_, index) => (
               <div
                 key={index}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
                   index === currentStep
-                    ? 'w-8 bg-white'
-                    : 'w-2 bg-white/40'
+                    ? 'w-6 sm:w-8 bg-teal-600'
+                    : 'w-1.5 sm:w-2 bg-gray-200'
                 }`}
               />
             ))}
@@ -259,7 +259,7 @@ export default function Onboarding({ onComplete, onTopicSelect }: OnboardingProp
                 e.stopPropagation();
                 handleNext();
               }}
-              className="w-full py-4 bg-teal-400 hover:bg-teal-300 text-teal-900 font-bold rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              className="w-full py-3 sm:py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold text-base sm:text-lg rounded-full transition-all duration-300 sm:hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
             >
               Prosseguir
             </button>

@@ -13,11 +13,28 @@ export default function ThankYouPage() {
   const [selectedTip, setSelectedTip] = useState<number | null>(null)
   const [isCreatingAccount, setIsCreatingAccount] = useState(false)
 
-  // Pegar email do sessionStorage se disponível
+  // useSearchParams hook needs to be inside Suspense boundary or standard client component
+  // Since this is a client component, we use window.location or props if passed, but useSearchParams is better in Next 13+
+  // We need to import useSearchParams
+  /* 
+     NOTE: To use useSearchParams in app directory client component, 
+     we usually need to wrap in Suspense. For simplicity here, 
+     we'll assume the page is rendered as is.
+  */
+
   useEffect(() => {
-    const savedEmail = sessionStorage.getItem('userEmail')
-    if (savedEmail) {
-      setEmail(savedEmail)
+    // Tenta pegar email da URL primeiro
+    const params = new URLSearchParams(window.location.search)
+    const emailFromUrl = params.get('email')
+
+    if (emailFromUrl) {
+      setEmail(emailFromUrl)
+    } else {
+      // Fallback para sessionStorage
+      const savedEmail = sessionStorage.getItem('userEmail')
+      if (savedEmail) {
+        setEmail(savedEmail)
+      }
     }
   }, [])
 
@@ -29,33 +46,44 @@ export default function ThankYouPage() {
       return
     }
 
-    setIsCreatingAccount(true)
-
-    // Salvar credenciais no localStorage
-    const userData = {
-      name: email.split('@')[0], // Usa a primeira parte do email como nome temporário
-      email: email,
-      password: password,
-      createdAt: new Date().toISOString(),
-      isLocalUser: true // Flag para indicar que é usuário local (não precisa validar API)
+    if (password.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres.')
+      return
     }
 
-    console.log('=== DEBUG CRIAÇÃO DE CONTA ===');
-    console.log('Salvando userData:', userData);
+    setIsCreatingAccount(true)
 
-    localStorage.setItem('userData', JSON.stringify(userData))
-    localStorage.setItem('userEmail', email)
-    localStorage.setItem('accessToken', 'local-' + Date.now()) // Token local para usuários que criaram conta diretamente
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
 
-    console.log('userData salvo no localStorage:', localStorage.getItem('userData'));
-    console.log('accessToken salvo:', localStorage.getItem('accessToken'));
+      const data = await response.json()
 
-    // Simular criação de conta e redirecionar
-    setTimeout(() => {
-      setIsCreatingAccount(false)
-      // Redirecionar para área de membros
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao criar conta')
+      }
+
+      // Sucesso!
+      // Salvar flag local apenas para UX imediata, mas a auth real virá do cookie/session
+      localStorage.setItem('userEmail', email)
+      localStorage.setItem('hasCreatedAccount', 'true')
+
+      // Redirecionar
       router.push('/membros')
-    }, 1500)
+
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsCreatingAccount(false)
+    }
   }
 
   const planPrice = 359.58
@@ -164,108 +192,9 @@ export default function ThankYouPage() {
           </form>
         </div>
 
-        {/* Seção de Gorjeta */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-3">
-            Obrigado pela sua<br />compra!
-          </h2>
-          <p className="text-center text-gray-600 mb-6">
-            Seu apoio significa muito para nós. Gostaria de<br />
-            contribuir com uma pequena gorjeta?
-          </p>
 
-          <p className="text-center text-gray-700 font-semibold mb-4">
-            Escolha o valor da gorjeta (opcional):
-          </p>
 
-          <div className="grid grid-cols-4 gap-3 mb-4">
-            <button
-              onClick={() => setSelectedTip(15)}
-              className={`py-4 rounded-lg font-bold transition-all ${
-                selectedTip === 15
-                  ? 'bg-red-500 text-white'
-                  : 'bg-red-400 hover:bg-red-500 text-white'
-              }`}
-            >
-              R$ 15,00
-            </button>
-            <button
-              onClick={() => setSelectedTip(26)}
-              className={`py-4 rounded-lg font-bold transition-all ${
-                selectedTip === 26
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-teal-500 hover:bg-teal-600 text-white'
-              }`}
-            >
-              R$ 26,00
-            </button>
-            <button
-              onClick={() => setSelectedTip(53)}
-              className={`py-4 rounded-lg font-bold transition-all ${
-                selectedTip === 53
-                  ? 'bg-blue-700 text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              R$ 53,00
-            </button>
-            <button
-              onClick={() => setSelectedTip(null)}
-              className={`py-4 rounded-lg font-bold transition-all ${
-                selectedTip === null
-                  ? 'bg-gray-400 text-white'
-                  : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
-              }`}
-            >
-              Sem<br />gorjeta,<br />obrigado
-            </button>
-          </div>
 
-          <p className="text-center text-red-500 text-sm font-semibold">
-            ❤️ Por que isto importa?
-          </p>
-        </div>
-
-        {/* Resumo do Pedido */}
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Resumo do seu pedido
-          </h2>
-
-          <div className="space-y-3 mb-6">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-700">Plano de 2 meses</span>
-              <span className="text-gray-900 font-semibold">
-                R$ {planPrice.toFixed(2).replace('.', ',')}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-teal-600">Desconto</span>
-              <span className="text-teal-600 font-semibold">
-                -R$ {Math.abs(discount).toFixed(2).replace('.', ',')}
-              </span>
-            </div>
-          </div>
-
-          <div className="border-t pt-4 mb-6">
-            <div className="flex justify-between items-center">
-              <span className="text-xl font-bold text-gray-800">Total geral</span>
-              <span className="text-xl font-bold text-gray-900">
-                R$ {total.toFixed(2).replace('.', ',')}
-              </span>
-            </div>
-          </div>
-
-          <p className="text-center text-gray-600 text-sm">
-            Tem alguma dúvida? Envie-nos uma mensagem.<br />
-            <a
-              href="mailto:suporte@SoulSync.com"
-              className="text-teal-600 hover:underline"
-            >
-              suporte@SoulSync.com
-            </a>
-          </p>
-        </div>
 
         {/* Espaçamento final */}
         <div className="h-12"></div>

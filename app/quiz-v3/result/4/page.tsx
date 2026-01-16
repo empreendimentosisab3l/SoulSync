@@ -67,9 +67,9 @@ export default function Result4() {
           </div>
 
           {/* Testimonial Card */}
-          <div className="bg-white border-2 border-purple-200 rounded-2xl p-6">
+          <div className="bg-white border-2 border-teal-200 rounded-2xl p-6">
             <div className="flex items-start gap-4">
-              <div className="w-20 h-20 rounded-full bg-purple-200 flex-shrink-0 overflow-hidden">
+              <div className="w-20 h-20 rounded-full bg-teal-200 flex-shrink-0 overflow-hidden">
                 <img
                   src="/api/placeholder/80/80"
                   alt="Renia Reenpää"
@@ -80,7 +80,7 @@ export default function Result4() {
                     const parent = target.parentElement;
                     if (parent) {
                       parent.innerHTML =
-                        '<div class="w-full h-full flex items-center justify-center"><svg class="w-10 h-10 text-purple-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg></div>';
+                        '<div class="w-full h-full flex items-center justify-center"><svg class="w-10 h-10 text-teal-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg></div>';
                     }
                   }}
                 />
@@ -106,9 +106,9 @@ export default function Result4() {
           </button>
 
           {/* Info Box */}
-          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 flex items-center gap-3">
             <svg
-              className="w-6 h-6 text-purple-700 flex-shrink-0"
+              className="w-6 h-6 text-teal-700 flex-shrink-0"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

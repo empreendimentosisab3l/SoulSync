@@ -40,3 +40,12 @@ nul
 
 # Audio files (too large for Git/Vercel) - host on CDN instead
 public/audios/
+
+/lib/generated/prisma
+  
+# Local Development  
+dev.db  
+dev.db-journal  
+clientes_marketing.csv  
+tmpclaude-*  
+.gemini/ 

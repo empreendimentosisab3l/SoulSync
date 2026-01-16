@@ -11,14 +11,14 @@ export default function ProgressBar({ current, total }: ProgressBarProps) {
   return (
     <div className="w-full mb-8">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-white/80">
+        <span className="text-sm text-gray-600">
           Pergunta {current} de {total}
         </span>
-        <span className="text-sm font-bold text-white">{Math.round(percentage)}%</span>
+        <span className="text-sm font-bold text-teal-700">{Math.round(percentage)}%</span>
       </div>
-      <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
+      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
         <div
-          className="bg-white h-full rounded-full transition-all duration-500 ease-out"
+          className="bg-teal-600 h-full rounded-full transition-all duration-500 ease-out"
           style={{ width: `${percentage}%` }}
         />
       </div>

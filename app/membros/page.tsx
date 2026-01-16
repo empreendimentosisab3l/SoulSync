@@ -6,6 +6,7 @@ import Link from 'next/link';
 import AudioPlayer from '@/components/AudioPlayer';
 import Onboarding from '@/components/Onboarding';
 import CourseCard from '@/components/CourseCard';
+import UnavailableModal from '@/components/UnavailableModal';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface AudioSession {
@@ -17,6 +18,7 @@ interface AudioSession {
   audioUrl: string;
   image?: string;
   isLocked?: boolean;
+  isAvailable?: boolean; // Indica se o módulo está disponível (tem conteúdo)
 }
 
 // Mapeamento de IDs de sessões para IDs de upsell
@@ -42,6 +44,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-4.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359689/soulsync/sessions/Auto_estima.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 5,
@@ -52,6 +55,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-5.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359692/soulsync/sessions/disturbios_do_sono.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 6,
@@ -62,6 +66,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-6.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359691/soulsync/sessions/condicionamento_f%C3%ADsico.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 7,
@@ -72,6 +77,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-7.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359690/soulsync/sessions/a%C3%A7ucar.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 8,
@@ -82,6 +88,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-8.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/liberdade_financeira.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 9,
@@ -92,6 +99,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-9.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359693/soulsync/sessions/pare_de_procrastinar.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 10,
@@ -102,6 +110,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-10.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359698/soulsync/sessions/liberte-se_da_dor.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 11,
@@ -112,6 +121,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-11.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359699/soulsync/sessions/sa%C3%BAde_intestinal.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 12,
@@ -122,6 +132,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-12.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359702/soulsync/sessions/ciclos_da_dependencia.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 13,
@@ -132,6 +143,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-13.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359697/soulsync/sessions/p%C3%A2nico.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 14,
@@ -142,6 +154,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-14.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359695/soulsync/sessions/relaxamento_profundo.jpg',
       isLocked: true,
+      isAvailable: false,
     },
     {
       id: 15,
@@ -152,6 +165,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-15.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359697/soulsync/sessions/respire.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 16,
@@ -162,6 +176,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-16.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359701/soulsync/sessions/conex%C3%A3o.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 17,
@@ -172,6 +187,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-17.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359702/soulsync/sessions/futuro.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 18,
@@ -182,6 +198,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-18.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768360644/soulsync/sessions/Quit_cannabis_for_good.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 19,
@@ -192,6 +209,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-19.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359700/soulsync/sessions/produtividade.jpg',
       isLocked: false,
+      isAvailable: false,
     },
     {
       id: 20,
@@ -202,6 +220,7 @@ function getQuickReliefSessions(): AudioSession[] {
       audioUrl: '/audios/sessao-21.mp3',
       image: 'https://res.cloudinary.com/dw1p11dgq/image/upload/v1768359696/soulsync/sessions/tdah.jpg',
       isLocked: true,
+      isAvailable: false,
     },
   ];
 }
@@ -220,6 +239,8 @@ function MembersAreaContent() {
   const [navigating, setNavigating] = useState(false);
   const [preloadingAudio, setPreloadingAudio] = useState<string | null>(null);
   const preloadAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [showUnavailableModal, setShowUnavailableModal] = useState(false);
+  const [unavailableModuleName, setUnavailableModuleName] = useState('');
 
   useEffect(() => {
     if (!isLoading && !hasInitialized) {
@@ -322,7 +343,48 @@ function MembersAreaContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingCourses, mainCourses]);
 
+  // Função para rastrear interesse em módulos não disponíveis
+  const trackModuleInterest = (moduleName: string, moduleId: number) => {
+    // Salvar no localStorage para análise posterior
+    const interestData = JSON.parse(localStorage.getItem('moduleInterest') || '{}');
+
+    if (!interestData[moduleId]) {
+      interestData[moduleId] = {
+        name: moduleName,
+        clicks: 0,
+        firstClick: new Date().toISOString(),
+        lastClick: new Date().toISOString(),
+      };
+    }
+
+    interestData[moduleId].clicks += 1;
+    interestData[moduleId].lastClick = new Date().toISOString();
+
+    localStorage.setItem('moduleInterest', JSON.stringify(interestData));
+
+    // Enviar para Google Analytics se disponível
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'module_interest', {
+        event_category: 'engagement',
+        event_label: moduleName,
+        module_id: moduleId,
+      });
+    }
+
+    console.log(`Interesse registrado: ${moduleName} (ID: ${moduleId})`);
+  };
+
   const handleSessionClick = (session: AudioSession) => {
+    // Verificar se o módulo está disponível
+    if (session.isAvailable === false) {
+      // Rastrear interesse no módulo
+      trackModuleInterest(session.title, session.id);
+      // Mostrar modal de indisponível
+      setUnavailableModuleName(session.title);
+      setShowUnavailableModal(true);
+      return;
+    }
+
     if (session.isLocked) {
       // Se o card estiver bloqueado, redirecionar para página de upsell
       const upsellId = sessionToUpsellMap[session.id];
@@ -373,10 +435,10 @@ function MembersAreaContent() {
   // Tela de carregamento
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold">Validando seu acesso...</h2>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Validando seu acesso...</h2>
         </div>
       </div>
     );
@@ -385,32 +447,39 @@ function MembersAreaContent() {
   // Tela de acesso negado
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
-          <div className="mb-6">
-            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Acesso Restrito</h2>
-            <p className="text-gray-600 mb-6">
-              Você precisa fazer login ou adquirir um plano para acessar a área de membros.
-            </p>
+      <div className="min-h-screen bg-white flex items-center justify-center p-4 sm:p-6">
+        <div className="max-w-md w-full">
+          {/* Logo */}
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SoulSync</h1>
           </div>
-          <div className="space-y-3">
-            <button
-              onClick={() => router.push('/login')}
-              className="w-full py-3 bg-teal-600 text-white rounded-full font-bold text-lg transition-all duration-300 hover:bg-teal-700 hover:scale-105"
-            >
-              Fazer Login
-            </button>
-            <button
-              onClick={() => window.location.href = 'https://lastlink.com/p/CDD3C0290/checkout-payment'}
-              className="w-full py-3 bg-white border-2 border-teal-600 text-teal-600 rounded-full font-bold text-lg transition-all duration-300 hover:bg-teal-50"
-            >
-              Adquirir Plano
-            </button>
+
+          <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 shadow-lg p-6 sm:p-8 text-center">
+            <div className="mb-4 sm:mb-6">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Acesso Restrito</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                Você precisa fazer login ou adquirir um plano para acessar a área de membros.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <button
+                onClick={() => router.push('/login')}
+                className="w-full py-3 sm:py-4 bg-teal-600 text-white rounded-full font-bold text-base sm:text-lg transition-all duration-300 hover:bg-teal-700 active:scale-95 sm:hover:scale-105 shadow-lg"
+              >
+                Fazer Login
+              </button>
+              <button
+                onClick={() => window.location.href = 'https://lastlink.com/p/CDD3C0290/checkout-payment'}
+                className="w-full py-3 sm:py-4 bg-white border-2 border-gray-200 text-gray-700 rounded-full font-bold text-base sm:text-lg transition-all duration-300 hover:bg-gray-50 active:scale-95"
+              >
+                Adquirir Plano
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -423,43 +492,35 @@ function MembersAreaContent() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800">
+    <main className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-teal-800/50 backdrop-blur-sm border-b border-white/10">
-        <div className="container mx-auto px-4 py-4">
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <h1 className="text-2xl font-bold text-white">SoulSync</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900">SoulSync</h1>
 
             {/* Navigation Icons */}
-            <div className="flex items-center gap-4">
-              {/* Search */}
-              <button className="text-white/80 hover:text-white transition-colors">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Search - hidden on mobile */}
+              <button className="hidden sm:block text-gray-400 hover:text-gray-600 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
 
-              {/* Settings */}
-              <button className="text-white/80 hover:text-white transition-colors">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Settings - hidden on mobile */}
+              <button className="hidden sm:block text-gray-400 hover:text-gray-600 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </button>
 
-              {/* Language */}
-              <button className="flex items-center gap-1 text-white/80 hover:text-white transition-colors text-sm">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                </svg>
-                Pt-Br
-              </button>
-
               {/* Logout */}
               <button
                 onClick={logout}
-                className="text-white/80 hover:text-white transition-colors text-sm"
+                className="text-gray-500 hover:text-gray-700 transition-colors text-xs sm:text-sm px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full font-medium"
               >
                 Sair
               </button>
@@ -468,22 +529,22 @@ function MembersAreaContent() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Main Courses Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold text-white mb-6">Todos os cursos disponíveis</h2>
+        <section className="mb-8 sm:mb-12">
+          <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Todos os cursos disponíveis</h2>
           {loadingCourses ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-64 bg-white/10 rounded-3xl animate-pulse"></div>
+                <div key={i} className="h-48 sm:h-64 bg-gray-100 rounded-2xl sm:rounded-3xl animate-pulse"></div>
               ))}
             </div>
           ) : mainCourses.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-white/70 text-lg">Nenhum curso disponível no momento.</p>
+            <div className="text-center py-8 sm:py-12">
+              <p className="text-gray-500 text-base sm:text-lg">Nenhum curso disponível no momento.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {mainCourses.map((course) => (
                 <CourseCard
                   key={course.id}
@@ -500,9 +561,9 @@ function MembersAreaContent() {
         </section>
 
         {/* Quick Relief Section */}
-        <section>
-          <h2 className="text-2xl font-bold text-white mb-6">Alívios rápidos</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <section className="pb-4">
+          <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Alívios rápidos</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
             {quickReliefSessions.map((session) => (
               <CourseCard
                 key={session.id}
@@ -539,11 +600,11 @@ function MembersAreaContent() {
 
       {/* Loading Overlay */}
       {navigating && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 text-center shadow-2xl">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Carregando...</h3>
-            <p className="text-gray-600">Aguarde um momento</p>
+        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="text-center max-w-xs w-full">
+            <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-4 border-teal-600 mx-auto mb-3 sm:mb-4"></div>
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">Carregando...</h3>
+            <p className="text-sm text-gray-500">Aguarde um momento</p>
           </div>
         </div>
       )}
@@ -560,14 +621,18 @@ function MembersAreaContent() {
 
       {/* Audio Preloading Indicator */}
       {preloadingAudio && (
-        <div className="fixed bottom-6 right-6 bg-white rounded-xl shadow-2xl p-4 flex items-center gap-3 z-40 animate-fadeIn">
-          <div className="w-5 h-5 border-3 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-sm">
-            <p className="font-semibold text-gray-900">Preparando áudio...</p>
-            <p className="text-gray-600 text-xs">Aguarde um momento</p>
-          </div>
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white rounded-full shadow-lg border border-gray-100 px-4 py-2 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 z-40 animate-fadeIn">
+          <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-teal-600 border-t-transparent rounded-full animate-spin flex-shrink-0"></div>
+          <span className="text-xs sm:text-sm font-medium text-gray-700">Preparando áudio...</span>
         </div>
       )}
+
+      {/* Unavailable Module Modal */}
+      <UnavailableModal
+        isOpen={showUnavailableModal}
+        onClose={() => setShowUnavailableModal(false)}
+        moduleName={unavailableModuleName}
+      />
     </main>
   );
 }
@@ -575,10 +640,10 @@ function MembersAreaContent() {
 export default function MembersArea() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold">Carregando...</h2>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Carregando...</h2>
         </div>
       </div>
     }>

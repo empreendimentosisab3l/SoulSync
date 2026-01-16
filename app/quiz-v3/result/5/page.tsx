@@ -222,7 +222,7 @@ export default function Result5() {
           </h3>
           <div className="bg-white border-2 border-gray-200 rounded-2xl p-6 mb-4">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 bg-purple-200 rounded-full flex-shrink-0"></div>
+              <div className="w-16 h-16 bg-teal-200 rounded-full flex-shrink-0"></div>
               <div className="flex-1">
                 <div className="flex items-center gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (

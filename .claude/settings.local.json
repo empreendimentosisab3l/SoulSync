@@ -21,7 +21,9 @@
       "Bash(node scripts/upload-session-images.js:*)",
       "Bash(node scripts/add-thumbnails-to-sessions.js:*)",
       "Bash(findstr:*)",
-      "Bash(node scripts/upload-cannabis-image.js:*)"
+      "Bash(node scripts/upload-cannabis-image.js:*)",
+      "Bash(npm run dev:clean:*)",
+      "Bash(find:*)"
     ]
   }
 }

@@ -70,7 +70,7 @@ export default function QuizMeasurements({ onComplete, defaultValues }: QuizMeas
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
-              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors"
+              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-teal-600 focus:outline-none transition-colors"
               placeholder={unit === "metric" ? "175" : "5.9"}
             />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
@@ -88,7 +88,7 @@ export default function QuizMeasurements({ onComplete, defaultValues }: QuizMeas
               type="number"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors"
+              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-teal-600 focus:outline-none transition-colors"
               placeholder={unit === "metric" ? "75" : "165"}
             />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
@@ -106,7 +106,7 @@ export default function QuizMeasurements({ onComplete, defaultValues }: QuizMeas
               type="number"
               value={targetWeight}
               onChange={(e) => setTargetWeight(e.target.value)}
-              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors"
+              className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-teal-600 focus:outline-none transition-colors"
               placeholder={unit === "metric" ? "65" : "143"}
             />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
@@ -130,7 +130,7 @@ export default function QuizMeasurements({ onComplete, defaultValues }: QuizMeas
       {isValid && (
         <button
           onClick={handleSubmit}
-          className="w-full py-4 bg-purple-700 text-white rounded-full font-bold text-lg transition-all duration-300 hover:bg-purple-800 hover:scale-105"
+          className="w-full py-4 bg-teal-600 text-white rounded-full font-bold text-lg transition-all duration-300 hover:bg-teal-700 hover:scale-105"
         >
           Próxima
         </button>

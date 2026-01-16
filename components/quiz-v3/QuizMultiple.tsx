@@ -19,7 +19,7 @@ export default function QuizMultiple({ options, onSelect, selected }: QuizMultip
   };
 
   return (
-    <div className="grid grid-cols-1 gap-3 w-full max-w-2xl mx-auto">
+    <div className="grid grid-cols-1 gap-2 sm:gap-3 w-full max-w-2xl mx-auto">
       {options.map((option) => {
         const isSelected = selected.includes(option.value);
         return (
@@ -27,28 +27,28 @@ export default function QuizMultiple({ options, onSelect, selected }: QuizMultip
             key={option.value}
             onClick={() => handleToggle(option.value)}
             className={`
-              p-4 rounded-xl border-2 transition-all duration-300 text-left
+              px-4 py-3.5 sm:p-4 rounded-xl border-2 transition-all duration-200 text-left active:scale-[0.98]
               ${
                 isSelected
-                  ? "border-purple-500 bg-purple-50 text-purple-900"
-                  : "border-gray-200 bg-white text-gray-700 hover:border-purple-300"
+                  ? "border-teal-600 bg-teal-50 text-teal-900"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-teal-300 active:border-teal-400"
               }
             `}
           >
             <div className="flex items-center gap-3">
               <div
                 className={`
-                  w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0
+                  w-5 h-5 sm:w-6 sm:h-6 rounded border-2 flex items-center justify-center flex-shrink-0
                   ${
                     isSelected
-                      ? "border-purple-500 bg-purple-500"
+                      ? "border-teal-600 bg-teal-600"
                       : "border-gray-300 bg-white"
                   }
                 `}
               >
                 {isSelected && (
                   <svg
-                    className="w-3 h-3 text-white"
+                    className="w-3 h-3 sm:w-4 sm:h-4 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -62,8 +62,8 @@ export default function QuizMultiple({ options, onSelect, selected }: QuizMultip
                   </svg>
                 )}
               </div>
-              {option.icon && <span className="text-2xl">{option.icon}</span>}
-              <span className="text-base font-medium">{option.label}</span>
+              {option.icon && <span className="text-xl sm:text-2xl">{option.icon}</span>}
+              <span className="text-sm sm:text-base font-medium leading-snug">{option.label}</span>
             </div>
           </button>
         );

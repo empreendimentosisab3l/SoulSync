@@ -2,6 +2,7 @@ export interface QuizQuestion {
   id: number;
   question?: string;
   subtitle?: string;
+  description?: string;
   type: "choice" | "input" | "range" | "multiple" | "info";
   options?: Array<{
     label: string;
@@ -12,12 +13,19 @@ export interface QuizQuestion {
   min?: number;
   max?: number;
   unit?: string;
+  inputType?: 'text' | 'email' | 'number';
+  showTerms?: boolean;
   content?: string; // For info screens
   image?: string; // For info screens
   testimonial?: {
     name: string;
     text: string;
     image?: string;
+  };
+  buttonText?: string;
+  rating?: {
+    score: number;
+    text: string;
   };
 }
 
@@ -38,8 +46,8 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 2,
     type: "info",
-    content: "Mais de 500.000 pessoas escolheram o Hypnozio",
-    image: "social-proof",
+    content: "Você está em boas mãos.\n\nJunte-se a 187.432 mulheres satisfeitas que já estão obtendo resultados.\n\nDeixe que nós cuidemos de você enquanto você cuida de si mesmo(a). Estaremos aqui para te apoiar em cada passo do caminho. 💚",
+    image: "https://res.cloudinary.com/dw1p11dgq/image/upload/v1768445567/soulsync/quiz-v3/map.png",
   },
   {
     id: 3,
@@ -69,14 +77,20 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: 5,
+    question: "Desta vez, será diferente. Vamos atacar a causa raiz.",
     type: "info",
-    content: "A maioria das dietas e exercícios falham a longo prazo, não por falta de esforço, mas porque ignoram a causa raiz: a conexão mente-corpo.\n\nA hipnoterapia funciona mudando sua mentalidade, desbloqueando a motivação, a crença e o controle necessários para criar mudanças reais e duradouras.",
-    image: "meditation",
+    content: "Já ouviu o ditado \"Está tudo na sua cabeça?\" ou \"Seu intestino é seu segundo cérebro\"?\n\nComer por estresse, reações intestinais incomuns ou aquela sensação de frio na barriga quando se está nervoso são todos sinais da conexão entre o intestino e o cérebro.\n\nA influência do subconsciente, ao causar falhas na comunicação entre o intestino e o cérebro, é o principal fator que leva ao sobrepeso e a escolhas alimentares inadequadas*.\n\nMais de 187.432 usuários iniciam o curso de auto-hipnose SoulSync todos os meses, reequilibrando com sucesso a conexão intestino-cérebro ao eliminar padrões de pensamento negativos e superar obstáculos subconscientes.\n\nFonte: *Nutrientes. 2021 Fev; 13(2): 584.",
+    image: "https://res.cloudinary.com/dw1p11dgq/image/upload/v1763516372/soulsync/quiz-v2/question-19-illustration.jpg",
+    testimonial: {
+      name: "Elena, usuária do aplicativo SoulSync desde 2024.",
+      text: "\"Fiquei impressionada com a eficácia deste aplicativo de hipnose.\"",
+    },
+    buttonText: "Entendi",
   },
   {
     id: 6,
     question: "Você foi recomendado por um nutricionista?",
-    subtitle: "Um número crescente de nutricionistas está recomendando o Hypnozio.",
+    subtitle: "Um número crescente de nutricionistas está recomendando o SoulSync.",
     type: "choice",
     options: [
       { label: "Sim", value: "sim" },
@@ -140,9 +154,15 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: 11,
+    question: "A transformação do corpo começa na sua mente.",
     type: "info",
-    content: "O Hypnozio ajuda a gerir a sua relação com a comida, 'corrigindo' a falta de comunicação entre o cérebro e o estômago.\n\nVamos começar por conhecer melhor você para podermos avaliar se o Hypnozio também pode te ajudar.",
-    image: "brain-stomach",
+    content: "Métodos tradicionais como dietas ou exercícios físicos muitas vezes não produzem resultados duradouros. O aplicativo SoulSync identifica a causa subconsciente do ganho de peso e a elimina. É a solução mais fácil para emagrecer.\n\nResponda ao questionário e receba seu programa personalizado de hipnoterapia de 21 dias:",
+    image: "https://res.cloudinary.com/dw1p11dgq/image/upload/v1763518810/soulsync/quiz-v2/question-21-premium.jpg",
+    rating: {
+      score: 5,
+      text: "4 em cada 5 usuários recomendariam SoulSync a um amigo."
+    },
+    buttonText: "Entendi",
   },
   {
     id: 12,
@@ -177,8 +197,9 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 14,
     type: "info",
-    content: "O ganho de peso vai além da força de vontade. Para muitos, o verdadeiro problema é a desconexão entre o cérebro e o corpo — uma falha de comunicação que confunde fome, desejo e saciedade.\n\nA falta de comunicação entre o estômago e o cérebro é um fator significativo no desenvolvimento do excesso de peso. Compreender e restabelecer essa conexão é fundamental para a perda de peso duradoura e para a melhoria da saúde física e mental.",
-    image: "brain-intestine",
+    question: "Como a SoulSync pode te ajudar?",
+    content: "Nossas sessões de hipnose personalizadas eliminam as principais causas do seu ganho de peso:\n\n✓ Chega de desejos por comida\n\n✓ Hábitos alimentares ruins bloqueados\n\n✓ Elimine as crenças limitantes.\n\n✓ Restaure a conexão entre intestino e cérebro\n\nBasta abrir o aplicativo SoulSync e ouvir uma sessão de hipnose relaxante antes de dormir.\n\nÉ como perder peso enquanto se dorme.\n\nEstudos de pesquisa médica e dados de usuários do SoulSync sugerem que a hipnose é perfeitamente segura e permite alcançar resultados de perda de peso melhores e mais duradouros.\n\n*Fonte: Journal of Integrative Medicine. Volume 19, Edição 1, Janeiro de 2021, Páginas 1-5.",
+    buttonText: "Entendi",
   },
   {
     id: 15,
@@ -208,19 +229,30 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 17,
     question: "Qual é a sua altura?",
+    subtitle: "Em centímetros",
     type: "input",
+    inputType: "number",
+    unit: "cm",
     placeholder: "0",
+    showTerms: true,
   },
   {
     id: 18,
     question: "Qual é o seu peso atual?",
+    subtitle: "Não se preocupe, ninguém mais verá isso",
+    description: "🔒 Isso é completamente privado",
     type: "input",
+    inputType: "number",
+    unit: "kg",
     placeholder: "0",
   },
   {
     id: 19,
     question: "Qual é o seu peso desejado?",
+    subtitle: "Seja honesto(a) consigo",
     type: "input",
+    inputType: "number",
+    unit: "kg",
     placeholder: "0",
   },
   {
@@ -257,7 +289,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 23,
     type: "info",
-    content: "O Hypnozio pode ajudar você a controlar seu peso em apenas 15 minutos por dia. Você receberá um programa de hipnoterapia personalizado, elaborado por nossa equipe de hipnoterapeutas experientes, para melhorar sua relação com a comida e ajudá-lo a atingir o peso desejado.",
+    content: "O SoulSync pode ajudar você a controlar seu peso em apenas 15 minutos por dia. Você receberá um programa de hipnoterapia personalizado, elaborado por nossa equipe de hipnoterapeutas experientes, para melhorar sua relação com a comida e ajudá-lo a atingir o peso desejado.",
     testimonial: {
       name: "Renia Reenpää",
       text: "Hipnoterapeuta clínica treinado pela ICH e coach de vida certificado, com foco em técnicas de estado de espírito e PNL.",

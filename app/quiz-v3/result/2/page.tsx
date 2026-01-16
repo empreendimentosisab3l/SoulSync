@@ -84,7 +84,7 @@ export default function Result2() {
           <p className="text-gray-600">Comece a ver resultados nos primeiros 7 dias!</p>
 
           {/* Weight Loss Graph */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border-2 border-gray-200">
+          <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl p-6 border-2 border-gray-200">
             <svg viewBox="0 0 300 200" className="w-full">
               {/* Background grid */}
               <line x1="40" y1="20" x2="40" y2="160" stroke="#E5E7EB" strokeWidth="2" />
@@ -131,10 +131,10 @@ export default function Result2() {
           </div>
 
           {/* Info Card */}
-          <div className="bg-purple-50 border-2 border-purple-200 rounded-2xl p-4">
+          <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl p-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-purple-700" fill="currentColor" viewBox="0 0 20 20">
+              <div className="w-12 h-12 bg-teal-200 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-teal-700" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                 </svg>
               </div>

@@ -227,28 +227,28 @@ function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onCompl
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800 z-50 flex flex-col">
+    <div className="fixed inset-0 bg-gradient-to-b from-teal-50 to-white z-50 flex flex-col">
       {/* Header */}
-      <div className="p-6 flex items-center justify-between">
+      <div className="p-4 sm:p-6 flex items-center justify-between">
         {/* Botão Voltar */}
         <button
           onClick={handleCloseAttempt}
-          className="text-white/80 hover:text-white transition-colors"
+          className="text-gray-400 hover:text-gray-600 transition-colors active:scale-95"
         >
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
         {/* Logo */}
-        <h1 className="text-2xl font-bold text-white">SoulSync</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SoulSync</h1>
 
         {/* Espaço vazio para centralizar logo */}
-        <div className="w-8"></div>
+        <div className="w-6 sm:w-8"></div>
       </div>
 
       {/* Conteúdo centralizado */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pb-8 sm:pb-12">
         {/* Animação Lottie Pulsante */}
         <div className="w-full max-w-md mb-8 px-4">
           <div className="relative flex items-center justify-center">
@@ -283,17 +283,17 @@ function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onCompl
                 transition: 'all 0.1s ease-out'
               }}
             >
-              <div className="w-full h-full max-w-[320px] max-h-[320px] sm:max-w-[360px] sm:max-h-[360px] md:max-w-[400px] md:max-h-[400px] rounded-full bg-white/20 blur-3xl"></div>
+              <div className="w-full h-full max-w-[320px] max-h-[320px] sm:max-w-[360px] sm:max-h-[360px] md:max-w-[400px] md:max-h-[400px] rounded-full bg-teal-200/50 blur-3xl"></div>
             </div>
           </div>
 
           {/* Título */}
           <div className="mt-6 md:mt-8">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center leading-tight px-2">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 text-center leading-tight px-2">
               {title}
             </h2>
             {isLoading && !isPlaying && (
-              <p className="text-white/70 text-sm text-center mt-2">
+              <p className="text-gray-500 text-sm text-center mt-2">
                 Carregando áudio...
               </p>
             )}
@@ -301,25 +301,25 @@ function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onCompl
         </div>
 
         {/* Controles */}
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-md space-y-4 sm:space-y-6 px-2">
           {/* Botão Play/Pause */}
           <div className="flex justify-center">
             <button
               onClick={togglePlay}
               disabled={isLoading && !isPlaying}
-              className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-14 h-14 sm:w-16 sm:h-16 bg-teal-600 rounded-full flex items-center justify-center shadow-lg active:scale-95 sm:hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading && !isPlaying ? (
                 // Loading Spinner
-                <div className="w-8 h-8 border-3 border-teal-700 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : isPlaying ? (
                 // Pause Icon
-                <svg className="w-8 h-8 text-teal-700" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
                 </svg>
               ) : (
                 // Play Icon
-                <svg className="w-8 h-8 text-teal-700 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               )}
@@ -329,15 +329,15 @@ function AudioPlayer({ audioUrl, title, description, onClose, sessionId, onCompl
           {/* Barra de progresso */}
           <div className="space-y-2">
             {/* Barra */}
-            <div className="relative h-1 bg-white/30 rounded-full overflow-hidden">
+            <div className="relative h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="absolute top-0 left-0 h-full bg-white transition-all duration-300"
+                className="absolute top-0 left-0 h-full bg-teal-600 transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
 
             {/* Tempos */}
-            <div className="flex justify-between text-white/80 text-sm">
+            <div className="flex justify-between text-gray-500 text-xs sm:text-sm">
               <span>{formatTime(currentTime)}</span>
               <span>{formatTime(duration)}</span>
             </div>

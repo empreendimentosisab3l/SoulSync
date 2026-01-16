@@ -159,10 +159,10 @@ export default function CoursePage() {
 
   if (isLoading || loadingCourses) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold">Carregando...</h2>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Carregando...</h2>
         </div>
       </div>
     );
@@ -170,12 +170,12 @@ export default function CoursePage() {
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <h2 className="text-2xl font-bold">Curso não encontrado</h2>
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Curso não encontrado</h2>
           <button
             onClick={() => router.push('/membros')}
-            className="mt-4 px-6 py-3 bg-white text-teal-700 rounded-full font-semibold"
+            className="px-6 py-3 bg-teal-600 text-white rounded-full font-semibold hover:bg-teal-700 transition-colors active:scale-95"
           >
             Voltar
           </button>
@@ -185,50 +185,49 @@ export default function CoursePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-teal-700 via-teal-600 to-teal-800">
+    <main className="min-h-screen bg-white">
       {/* Header com logo e ícones */}
-      <header className="bg-teal-800/50 backdrop-blur-sm border-b border-white/10">
-        <div className="container mx-auto px-4 py-3">
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
+        <div className="container mx-auto px-3 sm:px-4 py-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold text-white">SoulSync</h1>
-            <div className="flex items-center gap-3 text-white/80 text-sm">
-              <button className="hover:text-white transition-colors">Cursos</button>
-              <button className="hover:text-white transition-colors">Configurações</button>
-              <button className="hover:text-white transition-colors">Pt-Br</button>
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900">SoulSync</h1>
+            <div className="flex items-center gap-2 sm:gap-3 text-gray-500 text-xs sm:text-sm">
+              <button className="hidden sm:block hover:text-gray-700 transition-colors">Cursos</button>
+              <button className="hidden sm:block hover:text-gray-700 transition-colors">Configurações</button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* Botão Voltar */}
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-6"
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors mb-4 sm:mb-6 active:scale-95"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Voltar
+          <span className="text-sm sm:text-base font-medium">Voltar</span>
         </button>
 
         {/* Course Header */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/20">
-          <div className="flex flex-col md:flex-row gap-6">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-200 shadow-sm">
+          <div className="flex flex-row gap-4 sm:gap-6">
             {/* Thumbnail */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 bg-gradient-to-br from-orange-400 to-red-400 rounded-2xl overflow-hidden relative">
+              <div className="w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-orange-400 to-red-400 rounded-xl sm:rounded-2xl overflow-hidden relative shadow-md">
                 {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
                   <Image
                     src={course.thumbnail}
                     alt={course.title}
                     fill
-                    sizes="128px"
+                    sizes="(max-width: 640px) 80px, 128px"
                     className="object-cover"
                     priority
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white text-4xl">
+                  <div className="w-full h-full flex items-center justify-center text-white text-2xl sm:text-4xl">
                     🍊
                   </div>
                 )}
@@ -236,37 +235,37 @@ export default function CoursePage() {
             </div>
 
             {/* Info */}
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-white mb-3">{course.title}</h1>
-              <p className="text-white/90 mb-2">{course.description}</p>
-              <p className="text-white/70 text-sm">{course.longDescription}</p>
-              <div className="mt-4 flex items-center gap-4 text-sm text-white/60">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-3 leading-tight">{course.title}</h1>
+              <p className="text-gray-600 text-sm sm:text-base mb-1 sm:mb-2 line-clamp-2">{course.description}</p>
+              <p className="text-gray-500 text-xs sm:text-sm hidden sm:block">{course.longDescription}</p>
+              <div className="mt-2 sm:mt-4 flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400">
                 <span>{course.sessions.length} sessões</span>
-                <span>•</span>
-                <span>Hipnoterapia guiada</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="hidden sm:inline">Hipnoterapia guiada</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex gap-2 sm:gap-3 mb-4 sm:mb-6">
           <button
             onClick={() => setActiveTab('todas')}
-            className={`px-6 py-2 rounded-full font-semibold transition-all ${
+            className={`px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-all active:scale-95 ${
               activeTab === 'todas'
-                ? 'bg-white text-teal-700'
-                : 'bg-white/10 text-white/80 hover:bg-white/20'
+                ? 'bg-teal-600 text-white shadow-md'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             Todas
           </button>
           <button
             onClick={() => setActiveTab('suas')}
-            className={`px-6 py-2 rounded-full font-semibold transition-all ${
+            className={`px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-all active:scale-95 ${
               activeTab === 'suas'
-                ? 'bg-white text-teal-700'
-                : 'bg-white/10 text-white/80 hover:bg-white/20'
+                ? 'bg-teal-600 text-white shadow-md'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             Suas
@@ -274,11 +273,11 @@ export default function CoursePage() {
         </div>
 
         {/* Sessions by Section */}
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {Object.keys(filteredSections).map((sectionName) => (
             <section key={sectionName}>
-              <h2 className="text-xl font-bold text-white mb-4">{sectionName}</h2>
-              <div className="space-y-2">
+              <h2 className="text-base sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{sectionName}</h2>
+              <div className="space-y-2 sm:space-y-3">
                 {filteredSections[sectionName].map((session) => {
                   const isCompleted = completedSessions.includes(session.id);
                   const playCount = sessionPlayCounts[session.id] || 0;
@@ -288,37 +287,37 @@ export default function CoursePage() {
                     <button
                       key={session.id}
                       onClick={() => handleSessionClick(session)}
-                      className="w-full bg-white/10 hover:bg-white/15 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-all group"
+                      className="w-full bg-white hover:bg-gray-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all group active:scale-[0.98]"
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-3 sm:gap-4">
                         {/* Thumbnail */}
-                        <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex-shrink-0 flex items-center justify-center relative overflow-hidden">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg sm:rounded-xl flex-shrink-0 flex items-center justify-center relative overflow-hidden shadow-sm">
                           {session.thumbnail && !imageErrors[session.id] ? (
                             <>
                               <Image
                                 src={session.thumbnail}
                                 alt={session.title}
                                 fill
-                                sizes="64px"
+                                sizes="(max-width: 640px) 48px, 64px"
                                 className="object-cover"
                                 onError={() => setImageErrors(prev => ({ ...prev, [session.id]: true }))}
                               />
                               <div className="absolute inset-0 bg-black/20 flex items-center justify-center z-[1]">
-                                <svg className="w-6 h-6 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 sm:w-6 sm:h-6 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                               </div>
                             </>
                           ) : (
-                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                           )}
                           {playCount >= requiredPlays && (
-                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center z-10">
-                              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full flex items-center justify-center z-10 shadow-sm">
+                              <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
@@ -326,21 +325,21 @@ export default function CoursePage() {
                         </div>
 
                         {/* Title */}
-                        <div className="flex-1 text-left">
-                          <h3 className="text-white font-semibold">{session.title}</h3>
+                        <div className="flex-1 text-left min-w-0">
+                          <h3 className="text-gray-900 font-semibold text-sm sm:text-base leading-tight line-clamp-2">{session.title}</h3>
                         </div>
 
                         {/* Play Count */}
-                        <div className="text-white/60 text-sm font-medium">
+                        <div className="text-gray-400 text-xs sm:text-sm font-medium flex-shrink-0">
                           {playCount}/{requiredPlays}
                         </div>
 
-                        {/* Duration */}
-                        <div className="text-white/60 text-sm">{session.duration}</div>
+                        {/* Duration - hidden on very small screens */}
+                        <div className="text-gray-400 text-xs sm:text-sm hidden xs:block flex-shrink-0">{session.duration}</div>
 
-                        {/* Headphone Icon */}
-                        <div className="text-white/40 group-hover:text-white/80 transition-colors">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {/* Headphone Icon - hidden on mobile */}
+                        <div className="text-gray-300 group-hover:text-teal-500 transition-colors hidden sm:block">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                           </svg>
                         </div>
@@ -354,7 +353,7 @@ export default function CoursePage() {
         </div>
 
         {activeTab === 'suas' && Object.keys(filteredSections).length === 0 && (
-          <div className="text-center py-12 text-white/60">
+          <div className="text-center py-12 text-gray-500">
             <p>Você ainda não completou nenhuma sessão deste curso.</p>
           </div>
         )}
