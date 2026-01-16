@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 const registerSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
