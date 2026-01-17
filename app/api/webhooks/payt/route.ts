@@ -42,6 +42,11 @@ dzmqI2gba+2YmW+OlPdTPsmeHQXGeOjUCmbZx2s+ZZSodWe94GRExmloY/klCPw1
 JWnO/pPW82o4SsM0QpXnOXU=
 -----END PRIVATE KEY-----`;
 
+// PayT verification handler
+export async function GET() {
+    return NextResponse.json({ ok: true });
+}
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
