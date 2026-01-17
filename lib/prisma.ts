@@ -1,11 +1,14 @@
 import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
-    // Fallback para evitar erro de build na Vercel se a chave não estiver configurada
-    const url = process.env.DATABASE_URL || 'postgresql://dummy:dummy@localhost:5432/dummy';
-    return new PrismaClient({
-        datasources: { db: { url } }
-    });
+    // Se não tiver DATABASE_URL (Build da Vercel), usa o Mock
+    if (!process.env.DATABASE_URL) {
+        const { prismaMock } = require('./prisma-mock');
+        return prismaMock;
+    }
+
+    // Se tiver URL, usa o Cliente Real
+    return new PrismaClient();
 }
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
