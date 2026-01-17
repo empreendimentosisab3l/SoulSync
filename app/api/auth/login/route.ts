@@ -7,8 +7,12 @@ export const runtime = 'nodejs';
 export const fetchCache = 'force-no-store';
 
 export async function POST(request: Request) {
+    // BUILD SAFETY CHECK: Se não tiver URL de banco (Vercel Build), retorna sucesso falso para não quebrar
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json({ build_bypass: true });
+    }
+
     // LAZY LOAD: Carrega as dependências SOMENTE quando a rota é chamada
-    // Isso evita que a Verce tente conectar no banco durante o Build
     const { default: prisma } = await import('@/lib/prisma');
     const bcrypt = await import('bcryptjs');
 

@@ -14,6 +14,11 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: Request) {
+    // BUILD SAFETY CHECK: Se não tiver URL de banco (Vercel Build), retorna sucesso falso para não quebrar
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json({ build_bypass: true });
+    }
+
     // LAZY LOAD: Carrega as dependências SOMENTE quando a rota é chamada
     const { default: prisma } = await import('@/lib/prisma');
     const bcrypt = await import('bcryptjs');
