@@ -122,6 +122,9 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
+    // LOG COMPLETO para debug
+    console.log('📩 PAYLOAD COMPLETO RECEBIDO DA PAYT:', JSON.stringify(data, null, 2));
+
     console.log('📩 Webhook Payt recebido:', {
       event: data.event,
       customer: data.customer_email || data.email,
@@ -140,8 +143,14 @@ export async function POST(request: NextRequest) {
     const name = data.customer_name || data.name;
     const eventType = data.event || data.status;
 
+    // Se não tiver email, é provavelmente um teste da Payt
     if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+      console.log('⚠️ Webhook recebido sem email - provavelmente teste da Payt');
+      return NextResponse.json({
+        success: true,
+        message: 'Webhook test received - no email provided',
+        note: 'This is OK for Payt URL test button'
+      });
     }
 
     // =============================================================================
