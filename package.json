@@ -7,7 +7,7 @@
     "dev:clean": "taskkill /F /IM node.exe /T 2>nul & if exist \".next\\dev\\lock\" del /F \".next\\dev\\lock\" & timeout /t 2 /nobreak >nul & next dev",
     "clean": "taskkill /F /IM node.exe /T 2>nul & if exist \".next\\dev\\lock\" del /F \".next\\dev\\lock\"",
     "clean:all": "if exist .next rmdir /s /q .next & if exist node_modules\\.cache rmdir /s /q node_modules\\.cache",
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "build:clean": "npm run clean:all && next build",
     "start": "next start",
     "lint": "next lint"

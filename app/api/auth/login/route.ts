@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 
@@ -9,6 +7,11 @@ export const runtime = 'nodejs';
 export const fetchCache = 'force-no-store';
 
 export async function POST(request: Request) {
+    // LAZY LOAD: Carrega as dependências SOMENTE quando a rota é chamada
+    // Isso evita que a Verce tente conectar no banco durante o Build
+    const { default: prisma } = await import('@/lib/prisma');
+    const bcrypt = await import('bcryptjs');
+
     try {
         const body = await request.json();
         const { email, password } = body;

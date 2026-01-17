@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
@@ -16,6 +14,10 @@ const registerSchema = z.object({
 });
 
 export async function POST(request: Request) {
+    // LAZY LOAD: Carrega as dependências SOMENTE quando a rota é chamada
+    const { default: prisma } = await import('@/lib/prisma');
+    const bcrypt = await import('bcryptjs');
+
     try {
         const body = await request.json();
         const { email, password, name } = registerSchema.parse(body);
