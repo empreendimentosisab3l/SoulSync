@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
 import crypto from 'crypto';
 import { sendAccessEmail } from '@/lib/email/sendAccessEmail';
 import prisma from '@/lib/prisma';
@@ -12,10 +9,6 @@ export const dynamic = 'force-dynamic';
 
 // Chave de acesso Payt (configurada no postback)
 const PAYT_ACCESS_KEY = 'f630b87e16e6a6364027dcb2b465b9d4';
-
-// Diretório para armazenar tokens (backup/fallback)
-const DATA_DIR = path.join(process.cwd(), 'data');
-const TOKENS_FILE = path.join(DATA_DIR, 'access-tokens.json');
 
 // Google Service Account Key (hardcoded - você deve mover para variável de ambiente)
 const GOOGLE_PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
@@ -51,60 +44,12 @@ JWnO/pPW82o4SsM0QpXnOXU=
 // FUNÇÕES AUXILIARES
 // =============================================================================
 
-async function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true });
-  }
-  if (!existsSync(TOKENS_FILE)) {
-    await writeFile(TOKENS_FILE, JSON.stringify([]));
-  }
-}
-
 function generateToken(): string {
   return crypto.randomBytes(32).toString('hex');
 }
 
 function validatePaytKey(requestKey: string): boolean {
   return requestKey === PAYT_ACCESS_KEY;
-}
-
-// =============================================================================
-// SALVAR NO ARQUIVO JSON (backup/fallback)
-// =============================================================================
-async function saveAccessTokenToFile(data: any) {
-  await ensureDataDir();
-
-  const tokens = JSON.parse(await readFile(TOKENS_FILE, 'utf-8'));
-
-  const token = generateToken();
-  const accessData = {
-    token,
-    email: data.customer_email || data.email,
-    name: data.customer_name || data.name,
-    planType: data.product_name || data.offer_name || data.prod_name || 'SoulSync',
-    orderId: data.transaction_id || data.order_id,
-    customerId: data.customer_id,
-    subscriptionId: data.subscription_id,
-    createdAt: new Date().toISOString(),
-    expiresAt: null,
-    isActive: true
-  };
-
-  tokens.push(accessData);
-  await writeFile(TOKENS_FILE, JSON.stringify(tokens, null, 2));
-
-  return accessData;
-}
-
-async function updateAccessStatusInFile(email: string, isActive: boolean) {
-  await ensureDataDir();
-
-  let tokens = JSON.parse(await readFile(TOKENS_FILE, 'utf-8'));
-  tokens = tokens.map((t: any) =>
-    t.email === email ? { ...t, isActive } : t
-  );
-
-  await writeFile(TOKENS_FILE, JSON.stringify(tokens, null, 2));
 }
 
 // =============================================================================
@@ -204,8 +149,20 @@ export async function POST(request: NextRequest) {
     // =============================================================================
     if (['Venda', 'Recorrência', 'Assinatura Reativada', 'Pedido Confirmado', 'Aguardando Confirmação'].includes(eventType)) {
 
-      // 1. Salvar no arquivo JSON (para compatibilidade com sistema de tokens)
-      const accessData = await saveAccessTokenToFile(data);
+      // 1. Gerar token (sem salvar em arquivo - Vercel é read-only)
+      const token = generateToken();
+      const accessData = {
+        token,
+        email: email,
+        name: name,
+        planType: data.product_name || data.offer_name || data.prod_name || 'SoulSync',
+        orderId: data.transaction_id || data.order_id,
+        customerId: data.customer_id,
+        subscriptionId: data.subscription_id,
+        createdAt: new Date().toISOString(),
+        expiresAt: null,
+        isActive: true
+      };
       console.log('✅ Token gerado:', accessData.token);
 
       // 2. Salvar no banco de dados
@@ -236,11 +193,7 @@ export async function POST(request: NextRequest) {
     // =============================================================================
     if (['Assinatura Cancelada', 'Pedido Frustrado', 'Assinatura Renovada', 'Assinatura Ativada'].includes(eventType)) {
 
-      // 1. Desativar no arquivo JSON
-      await updateAccessStatusInFile(email, false);
-      console.log('❌ Acesso removido no arquivo JSON para:', email);
-
-      // 2. Desativar no banco de dados
+      // 1. Desativar no banco de dados
       try {
         await prisma.user.update({
           where: { email },
@@ -287,9 +240,9 @@ export async function POST(request: NextRequest) {
 // Endpoint para testar (GET)
 export async function GET() {
   return NextResponse.json({
-    status: 'Webhook Payt ativo (unificado)',
+    status: 'Webhook Payt ativo',
     provider: 'Payt',
-    features: ['JSON tokens', 'Database', 'Google Sheets', 'Email'],
+    features: ['Database', 'Google Sheets', 'Email'],
     timestamp: new Date().toISOString(),
     endpoint: '/api/webhook/payt'
   });
