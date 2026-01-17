@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
-import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -44,17 +43,16 @@ export async function POST(request: Request) {
             .setExpirationTime('24h') // 24 horas de sessão
             .sign(secret);
 
-        // Definir Cookie Seguro
-        const cookieStore = await cookies();
-        cookieStore.set('session_token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24, // 24 horas
-            path: '/',
-        });
+        // Definir Cookie Seguro via NextResponse
+        const response = NextResponse.json({ success: true });
 
-        return NextResponse.json({ success: true });
+        const cookieValue = `session_token=${token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24}; SameSite=Lax${
+            process.env.NODE_ENV === 'production' ? '; Secure' : ''
+        }`;
+
+        response.headers.set('Set-Cookie', cookieValue);
+
+        return response;
 
     } catch (error) {
         console.error('Login error:', error);
