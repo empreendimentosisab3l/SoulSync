@@ -6,6 +6,7 @@ import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const registerSchema = z.object({
     email: z.string().email(),
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
             .sign(secret);
 
         // Definir Cookie Seguro
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         cookieStore.set('session_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
