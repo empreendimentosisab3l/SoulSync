@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         }
 
         // Gerar JWT
-        const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret_for_build');
         const alg = 'HS256';
 
         const token = await new SignJWT({ userId: user.id, email: user.email })

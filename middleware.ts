@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-        const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret_for_build');
 
         // Verifica se o token é válido e não expirou
         await jwtVerify(token, secret);
