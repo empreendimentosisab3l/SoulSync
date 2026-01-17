@@ -6,6 +6,8 @@ import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+export const fetchCache = 'force-no-store';
 
 const registerSchema = z.object({
     email: z.string().email(),
