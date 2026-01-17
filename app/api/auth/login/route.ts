@@ -8,6 +8,11 @@ export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
     try {
+        // Skip during build time
+        if (process.env.NEXT_PHASE === 'phase-production-build') {
+            return NextResponse.json({ error: 'Build time' }, { status: 503 });
+        }
+
         const body = await request.json();
         const { email, password } = body;
 
