@@ -14,7 +14,7 @@ import QuizV3Input from "@/components/quiz-v3/QuizV3Input";
 export default function QuizStep() {
   const params = useParams();
   const router = useRouter();
-  const step = parseInt(params.step as string);
+  const step = parseInt(params?.step as string || '1');
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [isLoading, setIsLoading] = useState(false);
 

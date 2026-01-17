@@ -8,7 +8,7 @@ import Image from 'next/image';
 export default function UpsellPage() {
   const params = useParams();
   const router = useRouter();
-  const courseId = params.courseId as string;
+  const courseId = params?.courseId as string || '';
   const course = upsellCourses[courseId];
   const [showPaymentOnce, setShowPaymentOnce] = useState(true);
   const [imageError, setImageError] = useState(false);

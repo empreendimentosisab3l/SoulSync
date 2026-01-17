@@ -21,7 +21,7 @@ import QuizV2SummaryBMI from '@/components/QuizV2SummaryBMI';
 export default function QuizV2StepPage() {
   const router = useRouter();
   const params = useParams();
-  const step = parseInt(params.step as string);
+  const step = parseInt(params?.step as string || '1');
 
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [isLoading, setIsLoading] = useState(true);
