@@ -244,7 +244,7 @@ function MembersAreaContent() {
 
   useEffect(() => {
     if (!isLoading && !hasInitialized) {
-      const token = searchParams.get('token');
+      const token = searchParams?.get('token');
 
       if (token) {
         validateToken(token).then((isValid) => {
