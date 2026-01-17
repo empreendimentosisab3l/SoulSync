@@ -23,7 +23,10 @@
       "Bash(findstr:*)",
       "Bash(node scripts/upload-cannabis-image.js:*)",
       "Bash(npm run dev:clean:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(done)"
     ]
   }
 }

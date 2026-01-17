@@ -4,59 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**SoulSync (Hypnozio MVP)** - A comprehensive Direct Response Marketing funnel for a hypnotherapy weight-loss program. The application features a 21-step personalized quiz, payment integration with LastLink, automated email delivery via Resend, and a protected members area with 8 hypnotherapy audio sessions.
+**SoulSync (Hypnozio MVP)** - A comprehensive Direct Response Marketing funnel for a hypnotherapy weight-loss program. The application features a 21-step personalized quiz, payment integration with Payt, automated email delivery via Resend, and a protected members area with 8 hypnotherapy audio sessions.
 
 This is a complete MVP combining:
 - Quiz funnel for lead capture and qualification
-- Payment processing and subscription management
-- Token-based access control
-- Email automation
+- Payment processing via Payt webhook
+- Token-based access control (JSON file storage)
+- Email automation via Resend
 - Content delivery platform
-- **Analytics Dashboard**: Complete tracking and analytics system for quiz performance
-
-## Analytics Dashboard
-
-The project includes a comprehensive analytics dashboard for tracking quiz performance:
-
-- **Admin Login**: `/admin` (username: `admin`, password: `admin123`)
-- **Dashboard Overview**: `/dashboard` - General metrics, funnel, trends
-- **Quizzes List**: `/dashboard/quizzes` - All quizzes with performance metrics
-- **Quiz Details**: `/dashboard/quiz/[id]` - Detailed analysis per quiz
-- **Compare**: `/dashboard/compare` - Side-by-side quiz comparison
-- **Settings**: `/dashboard/settings` - Account and preferences
-
-### Analytics Features
-- Real-time tracking of quiz sessions
-- Conversion funnel visualization
-- Device and browser breakdown
-- UTM source tracking
-- Revenue and conversion rate metrics
-- Card-by-card performance analysis (ready for implementation)
-
-### Database (PostgreSQL + Prisma)
-- `quizzes`: Quiz configurations
-- `quiz_sessions`: User sessions with UTM and device data
-- `quiz_events`: Individual user interactions (views, answers)
-- `conversions`: Payment and conversion data
-- `users`: Admin authentication
-
-### Integration
-See `INTEGRACAO-ANALYTICS.md` for step-by-step integration guide with the existing quiz.
+- Google Analytics integration for tracking
 
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS 3.4.1
-- **Database**: PostgreSQL (Supabase) + Prisma ORM 5.22
-- **Authentication**: NextAuth 4.24 (for admin dashboard)
+- **Storage**: File-based JSON storage (data/access-tokens.json)
 - **Email**: Resend API 6.4.0
-- **Payment**: LastLink webhook integration
-- **State Management**: React hooks + localStorage + SWR (for API data)
-- **Access Control**: Token-based (members area) + Session-based (admin)
+- **Payment**: Payt webhook integration
+- **State Management**: React hooks + localStorage
+- **Access Control**: Token-based authentication
 - **Audio**: HTML5 Audio API with custom player
-- **Charts**: Recharts for data visualization
-- **Validation**: Zod for API schemas
+- **Analytics**: Google Analytics
 
 ## Development Commands
 
@@ -82,11 +51,6 @@ npm start
 # Run linter
 npm lint
 
-# Prisma / Database commands
-npm run db:generate      # Generate Prisma Client
-npm run db:push          # Push schema changes to database (no migration)
-npm run db:migrate       # Create and run migration
-npm run db:seed          # Seed database (creates admin user)
 
 # Quick start script (Windows)
 # Double-click iniciar.bat or run from terminal
@@ -428,8 +392,11 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
 # Optional: Custom sender email (requires verified domain)
 RESEND_FROM_EMAIL=onboarding@yourdomain.com
 
-# Optional: LastLink webhook secret for verification
-LASTLINK_WEBHOOK_SECRET=your-secret-key
+# Base URL for your application
+NEXT_PUBLIC_BASE_URL=https://yourdomain.com
+
+# Note: Payt access key is hardcoded in webhook for security
+# Payt Key: f630b87e16e6a6364027dcb2b465b9d4
 ```
 
 ## Customization Points
@@ -471,33 +438,49 @@ Edit result pages in `app/quiz/result/[1-5]/page.tsx`:
 - Change benefits list
 - Customize CTA buttons
 
-## Payment Integration (LastLink)
+## Payment Integration (Payt)
+
+### Webhook URL
+Configure in Payt dashboard: `https://yourdomain.com/api/webhook/payt`
+
+### Access Key
+Chave única: `f630b87e16e6a6364027dcb2b465b9d4` (configurar no postback)
 
 ### Webhook Events Handled
 
-1. **Purchase_Order_Confirmed**
-   - Generates access token
-   - Sends welcome email
-   - Stores customer data
+**Events that GRANT access:**
+- `Venda` - Nova venda confirmada
+- `Recorrência` - Pagamento recorrente
+- `Assinatura Reativada` - Assinatura foi reativada
+- `Pedido Confirmado` - Pedido confirmado
+- `Aguardando Confirmação` - Em processamento
 
-2. **Subscription_Created**
-   - Links subscription to token
-   - Updates token with subscriptionId
+**Events that REVOKE access:**
+- `Assinatura Cancelada` - Cliente cancelou
+- `Pedido Frustrado` - Pagamento falhou
+- `Assinatura Renovada` - Renovação (recria token)
 
-3. **Subscription_Canceled**
-   - Sets isActive = false
-   - Revokes access
+**Events with WARNING (keeps access for now):**
+- `Assinatura em Atraso` - Pagamento atrasado
+
+### What happens on payment confirmation:
+1. Generates unique access token
+2. Stores customer data in `data/access-tokens.json`
+3. Sends automatic email with magic link
+4. User can access members area immediately
 
 ### Testing Webhooks
 
-Use `test-webhook.bat` or curl:
 ```bash
-curl -X POST http://localhost:3000/api/webhook/lastlink \
+curl -X POST http://localhost:3000/api/webhook/payt \
   -H "Content-Type: application/json" \
   -d '{
-    "event": "Purchase_Order_Confirmed",
-    "order": {...},
-    "customer": {...}
+    "event": "Venda",
+    "customer_email": "cliente@example.com",
+    "customer_name": "Cliente Teste",
+    "product_name": "SoulSync Premium",
+    "transaction_id": "12345",
+    "access_key": "f630b87e16e6a6364027dcb2b465b9d4"
   }'
 ```
 

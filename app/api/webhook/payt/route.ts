@@ -5,6 +5,9 @@ import path from 'path';
 import crypto from 'crypto';
 import { sendAccessEmail } from '@/lib/email/sendAccessEmail';
 
+// Chave de acesso Payt (configurada no postback)
+const PAYT_ACCESS_KEY = 'f630b87e16e6a6364027dcb2b465b9d4';
+
 // Diretório para armazenar tokens
 const DATA_DIR = path.join(process.cwd(), 'data');
 const TOKENS_FILE = path.join(DATA_DIR, 'access-tokens.json');
@@ -24,6 +27,11 @@ function generateToken(): string {
   return crypto.randomBytes(32).toString('hex');
 }
 
+// Validar chave de acesso Payt
+function validatePaytKey(requestKey: string): boolean {
+  return requestKey === PAYT_ACCESS_KEY;
+}
+
 // Salvar token
 async function saveAccessToken(data: any) {
   await ensureDataDir();
@@ -33,14 +41,14 @@ async function saveAccessToken(data: any) {
   const token = generateToken();
   const accessData = {
     token,
-    email: data.customer?.email,
-    name: data.customer?.name,
-    planType: data.product?.name,
-    orderId: data.order?.id,
-    customerId: data.customer?.id,
-    subscriptionId: data.subscription?.id,
+    email: data.customer_email || data.email,
+    name: data.customer_name || data.name,
+    planType: data.product_name || data.offer_name || 'SoulSync',
+    orderId: data.transaction_id || data.order_id,
+    customerId: data.customer_id,
+    subscriptionId: data.subscription_id,
     createdAt: new Date().toISOString(),
-    expiresAt: data.subscription?.next_charge_date || null,
+    expiresAt: null, // Payt não envia data de expiração
     isActive: true
   };
 
@@ -62,21 +70,46 @@ async function removeAccess(email: string) {
   await writeFile(TOKENS_FILE, JSON.stringify(tokens, null, 2));
 }
 
-// Endpoint principal do webhook
+// Reativar acesso
+async function reactivateAccess(email: string) {
+  await ensureDataDir();
+
+  let tokens = JSON.parse(await readFile(TOKENS_FILE, 'utf-8'));
+  tokens = tokens.map((t: any) =>
+    t.email === email ? { ...t, isActive: true } : t
+  );
+
+  await writeFile(TOKENS_FILE, JSON.stringify(tokens, null, 2));
+}
+
+// Endpoint principal do webhook Payt
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    console.log('📩 Webhook recebido:', {
-      event: data.event_type,
-      customer: data.customer?.email,
-      product: data.product?.name
+    console.log('📩 Webhook Payt recebido:', {
+      event: data.event,
+      customer: data.customer_email,
+      product: data.product_name || data.offer_name
     });
 
-    const eventType = data.event_type;
+    // Validar chave de acesso se enviada
+    if (data.access_key && !validatePaytKey(data.access_key)) {
+      console.error('❌ Chave de acesso inválida');
+      return NextResponse.json({
+        error: 'Invalid access key'
+      }, { status: 401 });
+    }
+
+    const eventType = data.event;
 
     switch (eventType) {
-      case 'Purchase_Order_Confirmed':
+      // Eventos de venda
+      case 'Venda':
+      case 'Recorrência':
+      case 'Assinatura Reativada':
+      case 'Pedido Confirmado':
+      case 'Aguardando Confirmação':
         // Pagamento confirmado - gerar token e liberar acesso
         const accessData = await saveAccessToken(data);
 
@@ -95,42 +128,44 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: 'Acesso liberado, email enviado e conversão registrada',
+          message: 'Acesso liberado e email enviado',
           token: accessData.token,
           emailSent: emailResult.success
         });
 
-      case 'Product_access_ended':
-      case 'Subscription_Canceled':
-      case 'Subscription_Expired':
+      // Eventos de cancelamento
+      case 'Assinatura Cancelada':
+      case 'Assinatura Renovada':
+      case 'Assinatura Ativada':
+      case 'Pedido Frustrado':
         // Remover acesso
-        await removeAccess(data.customer?.email);
-        console.log('❌ Acesso removido para:', data.customer?.email);
+        const email = data.customer_email || data.email;
+        await removeAccess(email);
+        console.log('❌ Acesso removido para:', email);
 
         return NextResponse.json({
           success: true,
           message: 'Acesso removido'
         });
 
-      case 'Payment_Refund':
-        // Processar reembolso
-        await removeAccess(data.customer?.email);
-        console.log('💰 Reembolso processado para:', data.customer?.email);
-
+      // Evento de reativação
+      case 'Assinatura em Atraso':
+        // Manter acesso temporariamente (você pode decidir remover)
+        console.log('⚠️ Assinatura em atraso:', data.customer_email);
         return NextResponse.json({
           success: true,
-          message: 'Reembolso processado'
+          message: 'Assinatura em atraso notificada'
         });
 
       default:
-        console.log('ℹ️ Evento não tratado:', eventType);
+        console.log('ℹ️ Evento Payt não tratado:', eventType);
         return NextResponse.json({
           success: true,
           message: 'Evento recebido'
         });
     }
   } catch (error) {
-    console.error('❌ Erro no webhook:', error);
+    console.error('❌ Erro no webhook Payt:', error);
     return NextResponse.json({
       error: 'Internal error',
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -141,7 +176,9 @@ export async function POST(request: NextRequest) {
 // Endpoint para testar (GET)
 export async function GET() {
   return NextResponse.json({
-    status: 'Webhook endpoint ativo',
-    timestamp: new Date().toISOString()
+    status: 'Webhook Payt ativo',
+    provider: 'Payt',
+    timestamp: new Date().toISOString(),
+    endpoint: '/api/webhook/payt'
   });
 }

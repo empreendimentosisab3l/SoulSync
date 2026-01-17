@@ -1,176 +1,56 @@
-// Google Analytics tracking utilities
+/**
+ * Analytics Stub
+ *
+ * Este arquivo é um stub vazio para manter compatibilidade com código existente.
+ * O tracking real de analytics agora é feito via Google Analytics.
+ *
+ * Todas as funções abaixo são no-ops (não fazem nada).
+ */
 
-declare global {
-  interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
-  }
-}
-
-export const GA_TRACKING_ID = 'G-ZRBSTXNX5F';
-
-// Track pageviews
-export const pageview = (url: string) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', GA_TRACKING_ID, {
-      page_path: url,
-    });
-  }
+// No-op functions para evitar erros de build
+export const pageview = (...args: any[]) => {
+  // Google Analytics deve ser adicionado via Google Tag Manager ou script no layout
 };
 
-// Track custom events
-export const event = ({ action, category, label, value }: {
-  action: string;
-  category: string;
-  label?: string;
-  value?: number;
-}) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', action, {
-      event_category: category,
-      event_label: label,
-      value: value,
-    });
-  }
-};
+// Quiz V2
+export const trackQuizStart = (...args: any[]) => {};
+export const trackQuizStep = (...args: any[]) => {};
+export const trackQuizAnswer = (...args: any[]) => {};
+export const trackQuizComplete = (...args: any[]) => {};
+export const trackEmailCapture = (...args: any[]) => {};
+export const trackCheckoutView = (...args: any[]) => {};
+export const trackPurchaseIntent = (...args: any[]) => {};
+export const trackFreeTrialStart = (...args: any[]) => {};
+export const trackConversion = (...args: any[]) => {};
 
-// Specific tracking functions for Quiz V2
-export const trackQuizStart = () => {
-  event({
-    action: 'quiz_start',
-    category: 'Quiz V2',
-    label: 'Quiz Started',
-  });
-};
+// Quiz V3
+export const trackQuizV3Start = (...args: any[]) => {};
+export const trackQuizV3Step = (...args: any[]) => {};
+export const trackQuizV3Answer = (...args: any[]) => {};
+export const trackQuizV3Complete = (...args: any[]) => {};
+export const trackQuizV3EmailCapture = (...args: any[]) => {};
+export const trackQuizV3CheckoutView = (...args: any[]) => {};
+export const trackQuizV3PurchaseIntent = (...args: any[]) => {};
+export const trackQuizV3FreeTrialStart = (...args: any[]) => {};
 
-export const trackQuizStep = (step: number, questionType: string) => {
-  event({
-    action: 'quiz_step',
-    category: 'Quiz V2',
-    label: `Step ${step} - ${questionType}`,
-    value: step,
-  });
-};
-
-export const trackQuizAnswer = (step: number, answer: any) => {
-  event({
-    action: 'quiz_answer',
-    category: 'Quiz V2',
-    label: `Step ${step}`,
-    value: step,
-  });
-};
-
-export const trackQuizComplete = (totalSteps: number) => {
-  event({
-    action: 'quiz_complete',
-    category: 'Quiz V2',
-    label: 'Quiz Completed',
-    value: totalSteps,
-  });
-};
-
-export const trackCheckoutView = () => {
-  event({
-    action: 'checkout_view',
-    category: 'Quiz V2',
-    label: 'Checkout Page Viewed',
-  });
-};
-
-export const trackPurchaseIntent = (plan: string, price: number) => {
-  event({
-    action: 'purchase_intent',
-    category: 'Quiz V2',
-    label: `Plan: ${plan}`,
-    value: price,
-  });
-};
-
-export const trackEmailCapture = (email: string) => {
-  event({
-    action: 'email_capture',
-    category: 'Quiz V2',
-    label: 'Email Captured',
-  });
-};
-
-export const trackFreeTrialStart = () => {
-  event({
-    action: 'free_trial_start',
-    category: 'Quiz V2',
-    label: 'Free Trial Started',
-  });
-};
-
-// =====================
-// Quiz V3 Tracking Functions
-// =====================
-
-export const trackQuizV3Start = () => {
-  event({
-    action: 'quiz_start',
-    category: 'Quiz V3',
-    label: 'Quiz V3 Started',
-  });
-};
-
-export const trackQuizV3Step = (step: number, questionType: string) => {
-  event({
-    action: 'quiz_step',
-    category: 'Quiz V3',
-    label: `Step ${step} - ${questionType}`,
-    value: step,
-  });
-};
-
-export const trackQuizV3Answer = (step: number, answer: any) => {
-  event({
-    action: 'quiz_answer',
-    category: 'Quiz V3',
-    label: `Step ${step}`,
-    value: step,
-  });
-};
-
-export const trackQuizV3Complete = (totalSteps: number) => {
-  event({
-    action: 'quiz_complete',
-    category: 'Quiz V3',
-    label: 'Quiz V3 Completed',
-    value: totalSteps,
-  });
-};
-
-export const trackQuizV3CheckoutView = () => {
-  event({
-    action: 'checkout_view',
-    category: 'Quiz V3',
-    label: 'Checkout Page Viewed',
-  });
-};
-
-export const trackQuizV3PurchaseIntent = (plan: string, price: number) => {
-  event({
-    action: 'purchase_intent',
-    category: 'Quiz V3',
-    label: `Plan: ${plan}`,
-    value: price,
-  });
-};
-
-export const trackQuizV3EmailCapture = () => {
-  event({
-    action: 'email_capture',
-    category: 'Quiz V3',
-    label: 'Email Captured',
-  });
-};
-
-export const trackQuizV3FreeTrialStart = () => {
-  event({
-    action: 'free_trial_start',
-    category: 'Quiz V3',
-    label: 'Free Trial Started',
-  });
+// Para compatibilidade com qualquer outro código
+export default {
+  pageview,
+  trackQuizStart,
+  trackQuizStep,
+  trackQuizAnswer,
+  trackQuizComplete,
+  trackEmailCapture,
+  trackCheckoutView,
+  trackPurchaseIntent,
+  trackFreeTrialStart,
+  trackConversion,
+  trackQuizV3Start,
+  trackQuizV3Step,
+  trackQuizV3Answer,
+  trackQuizV3Complete,
+  trackQuizV3EmailCapture,
+  trackQuizV3CheckoutView,
+  trackQuizV3PurchaseIntent,
+  trackQuizV3FreeTrialStart,
 };
