@@ -21,7 +21,7 @@ export default function QuizV3Checkout() {
   const [currentBmi, setCurrentBmi] = useState<number | undefined>(undefined);
   const [targetBmi, setTargetBmi] = useState<number | undefined>(undefined);
   const [weightLoss, setWeightLoss] = useState<number | undefined>(undefined);
-  const [openFaq, setOpenFaq] = useState<number | null>(0); // Primeiro FAQ aberto por padrão
+  const [openFaq, setOpenFaq] = useState<number | null>(null); // Nenhum FAQ aberto por padrão
   const [eventType, setEventType] = useState<string>(''); // Evento escolhido no card 41
   const [eventDate, setEventDate] = useState<string>(''); // Data do evento do card 42
   const [couponCode, setCouponCode] = useState<string>('HYPNO50'); // Código do cupom dinâmico
@@ -160,7 +160,7 @@ export default function QuizV3Checkout() {
     },
     {
       question: "Como posso cancelar minha assinatura?",
-      answer: "Os cancelamentos são tratados diretamente com a Apple e podem ser solicitados seguindo as instruções aqui. Caso ainda tenha alguma dúvida sobre como cancelar sua assinatura, entre em contato conosco pelo e-mail contato@soulsync.com.",
+      answer: "Os cancelamentos são tratados diretamente com a Payt e podem ser solicitados seguindo as instruções aqui. Caso ainda tenha alguma dúvida sobre como cancelar sua assinatura, entre em contato conosco pelo e-mail suporte@soulsync.com.",
     },
     {
       question: "É seguro usar a auto-hipnose?",
@@ -529,17 +529,25 @@ export default function QuizV3Checkout() {
           <div className="space-y-8 max-w-3xl mx-auto">
             {/* Item 1 */}
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-1 text-teal-600">
+              {/* Icon Desktop */}
+              <div className="hidden sm:flex w-10 h-10 rounded-full bg-teal-100 items-center justify-center flex-shrink-0 mt-1 text-teal-600">
                 <Check className="w-6 h-6" />
               </div>
-              <div className="bg-gray-50 rounded-2xl p-6 flex-1 border border-gray-100">
-                <div className="text-gray-900 font-bold text-xl mb-2">
-                  Sessões de hipnose personalizadas
+              <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 flex-1 border border-gray-100">
+                {/* Mobile Header */}
+                <div className="flex items-start gap-3 mb-2 sm:block">
+                  <div className="sm:hidden w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 mt-1">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div className="text-gray-900 font-bold text-lg sm:text-xl mb-0 sm:mb-2 leading-tight">
+                    Sessões de hipnose personalizadas
+                  </div>
                 </div>
-                <div className="text-teal-600 font-medium mb-3 border-b border-gray-200 pb-2 inline-block">
+
+                <div className="text-teal-600 font-medium mb-3 border-b border-gray-200 pb-2 inline-block text-sm sm:text-base">
                   Baseadas nas suas dores e objetivos
                 </div>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 text-sm sm:text-base">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
                     <span>30+ sessões de áudio (15-25 min cada)</span>
@@ -554,17 +562,23 @@ export default function QuizV3Checkout() {
 
             {/* Item 2 */}
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-1 text-teal-600">
+              <div className="hidden sm:flex w-10 h-10 rounded-full bg-teal-100 items-center justify-center flex-shrink-0 mt-1 text-teal-600">
                 <Check className="w-6 h-6" />
               </div>
-              <div className="bg-gray-50 rounded-2xl p-6 flex-1 border border-gray-100">
-                <div className="text-gray-900 font-bold text-xl mb-2">
-                  Reprogramação mental profunda
+              <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 flex-1 border border-gray-100">
+                <div className="flex items-start gap-3 mb-2 sm:block">
+                  <div className="sm:hidden w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 mt-1">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div className="text-gray-900 font-bold text-lg sm:text-xl mb-0 sm:mb-2 leading-tight">
+                    Reprogramação mental profunda
+                  </div>
                 </div>
-                <div className="text-teal-600 font-medium mb-3 border-b border-gray-200 pb-2 inline-block">
+
+                <div className="text-teal-600 font-medium mb-3 border-b border-gray-200 pb-2 inline-block text-sm sm:text-base">
                   Elimine a causa raiz do problema
                 </div>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 text-sm sm:text-base">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
                     <span>Sugestões pós-hipnóticas poderosas</span>
@@ -579,14 +593,20 @@ export default function QuizV3Checkout() {
 
             {/* Item 3 */}
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-1 text-teal-600">
+              <div className="hidden sm:flex w-10 h-10 rounded-full bg-teal-100 items-center justify-center flex-shrink-0 mt-1 text-teal-600">
                 <Check className="w-6 h-6" />
               </div>
-              <div className="bg-gray-50 rounded-2xl p-6 flex-1 border border-gray-100">
-                <div className="text-gray-900 font-bold text-xl mb-2">
-                  Meditações anti-ansiedade
+              <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 flex-1 border border-gray-100">
+                <div className="flex items-start gap-3 mb-2 sm:block">
+                  <div className="sm:hidden w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 mt-1">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div className="text-gray-900 font-bold text-lg sm:text-xl mb-0 sm:mb-2 leading-tight">
+                    Meditações anti-ansiedade
+                  </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                   15+ meditações guiadas para controlar a ansiedade e o estresse que levam à compulsão alimentar
                 </p>
               </div>
@@ -594,14 +614,20 @@ export default function QuizV3Checkout() {
 
             {/* Item 4 */}
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-1 text-teal-600">
+              <div className="hidden sm:flex w-10 h-10 rounded-full bg-teal-100 items-center justify-center flex-shrink-0 mt-1 text-teal-600">
                 <Check className="w-6 h-6" />
               </div>
-              <div className="bg-gray-50 rounded-2xl p-6 flex-1 border border-gray-100">
-                <div className="text-gray-900 font-bold text-xl mb-2">
-                  Técnicas de autocontrole
+              <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 flex-1 border border-gray-100">
+                <div className="flex items-start gap-3 mb-2 sm:block">
+                  <div className="sm:hidden w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 mt-1">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div className="text-gray-900 font-bold text-lg sm:text-xl mb-0 sm:mb-2 leading-tight">
+                    Técnicas de autocontrole
+                  </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                   Protocolo de 60 segundos para usar em momentos de desejo incontrolável
                 </p>
               </div>
@@ -609,14 +635,20 @@ export default function QuizV3Checkout() {
 
             {/* Item 5 */}
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-1 text-teal-600">
+              <div className="hidden sm:flex w-10 h-10 rounded-full bg-teal-100 items-center justify-center flex-shrink-0 mt-1 text-teal-600">
                 <Check className="w-6 h-6" />
               </div>
-              <div className="bg-gray-50 rounded-2xl p-6 flex-1 border border-gray-100">
-                <div className="text-gray-900 font-bold text-xl mb-2">
-                  Acompanhamento de progresso
+              <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 flex-1 border border-gray-100">
+                <div className="flex items-start gap-3 mb-2 sm:block">
+                  <div className="sm:hidden w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 mt-1">
+                    <Check className="w-5 h-5" />
+                  </div>
+                  <div className="text-gray-900 font-bold text-lg sm:text-xl mb-0 sm:mb-2 leading-tight">
+                    Acompanhamento de progresso
+                  </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                   Gráficos visuais e celebração de marcos para manter a motivação
                 </p>
               </div>
