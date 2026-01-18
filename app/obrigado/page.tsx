@@ -3,24 +3,15 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Check } from 'lucide-react'
-import Image from 'next/image'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function ThankYouPage() {
   const router = useRouter()
+  const { refreshAuth } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [selectedTip, setSelectedTip] = useState<number | null>(null)
   const [isCreatingAccount, setIsCreatingAccount] = useState(false)
-
-  // useSearchParams hook needs to be inside Suspense boundary or standard client component
-  // Since this is a client component, we use window.location or props if passed, but useSearchParams is better in Next 13+
-  // We need to import useSearchParams
-  /* 
-     NOTE: To use useSearchParams in app directory client component, 
-     we usually need to wrap in Suspense. For simplicity here, 
-     we'll assume the page is rendered as is.
-  */
 
   useEffect(() => {
     // Tenta pegar email da URL primeiro
@@ -72,9 +63,12 @@ export default function ThankYouPage() {
       }
 
       // Sucesso!
-      // Salvar flag local apenas para UX imediata, mas a auth real virá do cookie/session
+      // Salvar flag local apenas para UX imediata
       localStorage.setItem('userEmail', email)
       localStorage.setItem('hasCreatedAccount', 'true')
+
+      // Force session sync
+      await refreshAuth()
 
       // Redirecionar
       router.push('/membros')
@@ -85,10 +79,6 @@ export default function ThankYouPage() {
       setIsCreatingAccount(false)
     }
   }
-
-  const planPrice = 359.58
-  const discount = -182.80
-  const total = 176.78
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#f5f5f5] py-8">
@@ -191,10 +181,6 @@ export default function ThankYouPage() {
             </button>
           </form>
         </div>
-
-
-
-
 
         {/* Espaçamento final */}
         <div className="h-12"></div>

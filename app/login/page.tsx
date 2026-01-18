@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
     const router = useRouter();
+    const { refreshAuth } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -25,6 +27,8 @@ export default function LoginPage() {
             });
 
             if (res.ok) {
+                // Force auth check to read session cookie
+                await refreshAuth();
                 router.push('/membros'); // Redireciona para área de membros
             } else {
                 const data = await res.json();

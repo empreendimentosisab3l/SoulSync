@@ -16,6 +16,7 @@ interface AuthContextType {
   login: (email: string, token?: string) => Promise<boolean>;
   logout: () => void;
   validateToken: (token: string) => Promise<boolean>;
+  refreshAuth: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,6 +36,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [hasCheckedAuth]);
 
   async function checkAuth() {
+    // ... logic remains same, just ensuring function references are correct
+    setIsLoading(true); // Restart loading when refreshing
     const savedToken = localStorage.getItem('accessToken');
     const savedUserData = localStorage.getItem('userData');
 
@@ -213,6 +216,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         validateToken,
+        refreshAuth: checkAuth,
       }}
     >
       {children}
