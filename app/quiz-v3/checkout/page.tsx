@@ -143,7 +143,7 @@ export default function QuizV3Checkout() {
     trackQuizV3PurchaseIntent('4 semanas', 39);
 
     // Prepare user data for checkout
-    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // Link do produto de R$ 14,90
+    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // Link do produto de R$ 14,97
 
     if (userData.name) checkoutUrl.searchParams.set('name', userData.name);
     if (userData.email) checkoutUrl.searchParams.set('email', userData.email);
@@ -405,7 +405,7 @@ export default function QuizV3Checkout() {
                     <div className="font-bold text-gray-900 text-lg">4 SEMANAS</div>
                     <div className="flex items-center gap-2 text-sm">
                       <span className="text-gray-400 line-through">R$ 99,90</span>
-                      <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">R$ 14,90</span>
+                      <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">R$ 14,97</span>
                     </div>
                   </div>
                 </div>
