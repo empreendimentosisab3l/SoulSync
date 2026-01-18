@@ -63,7 +63,7 @@ export default function Result5() {
   };
 
   const handleCheckout = () => {
-    window.location.href = "https://lastlink.com/p/CDD3C0290/checkout-payment";
+    window.location.href = "https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366";
   };
 
   return (

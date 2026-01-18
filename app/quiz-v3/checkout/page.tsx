@@ -142,8 +142,15 @@ export default function QuizV3Checkout() {
     // Track purchase intent
     trackQuizV3PurchaseIntent('4 semanas', 39);
 
-    // TODO: Integração com pagamento (LastLink)
-    alert('Integração com pagamento será implementada aqui!');
+    // Prepare user data for checkout
+    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // Link do produto de R$ 14,90
+
+    if (userData.name) checkoutUrl.searchParams.set('name', userData.name);
+    if (userData.email) checkoutUrl.searchParams.set('email', userData.email);
+    // if (userData.phone) checkoutUrl.searchParams.set('phone', userData.phone);
+
+    // Redirect to PayT
+    window.location.href = checkoutUrl.toString();
   };
 
   const faqs = [
@@ -386,7 +393,7 @@ export default function QuizV3Checkout() {
 
           <div className="space-y-4 max-w-2xl mx-auto">
             {/* Plano 1 Mês - Selecionado */}
-            <div className="bg-white border-2 border-teal-600 rounded-3xl p-6 cursor-pointer shadow-xl shadow-teal-600/5 relative transform scale-[1.02] transition-transform">
+            <div onClick={handleCheckout} className="bg-white border-2 border-teal-600 rounded-3xl p-6 cursor-pointer shadow-xl shadow-teal-600/5 relative transform scale-[1.02] transition-transform">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
                 Mais Popular
               </div>
