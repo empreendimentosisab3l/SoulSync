@@ -21,7 +21,6 @@ yWaAJjlT6VeRkIdlHbAEpz0d/EWHZ7TKSM9+y+qK0aSWiMWvThDyauk/mEqyDSbr
 PsC+S2jDAgMBAAECggEAXltAl87KSKkLfMIxx3ABl02qGLhKQ+JqCssm+LDZOqSQ
 dXi9BTs/e0Hd+xLoPjTKhU0izP1KtihXJiF2HuZyBQuYXKMhpNRyvBR4jxbXSbdE
 gLkA+wPjR3bFBPWm4RVQoWZYos+02iv+osou4KOZ6P+Zxc2aj9KPhrS7TdDc3cms
-cS4tZua5gvZ4TWqCUYG0rxJb5B33+KRx67MdXb1pdD7Q1nWb2DMn3qbFmPj+WK6I
 fNSWABuSnJVibcxRUaCS9IQUpujZQ7BefwzGZ0yLB0khvkhgmOB3yzWRfXmn3AWD
 LDany+mF/rQ8vJX+kHksC0unmV8rvgmzqJO2sm3s4QKBgQD5oOnBdHRieDavul3d
 3vj+sBVgB7GgGndrGeck/gZlw0FTQNCp17Kmes+Sn5U4wuzUa4Z+TPmpNbrR8w1M
@@ -156,7 +155,7 @@ export async function POST(request: NextRequest) {
     // =============================================================================
     // EVENTOS QUE LIBERAM ACESSO
     // =============================================================================
-    if (['Venda', 'Recorrência', 'Assinatura Reativada', 'Pedido Confirmado', 'Aguardando Confirmação'].includes(eventType)) {
+    if (['Venda', 'Recorrência', 'Assinatura Reativada', 'Pedido Confirmado', 'Aguardando Confirmação', 'Assinatura Renovada', 'Assinatura Ativada'].includes(eventType)) {
 
       // 1. Gerar token (sem salvar em arquivo - Vercel é read-only)
       const token = generateToken();
@@ -200,7 +199,7 @@ export async function POST(request: NextRequest) {
     // =============================================================================
     // EVENTOS QUE REMOVEM ACESSO
     // =============================================================================
-    if (['Assinatura Cancelada', 'Pedido Frustrado', 'Assinatura Renovada', 'Assinatura Ativada'].includes(eventType)) {
+    if (['Assinatura Cancelada', 'Pedido Frustrado', 'Venda Cancelada', 'Reembolso', 'Chargeback', 'Disputa', 'Devolvida', 'Reembolsada'].includes(eventType)) {
 
       // 1. Desativar no banco de dados
       try {
