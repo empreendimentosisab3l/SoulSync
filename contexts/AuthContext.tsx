@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const savedToken = localStorage.getItem('accessToken');
     const savedUserData = localStorage.getItem('userData');
 
-    // Check if it's a test token - always accept without validation
+    // 1. Check if it's a test token - always accept without validation
     if (savedToken && savedToken.startsWith('test-free-trial-')) {
       const testUser = {
         name: 'Usuário Teste',
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Check if it's a local user (created in thank you page)
+    // 2. Check if it's a local user (created in thank you page)
     if (savedToken && savedToken.startsWith('local-')) {
       if (savedUserData) {
         try {
@@ -71,17 +71,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    // 3. Existing LocalStorage Logic
     if (savedUserData) {
       try {
         const userData = JSON.parse(savedUserData);
-        // Aceitar tanto usuários com token quanto usuários locais
         setUser(userData);
+        setIsLoading(false);
+        return; // Found in local storage, valid enough for now
       } catch (error) {
         console.error('Erro ao carregar dados do usuário:', error);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userData');
       }
     }
+
+    // 4. [NEW] Check Server Session (Cookie)
+    // Se não achou nada no localStorage, pergunta pro servidor
+    try {
+      const res = await fetch('/api/auth/me');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated && data.user) {
+          console.log('✅ Sessão de servidor encontrada:', data.user.email);
+          const userData = {
+            name: data.user.name,
+            email: data.user.email,
+            planType: data.user.planType,
+            isLocalUser: false
+          };
+
+          setUser(userData);
+          // Opcional: Persistir no localStorage para evitar hits repetidos na API, 
+          // mas manter o cookie como fonte da verdade é mais seguro.
+          // Por enquanto, vamos confiar no cookie e não salvar token falso no localStorage.
+          setIsLoading(false);
+          return;
+        }
+      }
+    } catch (error) {
+      // Silently fail, just means no session
+    }
+
     setIsLoading(false);
   }
 
@@ -147,8 +177,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // Verificar se é usuário local e se credenciais conferem
         if (userData.isLocalUser &&
-            userData.email.toLowerCase() === email.toLowerCase() &&
-            userData.password === password) {
+          userData.email.toLowerCase() === email.toLowerCase() &&
+          userData.password === password) {
           console.log('✅ Login bem-sucedido!');
           setUser(userData);
           setIsLoading(false);
