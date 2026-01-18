@@ -27,6 +27,16 @@ export async function GET(request: NextRequest) {
                 return NextResponse.json({ authenticated: false }, { status: 401 });
             }
 
+            // [NEW] Enforce Status Check
+            // Acesso permitido apenas para 'active' ou 'pending_password'
+            const validStatuses = ['active', 'pending_password'];
+            if (!validStatuses.includes(user.status)) {
+                return NextResponse.json({
+                    authenticated: false,
+                    error: 'Account inactive'
+                }, { status: 403 });
+            }
+
             return NextResponse.json({
                 authenticated: true,
                 user: {
