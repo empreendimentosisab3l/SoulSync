@@ -44,54 +44,33 @@ export default function SalesPage() {
 
                 <div className="container mx-auto px-4 relative z-10 max-w-4xl text-center">
                     <div className="inline-block bg-teal-900/50 border border-teal-500/30 text-teal-300 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                        ✨ Nova Descoberta da Neurociência
+                        🧬 A Ciência do Emagrecimento Natural
                     </div>
 
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
-                        Reprograme sua mente para <br className="hidden sm:block" />
+                        Aumente seus níveis de <br className="hidden sm:block" />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">
-                            emagrecer em 4 semanas
+                            GLP-1 e GIP naturalmente
                         </span>
-                        <br />sem dietas restritivas.
+                        <br />com o poder da sua mente.
                     </h1>
 
                     <p className="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Elimine a ansiedade e a compulsão alimentar na raiz. <br />
-                        Basta ouvir 15 minutos por dia.
+                        Descubra como a hipnoterapia pode estimular os "hormônios da saciedade" no seu corpo, <br className="hidden sm:block" />
+                        eliminando a fome emocional sem injeções ou efeitos colaterais.
                     </p>
-
-                    {/* VSL Placeholder / Hero Image */}
-                    <div className="relative aspect-video max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 mb-10 flex items-center justify-center group cursor-pointer overflow-hidden">
-                        {/* Image representing the app interface */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent z-10"></div>
-                        <img
-                            src="/images/checkout-hero-bg.jpg" // Placeholder path, browser will ignore if missing, showing color
-                            alt=""
-                            className="absolute inset-0 w-full h-full object-cover opacity-50"
-                            onError={(e) => { e.currentTarget.src = 'https://placehold.co/1200x675/1e293b/white?text=Apresenta%C3%A7%C3%A3o+do+M%C3%A9todo+SoulSync'; }}
-                        />
-
-                        {/* Play Button */}
-                        <div className="w-20 h-20 bg-teal-500 rounded-full flex items-center justify-center pl-1 shadow-lg shadow-teal-500/20 z-20 group-hover:scale-110 transition-transform">
-                            <Play className="w-8 h-8 text-white fill-current" />
-                        </div>
-
-                        <div className="absolute bottom-6 left-0 right-0 z-20 text-center">
-                            <p className="text-sm font-medium text-gray-300">Assista ao vídeo explicativo (2min)</p>
-                        </div>
-                    </div>
 
                     <button
                         onClick={handleCheckout}
                         className="w-full sm:w-auto bg-teal-500 text-white px-8 py-5 rounded-full font-bold text-xl shadow-lg shadow-teal-500/25 hover:bg-teal-400 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 mx-auto"
                     >
-                        QUERO REPROGRAMAR MINHA MENTE
+                        QUERO ATIVAR MEU GLP-1 NATURAL
                         <ArrowRight className="w-5 h-5" />
                     </button>
 
                     <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-400">
                         <div className="flex text-yellow-400"><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /></div>
-                        <span>4.9/5 baseado em 12.400+ alunas</span>
+                        <span>Potencialize seus resultados agora</span>
                     </div>
                 </div>
             </header>
@@ -130,31 +109,34 @@ export default function SalesPage() {
                     <div className="text-center mb-16">
                         <span className="text-teal-600 font-bold uppercase tracking-wider text-sm">O Método SoulSync</span>
                         <h2 className="text-3xl sm:text-4xl font-extrabold mt-3 text-gray-900">
-                            A Neurociência a seu favor
+                            A Ponte Mente-Intestino
                         </h2>
+                        <p className="max-w-2xl mx-auto mt-4 text-gray-600">
+                            Estudos recentes indicam que a hipnoterapia pode fortalecer a comunicação entre seu cérebro e seu sistema digestivo, otimizando a liberação natural de hormônios.
+                        </p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
                         <div className="text-center">
                             <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-teal-600">
-                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            </div>
-                            <h3 className="font-bold text-xl mb-3">1. Relaxamento Profundo</h3>
-                            <p className="text-gray-600">Nossas sessões de áudio induzem um estado de onda cerebral Theta, onde sua mente subconsciente está mais receptiva.</p>
-                        </div>
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-teal-600">
                                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             </div>
-                            <h3 className="font-bold text-xl mb-3">2. Reprogramação</h3>
-                            <p className="text-gray-600">Substituímos os padrões neurais de "comer por ansiedade" por novos caminhos de autocontrole e calma.</p>
+                            <h3 className="font-bold text-xl mb-3">1. Ativação via Relaxamento</h3>
+                            <p className="text-gray-600">Ao reduzir drasticamente o cortisol (estresse), seu corpo sai do modo "luta ou fuga" e entra no modo de regulação hormonal ideal.</p>
                         </div>
                         <div className="text-center">
                             <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-teal-600">
-                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
                             </div>
-                            <h3 className="font-bold text-xl mb-3">3. Resultados Naturais</h3>
-                            <p className="text-gray-600">Você começa a rejeitar doces e excessos naturalmente, sem sentir que está se privando de nada.</p>
+                            <h3 className="font-bold text-xl mb-3">2. Estímulo do GLP-1</h3>
+                            <p className="text-gray-600">Sessões específicas focam na sensação de saciedade plena, enviando sinais ao cérebro para aumentar a produção natural de GLP-1 e GIP.</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-teal-600">
+                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h3 className="font-bold text-xl mb-3">3. Resultados Amplificados</h3>
+                            <p className="text-gray-600">Potencialize qualquer esforço de emagrecimento que você já faz. É o "turbo" mental que faltava para seus resultados aparecerem.</p>
                         </div>
                     </div>
                 </div>
