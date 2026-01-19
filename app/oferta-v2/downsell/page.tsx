@@ -89,12 +89,11 @@ export default function DownsellPage() {
                     seu dia de sorte.
                 </h1>
 
-                {/* 3. THE GIANT CLICKABLE CARD */}
-                <div className="w-full">
-                    {/* Wrapped in 'a' tag for full clickability */}
+                {/* 3. THE RAW PAYT BUTTON (Replaces Giant Card) */}
+                {/* 3. THE GIANT CLICKABLE CARD (Design Restored, Functionality Kept) */}
+                <div style={{ textAlign: 'center', width: '100%' }}>
                     <a
                         href="#"
-                        onClick={(e) => e.preventDefault()}
                         {...{ 'payt_action': 'oneclick_buy' } as any}
                         data-object="LGZAK4-RB359G"
                         className="group w-full block relative"
@@ -137,7 +136,7 @@ export default function DownsellPage() {
                                     </div>
                                 </div>
 
-                                {/* Fake Button Look */}
+                                {/* Fake Button Look within Anchor */}
                                 <div className="w-full bg-teal-600 text-white py-4 rounded-xl font-black text-xl uppercase tracking-wide shadow-lg group-hover:bg-teal-700 transition-colors flex items-center justify-center gap-2 animate-bounce-slow">
                                     Resgatar Oferta Agora
                                     <ArrowRight className="w-6 h-6" />
@@ -150,7 +149,8 @@ export default function DownsellPage() {
                             </div>
                         </div>
                     </a>
-                    <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object="LGZAK4-RB359G"></select>
+                    <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='LGZAK4-RB359G'></select>
+                    <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                 </div>
 
                 {/* 4. DECLINE LINK (Outside the card) */}
