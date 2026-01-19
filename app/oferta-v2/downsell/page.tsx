@@ -89,66 +89,9 @@ export default function DownsellPage() {
                     seu dia de sorte.
                 </h1>
 
-                {/* 3. THE RAW PAYT BUTTON (Replaces Giant Card) */}
-                {/* 3. THE GIANT CLICKABLE CARD (Design Restored, Functionality Kept) */}
-                <div style={{ textAlign: 'center', width: '100%' }}>
-                    <a
-                        href="#"
-                        {...{ 'payt_action': 'oneclick_buy' } as any}
-                        data-object="LGZAK4-RB359G"
-                        className="group w-full block relative"
-                    >
-                        {/* Card Container (Teal Border) */}
-                        <div className="bg-white text-gray-900 rounded-3xl p-6 sm:p-8 border-4 border-teal-400 transform transition-transform group-hover:scale-[1.02] shadow-2xl relative overflow-hidden ring-4 ring-teal-50">
-
-                            {/* Confetti Background Effect (CSS) */}
-                            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#14b8a6 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
-
-                            {/* Discount Badge */}
-                            <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-4 py-2 rounded-bl-2xl uppercase tracking-wider shadow-sm z-10">
-                                Desconto Aprovado
-                            </div>
-
-                            {/* Content Container */}
-                            <div className="relative z-10 flex flex-col items-center text-center">
-
-                                <div className="bg-teal-100 text-teal-700 text-xs font-black px-4 py-1 rounded-full uppercase tracking-widest mb-4 flex items-center gap-1">
-                                    <Check className="w-3 h-3" /> Oportunidade Única
-                                </div>
-
-                                <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2 leading-none">
-                                    SoulSync <span className="text-teal-600">Lite</span>
-                                </h2>
-                                <p className="text-gray-500 font-bold uppercase text-xs mb-6">
-                                    Sessões de Hipnose + Reprogramação
-                                </p>
-
-                                {/* Price Block */}
-                                <div className="flex items-center gap-3 mb-6 bg-gray-50 px-6 py-4 rounded-xl border border-gray-100 w-full justify-center">
-                                    <div className="flex flex-col items-end">
-                                        <span className="text-xs text-gray-400 font-bold uppercase">De:</span>
-                                        <span className="text-gray-400 line-through text-sm font-bold">R$ 14,97</span>
-                                    </div>
-                                    <div className="w-px h-8 bg-gray-200"></div>
-                                    <div className="flex flex-col items-start">
-                                        <span className="text-xs text-teal-600 font-bold uppercase">Por apenas:</span>
-                                        <span className="text-4xl font-black text-teal-600 leading-none">R$ 7,90</span>
-                                    </div>
-                                </div>
-
-                                {/* Fake Button Look within Anchor */}
-                                <div className="w-full bg-teal-600 text-white py-4 rounded-xl font-black text-xl uppercase tracking-wide shadow-lg group-hover:bg-teal-700 transition-colors flex items-center justify-center gap-2 animate-bounce-slow">
-                                    Resgatar Oferta Agora
-                                    <ArrowRight className="w-6 h-6" />
-                                </div>
-
-                                <p className="mt-4 text-[10px] text-gray-400 uppercase font-bold tracking-widest">
-                                    Clique para ativar o desconto
-                                </p>
-
-                            </div>
-                        </div>
-                    </a>
+                {/* Payt Standard Snippet */}
+                <div style={{ textAlign: 'center' }}>
+                    <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="LGZAK4-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '5px', textDecoration: 'none', fontSize: '16px', fontFamily: 'sans-serif', borderRadius: '0px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                     <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='LGZAK4-RB359G'></select>
                     <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                 </div>

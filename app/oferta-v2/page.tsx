@@ -106,17 +106,9 @@ export default function OfertaPageV2() {
                         </p>
                     </div>
 
-                    {/* Payt Raw Snippet (Header) */}
-                    {/* Payt Clean Component (Header) */}
+                    {/* Payt Standard Snippet */}
                     <div style={{ textAlign: 'center' }}>
-                        <a
-                            href="#"
-                            {...{ 'payt_action': 'oneclick_buy' } as any}
-                            data-object="R2G93R-RB359G"
-                            className="bg-white text-[#8B0000] px-6 py-2.5 rounded-full font-bold text-sm sm:text-base hover:bg-gray-100 transition-colors shadow-md flex items-center justify-center inline-flex"
-                        >
-                            RECEBER MEU PLANO
-                        </a>
+                        <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                         <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
                         <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                     </div>
@@ -179,18 +171,9 @@ export default function OfertaPageV2() {
                             Receba um presente surpresa!
                         </div>
 
-                        {/* Payt Raw Snippet (Hero) */}
-                        {/* Payt Clean Component (Hero) */}
+                        {/* Payt Standard Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a
-                                href="#"
-                                {...{ 'payt_action': 'oneclick_buy' } as any}
-                                data-object="R2G93R-RB359G"
-                                className="w-full bg-teal-600 text-white py-4 rounded-xl font-bold text-xl shadow-lg shadow-teal-600/30 hover:bg-teal-700 transition-all flex items-center justify-center gap-2"
-                            >
-                                GARANTIR MINHA VAGA
-                                <ArrowRight className="w-5 h-5" />
-                            </a>
+                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                             <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
                             <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                         </div>
@@ -547,18 +530,9 @@ export default function OfertaPageV2() {
                             <span className="text-gray-400 text-sm mt-2">Plano de 4 Semanas. Cancele quando quiser.</span>
                         </div>
 
-                        {/* Payt Raw Snippet (Value Stack) */}
-                        {/* Payt Clean Component (Value Stack) */}
+                        {/* Payt Standard Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a
-                                href="#"
-                                {...{ 'payt_action': 'oneclick_buy' } as any}
-                                data-object="R2G93R-RB359G"
-                                className="w-full bg-teal-500 text-white py-5 rounded-xl font-bold text-xl sm:text-2xl shadow-lg shadow-teal-500/20 hover:bg-teal-600 transition-all transform hover:scale-[1.01] flex items-center justify-center gap-3"
-                            >
-                                QUERO APROVEITAR AGORA
-                                <ArrowRight className="w-6 h-6" />
-                            </a>
+                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                             <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
                             <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                         </div>
@@ -673,17 +647,9 @@ export default function OfertaPageV2() {
                     </div>
 
                     <div className="mt-8 text-center">
-                        {/* Payt Raw Snippet (Testimonials) */}
-                        {/* Payt Clean Component (Testimonials) */}
+                        {/* Payt Standard Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a
-                                href="#"
-                                {...{ 'payt_action': 'oneclick_buy' } as any}
-                                data-object="R2G93R-RB359G"
-                                className="w-full bg-teal-600 text-white py-5 rounded-2xl font-bold text-xl hover:bg-teal-700 hover:shadow-lg transition-all inline-flex items-center justify-center"
-                            >
-                                Comprar agora!
-                            </a>
+                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                             <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
                             <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                         </div>
@@ -744,17 +710,9 @@ export default function OfertaPageV2() {
 
                 {/* Bottom CTA */}
                 <div className="mb-12 text-center">
-                    {/* Payt Raw Snippet (Bottom) */}
-                    {/* Payt Clean Component (Bottom) */}
+                    {/* Payt Standard Snippet */}
                     <div style={{ textAlign: 'center' }}>
-                        <a
-                            href="#"
-                            {...{ 'payt_action': 'oneclick_buy' } as any}
-                            data-object="R2G93R-RB359G"
-                            className="w-full bg-teal-600 text-white py-6 rounded-full font-bold text-2xl hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02] flex items-center justify-center"
-                        >
-                            DESBLOQUEAR OFERTA POR R$ 14,97
-                        </a>
+                        <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
                         <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
                         <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
                     </div>
