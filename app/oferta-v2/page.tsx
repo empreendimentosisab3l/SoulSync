@@ -75,7 +75,8 @@ export default function OfertaPageV2() {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
             {/* Payt One-Click Script */}
-            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="lazyOnload" />
+            {/* Payt One-Click Script - Changed to afterInteractive for immediate execution */}
+            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="afterInteractive" />
             <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object="R2G93R-RB359G"></select>
 
             {/* 1. STICKY HEADER (Warning + Nav) */}
@@ -108,6 +109,7 @@ export default function OfertaPageV2() {
                     <div className="flex flex-col items-center">
                         <a
                             href="#"
+                            onClick={(e) => e.preventDefault()}
                             {...{ 'payt_action': 'oneclick_buy' } as any}
                             data-object="R2G93R-RB359G"
                             className="bg-white text-[#8B0000] px-6 py-2.5 rounded-full font-bold text-sm sm:text-base hover:bg-gray-100 transition-colors shadow-md flex items-center justify-center"
@@ -178,6 +180,7 @@ export default function OfertaPageV2() {
                         <div className="w-full">
                             <a
                                 href="#"
+                                onClick={(e) => e.preventDefault()}
                                 {...{ 'payt_action': 'oneclick_buy' } as any}
                                 data-object="R2G93R-RB359G"
                                 className="w-full bg-teal-600 text-white py-4 rounded-xl font-bold text-xl shadow-lg shadow-teal-600/30 hover:bg-teal-700 transition-all flex items-center justify-center gap-2"
@@ -543,6 +546,7 @@ export default function OfertaPageV2() {
                         <div className="w-full max-w-lg mx-auto">
                             <a
                                 href="#"
+                                onClick={(e) => e.preventDefault()}
                                 {...{ 'payt_action': 'oneclick_buy' } as any}
                                 data-object="R2G93R-RB359G"
                                 className="w-full bg-teal-500 text-white py-5 rounded-xl font-bold text-xl sm:text-2xl shadow-lg shadow-teal-500/20 hover:bg-teal-600 transition-all transform hover:scale-[1.01] flex items-center justify-center gap-3"
@@ -666,6 +670,7 @@ export default function OfertaPageV2() {
                         <div className="w-full max-w-md mx-auto">
                             <a
                                 href="#"
+                                onClick={(e) => e.preventDefault()}
                                 {...{ 'payt_action': 'oneclick_buy' } as any}
                                 data-object="R2G93R-RB359G"
                                 className="w-full bg-teal-600 text-white py-5 rounded-2xl font-bold text-xl hover:bg-teal-700 hover:shadow-lg transition-all inline-flex items-center justify-center"
@@ -734,6 +739,7 @@ export default function OfertaPageV2() {
                     <div className="w-full">
                         <a
                             href="#"
+                            onClick={(e) => e.preventDefault()}
                             {...{ 'payt_action': 'oneclick_buy' } as any}
                             data-object="R2G93R-RB359G"
                             className="w-full bg-teal-600 text-white py-6 rounded-full font-bold text-2xl hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02] flex items-center justify-center"
