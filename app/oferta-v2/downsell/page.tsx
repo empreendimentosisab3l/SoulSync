@@ -131,10 +131,50 @@ export default function DownsellPage() {
                             </div>
 
                             {/* PAYT BUTTON SNIPPET (INSIDE CARD) */}
+                            {/* Payt Premium Snippet (Downsell ID: LGZAK4-RB359G) */}
                             <div style={{ textAlign: 'center' }}>
-                                <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="LGZAK4-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '5px', textDecoration: 'none', fontSize: '16px', fontFamily: 'sans-serif', borderRadius: '0px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                                <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='LGZAK4-RB359G'></select>
-                                <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                                <a
+                                    href="#"
+                                    {...({ payt_action: 'oneclick_buy' } as any)}
+                                    data-object="LGZAK4-RB359G"
+                                    style={{
+                                        background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                        color: '#ffffff',
+                                        padding: '18px 36px',
+                                        textDecoration: 'none',
+                                        fontSize: '26px',
+                                        fontFamily: 'Arial, Helvetica, sans-serif',
+                                        fontWeight: 'bold',
+                                        borderRadius: '999px',
+                                        display: 'inline-block',
+                                        margin: '20px auto',
+                                        boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                        transition: 'all 0.25s ease',
+                                        letterSpacing: '0.5px',
+                                        cursor: 'pointer'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'scale(1.05)';
+                                        e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                                    }}
+                                >
+                                    ✅ COMPRAR AGORA
+                                </a>
+
+                                <select
+                                    {...({ payt_element: 'installment' } as any)}
+                                    style={{ display: 'none' }}
+                                    data-object="LGZAK4-RB359G"
+                                ></select>
+
+                                <script
+                                    type="text/javascript"
+                                    src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                                ></script>
                             </div>
 
                             <p className="mt-4 text-[10px] text-gray-400 uppercase font-bold tracking-widest">
