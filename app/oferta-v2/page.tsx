@@ -106,11 +106,50 @@ export default function OfertaPageV2() {
                         </p>
                     </div>
 
-                    {/* Payt Standard Snippet */}
+                    {/* Payt Premium Snippet */}
                     <div style={{ textAlign: 'center' }}>
-                        <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                        <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
-                        <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                        <a
+                            href="#"
+                            {...({ payt_action: 'oneclick_buy' } as any)}
+                            data-object="R2G93R-RB359G"
+                            style={{
+                                background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                color: '#ffffff',
+                                padding: '18px 36px',
+                                textDecoration: 'none',
+                                fontSize: '26px',
+                                fontFamily: 'Arial, Helvetica, sans-serif',
+                                fontWeight: 'bold',
+                                borderRadius: '999px',
+                                display: 'inline-block',
+                                margin: '20px auto',
+                                boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                transition: 'all 0.25s ease',
+                                letterSpacing: '0.5px',
+                                cursor: 'pointer'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                                e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                                e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                            }}
+                        >
+                            ✅ COMPRAR AGORA
+                        </a>
+
+                        <select
+                            {...({ payt_element: 'installment' } as any)}
+                            style={{ display: 'none' }}
+                            data-object="R2G93R-RB359G"
+                        ></select>
+
+                        <script
+                            type="text/javascript"
+                            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                        ></script>
                     </div>
                 </div>
             </div>
@@ -172,10 +211,50 @@ export default function OfertaPageV2() {
                         </div>
 
                         {/* Payt Standard Snippet */}
+                        {/* Payt Premium Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                            <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
-                            <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                            <a
+                                href="#"
+                                {...({ payt_action: 'oneclick_buy' } as any)}
+                                data-object="R2G93R-RB359G"
+                                style={{
+                                    background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                    color: '#ffffff',
+                                    padding: '18px 36px',
+                                    textDecoration: 'none',
+                                    fontSize: '26px',
+                                    fontFamily: 'Arial, Helvetica, sans-serif',
+                                    fontWeight: 'bold',
+                                    borderRadius: '999px',
+                                    display: 'inline-block',
+                                    margin: '20px auto',
+                                    boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                    transition: 'all 0.25s ease',
+                                    letterSpacing: '0.5px',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                                }}
+                            >
+                                ✅ COMPRAR AGORA
+                            </a>
+
+                            <select
+                                {...({ payt_element: 'installment' } as any)}
+                                style={{ display: 'none' }}
+                                data-object="R2G93R-RB359G"
+                            ></select>
+
+                            <script
+                                type="text/javascript"
+                                src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                            ></script>
                         </div>
                         <div className="mt-3 text-center">
                             <a href="/oferta-v2/downsell" className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors opacity-70 hover:opacity-100">
@@ -531,10 +610,50 @@ export default function OfertaPageV2() {
                         </div>
 
                         {/* Payt Standard Snippet */}
+                        {/* Payt Premium Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                            <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
-                            <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                            <a
+                                href="#"
+                                {...({ payt_action: 'oneclick_buy' } as any)}
+                                data-object="R2G93R-RB359G"
+                                style={{
+                                    background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                    color: '#ffffff',
+                                    padding: '18px 36px',
+                                    textDecoration: 'none',
+                                    fontSize: '26px',
+                                    fontFamily: 'Arial, Helvetica, sans-serif',
+                                    fontWeight: 'bold',
+                                    borderRadius: '999px',
+                                    display: 'inline-block',
+                                    margin: '20px auto',
+                                    boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                    transition: 'all 0.25s ease',
+                                    letterSpacing: '0.5px',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                                }}
+                            >
+                                ✅ COMPRAR AGORA
+                            </a>
+
+                            <select
+                                {...({ payt_element: 'installment' } as any)}
+                                style={{ display: 'none' }}
+                                data-object="R2G93R-RB359G"
+                            ></select>
+
+                            <script
+                                type="text/javascript"
+                                src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                            ></script>
                         </div>
 
                         <div className="mt-4 text-center">
@@ -648,10 +767,50 @@ export default function OfertaPageV2() {
 
                     <div className="mt-8 text-center">
                         {/* Payt Standard Snippet */}
+                        {/* Payt Premium Snippet */}
                         <div style={{ textAlign: 'center' }}>
-                            <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                            <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
-                            <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                            <a
+                                href="#"
+                                {...({ payt_action: 'oneclick_buy' } as any)}
+                                data-object="R2G93R-RB359G"
+                                style={{
+                                    background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                    color: '#ffffff',
+                                    padding: '18px 36px',
+                                    textDecoration: 'none',
+                                    fontSize: '26px',
+                                    fontFamily: 'Arial, Helvetica, sans-serif',
+                                    fontWeight: 'bold',
+                                    borderRadius: '999px',
+                                    display: 'inline-block',
+                                    margin: '20px auto',
+                                    boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                    transition: 'all 0.25s ease',
+                                    letterSpacing: '0.5px',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                                }}
+                            >
+                                ✅ COMPRAR AGORA
+                            </a>
+
+                            <select
+                                {...({ payt_element: 'installment' } as any)}
+                                style={{ display: 'none' }}
+                                data-object="R2G93R-RB359G"
+                            ></select>
+
+                            <script
+                                type="text/javascript"
+                                src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                            ></script>
                         </div>
                         <div className="mt-3 text-center">
                             <a href="/oferta-v2/downsell" className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors opacity-70 hover:opacity-100">
@@ -710,11 +869,50 @@ export default function OfertaPageV2() {
 
                 {/* Bottom CTA */}
                 <div className="mb-12 text-center">
-                    {/* Payt Standard Snippet */}
+                    {/* Payt Premium Snippet */}
                     <div style={{ textAlign: 'center' }}>
-                        <a href="#" {...{ 'payt_action': 'oneclick_buy' } as any} data-object="R2G93R-RB359G" style={{ background: 'rgb(40, 167, 69)', color: 'rgb(255, 255, 255)', padding: '14px', textDecoration: 'none', fontSize: '24px', fontFamily: 'sans-serif', borderRadius: '22px', display: 'block', margin: '10px auto', width: 'max-content' }}> Comprar </a>
-                        <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object='R2G93R-RB359G'></select>
-                        <script type="text/javascript" src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"></script>
+                        <a
+                            href="#"
+                            {...({ payt_action: 'oneclick_buy' } as any)}
+                            data-object="R2G93R-RB359G"
+                            style={{
+                                background: 'linear-gradient(135deg, #28a745, #1e7e34)',
+                                color: '#ffffff',
+                                padding: '18px 36px',
+                                textDecoration: 'none',
+                                fontSize: '26px',
+                                fontFamily: 'Arial, Helvetica, sans-serif',
+                                fontWeight: 'bold',
+                                borderRadius: '999px',
+                                display: 'inline-block',
+                                margin: '20px auto',
+                                boxShadow: '0 8px 20px rgba(40, 167, 69, 0.45)',
+                                transition: 'all 0.25s ease',
+                                letterSpacing: '0.5px',
+                                cursor: 'pointer'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                                e.currentTarget.style.boxShadow = '0 12px 28px rgba(40, 167, 69, 0.6)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                                e.currentTarget.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.45)';
+                            }}
+                        >
+                            ✅ COMPRAR AGORA
+                        </a>
+
+                        <select
+                            {...({ payt_element: 'installment' } as any)}
+                            style={{ display: 'none' }}
+                            data-object="R2G93R-RB359G"
+                        ></select>
+
+                        <script
+                            type="text/javascript"
+                            src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
+                        ></script>
                     </div>
 
                     <div className="mt-3 text-center">
