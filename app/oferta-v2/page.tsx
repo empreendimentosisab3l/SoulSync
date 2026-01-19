@@ -75,8 +75,8 @@ export default function OfertaPageV2() {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
             {/* Payt One-Click Script */}
-            {/* Payt One-Click Script - Changed to afterInteractive for immediate execution */}
-            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="afterInteractive" />
+            {/* Payt One-Click Script - Changed to lazyOnload to ensure DOM is ready */}
+            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="lazyOnload" />
             <select {...{ 'payt_element': 'installment' } as any} style={{ display: 'none' }} data-object="R2G93R-RB359G"></select>
 
             {/* 1. STICKY HEADER (Warning + Nav) */}
@@ -251,10 +251,6 @@ export default function OfertaPageV2() {
                                 data-object="R2G93R-RB359G"
                             ></select>
 
-                            <script
-                                type="text/javascript"
-                                src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
-                            ></script>
                         </div>
                         <div className="mt-3 text-center">
                             <a href="/oferta-v2/downsell" className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors opacity-70 hover:opacity-100">
@@ -650,10 +646,6 @@ export default function OfertaPageV2() {
                                 data-object="R2G93R-RB359G"
                             ></select>
 
-                            <script
-                                type="text/javascript"
-                                src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
-                            ></script>
                         </div>
 
                         <div className="mt-4 text-center">

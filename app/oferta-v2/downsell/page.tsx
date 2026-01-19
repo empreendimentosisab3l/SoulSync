@@ -49,8 +49,8 @@ export default function DownsellPage() {
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans pb-20 overflow-x-hidden">
             {/* Payt One-Click Script */}
-            {/* Payt One-Click Script - Changed to afterInteractive */}
-            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="afterInteractive" />
+            {/* Payt One-Click Script - Changed to lazyOnload to ensure DOM is ready */}
+            <Script src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js" strategy="lazyOnload" />
 
             {/* Confetti Script */}
             <Script
@@ -171,10 +171,6 @@ export default function DownsellPage() {
                                     data-object="LGZAK4-RB359G"
                                 ></select>
 
-                                <script
-                                    type="text/javascript"
-                                    src="https://checkout.payt.com.br/multiple-oneclickbuyscript/L8Q8DK.js"
-                                ></script>
                             </div>
 
                             <p className="mt-4 text-[10px] text-gray-400 uppercase font-bold tracking-widest">
