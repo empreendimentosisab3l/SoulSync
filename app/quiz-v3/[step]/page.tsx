@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { quizQuestions, getTotalSteps } from "@/lib/quizDataV3";
 import { pageview, trackQuizV3Step, trackQuizV3Answer, trackQuizV3Complete } from "@/lib/analytics";
+import { captureTrafficSource } from "@/lib/trafficSource";
 import ProgressBar from "@/components/quiz-v3/ProgressBar";
 import QuizChoice from "@/components/quiz-v3/QuizChoice";
 import QuizRange from "@/components/quiz-v3/QuizRange";
@@ -21,6 +22,9 @@ export default function QuizStep() {
   const question = quizQuestions[step - 1];
 
   useEffect(() => {
+    // Captura a origem de tráfego (?src=) caso o link aponte direto para um passo
+    captureTrafficSource();
+
     // Load saved answers from localStorage
     const saved = localStorage.getItem("quizV3Answers");
     if (saved) {
@@ -32,6 +36,13 @@ export default function QuizStep() {
     if (question) {
       pageview(`/quiz-v3/${step}`);
       trackQuizV3Step(step, question.type);
+    }
+
+    // Preload next step's image so the transition feels instant
+    const nextQuestion = quizQuestions[step];
+    if (nextQuestion?.image?.startsWith("http")) {
+      const img = new window.Image();
+      img.src = nextQuestion.image;
     }
   }, [step, question]);
 

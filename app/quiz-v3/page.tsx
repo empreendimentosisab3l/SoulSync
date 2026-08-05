@@ -4,11 +4,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { pageview, trackQuizV3Start } from '@/lib/analytics';
+import { captureTrafficSource } from '@/lib/trafficSource';
 
 export default function QuizV3Landing() {
   const router = useRouter();
 
   useEffect(() => {
+    // Captura a origem de tráfego (?src=) antes de qualquer coisa
+    captureTrafficSource();
+
     // Track page view
     pageview('/quiz-v3');
   }, []);
@@ -45,7 +49,7 @@ export default function QuizV3Landing() {
           <div className="relative w-full max-w-2xl mx-auto mb-6 sm:mb-8">
             <div className="aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg">
               <img
-                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763515318/soulsync/hero/woman-headphones.jpg"
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_800/v1763515318/soulsync/hero/woman-headphones.jpg"
                 alt="Mulher relaxada com fones de ouvido"
                 className="w-full h-full object-cover"
               />
@@ -90,7 +94,7 @@ export default function QuizV3Landing() {
               <div className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1768477006/soulsync/testimonials/tina-before-after.webp"
+                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1768477006/soulsync/testimonials/tina-before-after.webp"
                     alt="Tina - Antes e Depois"
                     className="w-full h-full object-cover"
                   />
@@ -107,7 +111,7 @@ export default function QuizV3Landing() {
               <div className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1768477007/soulsync/testimonials/samantha-before-after.webp"
+                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1768477007/soulsync/testimonials/samantha-before-after.webp"
                     alt="Samantha - Antes e Depois"
                     className="w-full h-full object-cover"
                   />
@@ -124,7 +128,7 @@ export default function QuizV3Landing() {
               <div className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1768477007/soulsync/testimonials/maya-before-after.webp"
+                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1768477007/soulsync/testimonials/maya-before-after.webp"
                     alt="Maia - Antes e Depois"
                     className="w-full h-full object-cover"
                   />
