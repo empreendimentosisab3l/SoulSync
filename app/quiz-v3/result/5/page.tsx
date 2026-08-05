@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { getTrafficSource } from "@/lib/trafficSource";
 
 export default function Result5() {
   const router = useRouter();
@@ -63,7 +64,10 @@ export default function Result5() {
   };
 
   const handleCheckout = () => {
-    window.location.href = "https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366";
+    const checkoutUrl = new URL("https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366");
+    const src = getTrafficSource();
+    if (src) checkoutUrl.searchParams.set("src", src);
+    window.location.href = checkoutUrl.toString();
   };
 
   return (

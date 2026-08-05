@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Timer, ArrowRight, Check, Lock, Star } from 'lucide-react';
 import { pageview, trackQuizV3CheckoutView, trackQuizV3PurchaseIntent, trackQuizV3FreeTrialStart } from '@/lib/analytics';
+import { getTrafficSource } from '@/lib/trafficSource';
 
 interface UserData {
   name?: string;
@@ -143,11 +144,15 @@ export default function QuizV3Checkout() {
     trackQuizV3PurchaseIntent('4 semanas', 39);
 
     // Prepare user data for checkout
-    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // Link do produto de R$ 14,97
+    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // ATENÇÃO: atualizar para o link do produto de R$ 39,90/mês (recorrente) na Payt
 
     if (userData.name) checkoutUrl.searchParams.set('name', userData.name);
     if (userData.email) checkoutUrl.searchParams.set('email', userData.email);
     // if (userData.phone) checkoutUrl.searchParams.set('phone', userData.phone);
+
+    // Origem de tráfego (traqueamento das mensagens de disparo)
+    const src = getTrafficSource();
+    if (src) checkoutUrl.searchParams.set('src', src);
 
     // Redirect to PayT
     window.location.href = checkoutUrl.toString();
@@ -405,12 +410,12 @@ export default function QuizV3Checkout() {
                     <div className="font-bold text-gray-900 text-lg">4 SEMANAS</div>
                     <div className="flex items-center gap-2 text-sm">
                       <span className="text-gray-400 line-through">R$ 99,90</span>
-                      <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">R$ 14,97</span>
+                      <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">R$ 39,90</span>
                     </div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">R$ 0,50</div>
+                  <div className="text-2xl font-bold text-gray-900">R$ 1,33</div>
                   <div className="text-sm text-gray-500">por dia</div>
                 </div>
               </div>
@@ -457,7 +462,7 @@ export default function QuizV3Checkout() {
             className="w-full bg-teal-600 text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-teal-600/30 hover:bg-teal-700 hover:scale-[1.01] transition-all"
           >
             COMEÇAR AGORA
-            <span className="block text-sm font-normal text-teal-100 mt-1 opacity-90">Acesso imediato • R$ 0,50/dia</span>
+            <span className="block text-sm font-normal text-teal-100 mt-1 opacity-90">Acesso imediato • R$ 1,33/dia</span>
           </button>
 
           <div className="flex items-center justify-center gap-6 mt-4 text-xs font-medium text-gray-500 uppercase tracking-wide">
@@ -676,7 +681,7 @@ export default function QuizV3Checkout() {
         <div className="text-center mb-12">
           <p className="text-base sm:text-lg font-bold text-gray-400 uppercase tracking-widest mb-6">Conforme apresentado em</p>
           <img
-            src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763608547/soulsync/authority/featured-in-logos.png"
+            src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_400/v1763608547/soulsync/authority/featured-in-logos.png"
             alt="Media Logos"
             className="h-14 sm:h-20 object-contain mx-auto opacity-80 hover:opacity-100 transition-opacity"
           />
@@ -691,7 +696,7 @@ export default function QuizV3Checkout() {
             {/* Imagem do badge */}
             <div className="bg-teal-50 rounded-2xl p-4 mb-6">
               <img
-                src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763605594/soulsync/social-proof/walking-app-badge.png"
+                src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_400/v1763605594/soulsync/social-proof/walking-app-badge.png"
                 alt="#1 Walking app"
                 className="w-64 h-auto"
               />
@@ -800,7 +805,7 @@ export default function QuizV3Checkout() {
             <div className="flex-shrink-0 order-first sm:order-last">
               <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36">
                 <img
-                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1768476408/soulsync/seals/garantia-30-dias.png"
+                  src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_400/v1768476408/soulsync/seals/garantia-30-dias.png"
                   alt="Selo de Garantia 30 dias"
                   className="w-full h-full object-contain"
                 />
@@ -851,7 +856,7 @@ export default function QuizV3Checkout() {
             <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
               <div className="p-6">
                 <div className="mb-4 rounded-xl overflow-hidden bg-gray-100">
-                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763609993/soulsync/testimonials/testimonial-1.webp" alt="Jasmim Z." className="w-full h-auto" />
+                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1763609993/soulsync/testimonials/testimonial-1.webp" alt="Jasmim Z." className="w-full h-auto" />
                 </div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex text-yellow-400"><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /></div>
@@ -871,7 +876,7 @@ export default function QuizV3Checkout() {
             <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
               <div className="p-6">
                 <div className="mb-4 rounded-xl overflow-hidden bg-gray-100">
-                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763609994/soulsync/testimonials/testimonial-2.webp" alt="José S." className="w-full h-auto" />
+                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1763609994/soulsync/testimonials/testimonial-2.webp" alt="José S." className="w-full h-auto" />
                 </div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex text-yellow-400"><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /></div>
@@ -891,7 +896,7 @@ export default function QuizV3Checkout() {
             <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
               <div className="p-6">
                 <div className="mb-4 rounded-xl overflow-hidden bg-gray-100">
-                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1763609995/soulsync/testimonials/testimonial-3.webp" alt="Simona K." className="w-full h-auto" />
+                  <img src="https://res.cloudinary.com/dw1p11dgq/image/upload/f_auto,q_auto,w_600/v1763609995/soulsync/testimonials/testimonial-3.webp" alt="Simona K." className="w-full h-auto" />
                 </div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex text-yellow-400"><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /></div>
@@ -947,7 +952,7 @@ export default function QuizV3Checkout() {
             onClick={handleCheckout}
             className="w-full bg-teal-600 text-white py-6 rounded-full font-bold text-2xl hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02]"
           >
-            🚀 RECEBER O MEU PLANO - R$ 0,50/dia
+            🚀 RECEBER O MEU PLANO - R$ 1,33/dia
           </button>
           <p className="text-gray-400 text-sm mt-4">Acesso instantâneo ao programa completo</p>
         </div>
