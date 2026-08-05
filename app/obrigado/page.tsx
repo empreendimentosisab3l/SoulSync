@@ -117,11 +117,12 @@ export default function ThankYouPage() {
           <div className="mb-8 flex justify-center">
             <div className="relative w-full max-w-md">
               <div className="bg-gray-800 rounded-t-xl p-1">
-                <div className="bg-gradient-to-br from-teal-400 to-teal-600 rounded-t-lg aspect-video flex items-center justify-center">
-                  <div className="text-white text-xs text-center">
-                    <p className="font-semibold">Plataforma SoulSync</p>
-                    <p className="text-teal-100 mt-1">Acesse suas sessões de hipnoterapia</p>
-                  </div>
+                <div className="bg-gray-900 rounded-t-lg aspect-video overflow-hidden relative">
+                  <img
+                    src="https://res.cloudinary.com/dw1p11dgq/image/upload/v1768790347/soulsync/obrigado/ptc9bcaystjz2djef9qe.png"
+                    alt="Plataforma SoulSync"
+                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                  />
                 </div>
               </div>
               <div className="bg-gray-300 h-2 rounded-b-xl"></div>
