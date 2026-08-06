@@ -26,6 +26,7 @@ export default function QuizV3Checkout() {
   const [eventType, setEventType] = useState<string>(''); // Evento escolhido no card 41
   const [eventDate, setEventDate] = useState<string>(''); // Data do evento do card 42
   const [couponCode, setCouponCode] = useState<string>('HYPNO50'); // Código do cupom dinâmico
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     // Track checkout page view
@@ -139,23 +140,31 @@ export default function QuizV3Checkout() {
     return eventTexts[eventType] || '';
   };
 
-  const handleCheckout = () => {
-    // Track purchase intent
-    trackQuizV3PurchaseIntent('4 semanas', 39);
-
-    // Prepare user data for checkout
-    const checkoutUrl = new URL('https://checkout.payt.com.br/32addda23f51e6c2b5607e9d1b66a366'); // ATENÇÃO: atualizar para o link do produto de R$ 39,90/mês (recorrente) na Payt
-
-    if (userData.name) checkoutUrl.searchParams.set('name', userData.name);
-    if (userData.email) checkoutUrl.searchParams.set('email', userData.email);
-    // if (userData.phone) checkoutUrl.searchParams.set('phone', userData.phone);
-
-    // Origem de tráfego (traqueamento das mensagens de disparo)
-    const src = getTrafficSource();
-    if (src) checkoutUrl.searchParams.set('src', src);
-
-    // Redirect to PayT
-    window.location.href = checkoutUrl.toString();
+  const handleCheckout = async () => {
+    if (isRedirecting) return;
+    setIsRedirecting(true);
+    try {
+      trackQuizV3PurchaseIntent('trial 3 dias', 4.9);
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: userData.name,
+          email: userData.email,
+          src: getTrafficSource(),
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error('Sem URL de checkout:', data);
+        setIsRedirecting(false);
+      }
+    } catch (err) {
+      console.error('Erro no checkout:', err);
+      setIsRedirecting(false);
+    }
   };
 
   const faqs = [
@@ -408,15 +417,15 @@ export default function QuizV3Checkout() {
                   <div className="w-6 h-6 rounded-full border-[6px] border-teal-600 bg-white"></div>
                   <div>
                     <div className="font-bold text-gray-900 text-lg">4 SEMANAS</div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="text-gray-400 line-through">R$ 99,90</span>
-                      <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">R$ 39,90</span>
-                    </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">R$ 1,33</div>
-                  <div className="text-sm text-gray-500">por dia</div>
+                <div className="text-center">
+                  <div className="text-sm text-gray-500 line-through">R$ 39,90</div>
+                  <div className="text-5xl font-extrabold text-teal-600">R$ 4,90</div>
+                  <div className="text-sm text-gray-600 mt-1">para começar hoje</div>
+                  <div className="text-xs text-gray-400 mt-2">
+                    Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.
+                  </div>
                 </div>
               </div>
 
