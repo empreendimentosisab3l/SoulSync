@@ -174,7 +174,7 @@ export default function QuizV3Checkout() {
     },
     {
       question: "Como posso cancelar minha assinatura?",
-      answer: "Os cancelamentos são tratados diretamente com a Payt e podem ser solicitados seguindo as instruções aqui. Caso ainda tenha alguma dúvida sobre como cancelar sua assinatura, entre em contato conosco pelo e-mail suporte@soulsync.com.",
+      answer: "Você pode cancelar sua assinatura quando quiser pela área de membros ou pelo e-mail suporte@soulsync.com. Após o cancelamento, você não será mais cobrado nas próximas mensalidades.",
     },
     {
       question: "É seguro usar a auto-hipnose?",

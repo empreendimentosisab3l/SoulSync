@@ -19,12 +19,17 @@ describe('resolveStripeEvent', () => {
     const r = resolveStripeEvent(evt('customer.subscription.deleted', {
       metadata: { email: 'maria@example.com' },
     }));
-    expect(r).toEqual({ action: 'revoke', email: 'maria@example.com' });
+    expect(r).toEqual({ action: 'revoke', email: 'maria@example.com', customerId: '' });
   });
 
   it('customer.subscription.deleted sem email → noop', () => {
     const r = resolveStripeEvent(evt('customer.subscription.deleted', { metadata: {} }));
     expect(r).toEqual({ action: 'noop' });
+  });
+
+  it('customer.subscription.deleted sem metadata.email mas com customer → revoke usando customerId', () => {
+    const r = resolveStripeEvent(evt('customer.subscription.deleted', { metadata: {}, customer: 'cus_123' }));
+    expect(r).toEqual({ action: 'revoke', email: '', customerId: 'cus_123' });
   });
 
   it('invoice.payment_failed → noop (Stripe faz dunning)', () => {

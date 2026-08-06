@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
+import prisma from '@/lib/prisma';
 import { stripe } from '@/lib/stripe/client';
 
 export const runtime = 'nodejs';
@@ -6,8 +8,22 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json().catch(() => ({}));
-    if (!email) return NextResponse.json({ error: 'Email obrigatório' }, { status: 400 });
+    const token = req.cookies.get('session_token')?.value;
+    if (!token) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
+
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secret_for_build');
+    let email: string;
+    try {
+      const { payload } = await jwtVerify(token, secret);
+      const user = await prisma.user.findUnique({
+        where: { id: payload.userId as string },
+        select: { email: true },
+      });
+      if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
+      email = user.email;
+    } catch {
+      return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
+    }
 
     const customers = await stripe.customers.list({ email, limit: 1 });
     const customer = customers.data[0];

@@ -31,10 +31,23 @@ export async function POST(req: NextRequest) {
       await grantAccess({ email: resolved.email, name: resolved.name, planType: resolved.planType });
       console.log('✅ Acesso concedido (Stripe):', resolved.email);
     } else if (resolved.action === 'revoke') {
-      await prisma.user.update({ where: { email: resolved.email }, data: { status: 'inactive' } }).catch((e: unknown) => {
-        console.error('⚠️ Falha ao revogar acesso:', e);
-      });
-      console.log('❌ Acesso revogado (Stripe):', resolved.email);
+      let email = resolved.email;
+      if (!email && resolved.customerId) {
+        try {
+          const customer = await stripe.customers.retrieve(resolved.customerId);
+          if (!customer.deleted) email = customer.email || '';
+        } catch (e) {
+          console.error('⚠️ Falha ao recuperar customer para revoke:', e);
+        }
+      }
+      if (email) {
+        await prisma.user.update({ where: { email }, data: { status: 'inactive' } }).catch((e: unknown) => {
+          console.error('⚠️ Falha ao revogar acesso:', e);
+        });
+        console.log('❌ Acesso revogado (Stripe):', email);
+      } else {
+        console.error('⚠️ Revoke sem email resolvível para subscription/customer:', resolved.customerId);
+      }
     }
 
     return NextResponse.json({ received: true });

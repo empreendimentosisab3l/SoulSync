@@ -2,7 +2,7 @@ import type Stripe from 'stripe';
 
 export type StripeAction =
   | { action: 'grant'; email: string; name: string; planType: string }
-  | { action: 'revoke'; email: string }
+  | { action: 'revoke'; email: string; customerId: string }
   | { action: 'noop' };
 
 export function resolveStripeEvent(event: Stripe.Event): StripeAction {
@@ -16,8 +16,9 @@ export function resolveStripeEvent(event: Stripe.Event): StripeAction {
     case 'customer.subscription.deleted': {
       const sub = event.data.object as Stripe.Subscription;
       const email = sub.metadata?.email || '';
-      if (!email) return { action: 'noop' };
-      return { action: 'revoke', email };
+      const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id || '';
+      if (!email && !customerId) return { action: 'noop' };
+      return { action: 'revoke', email, customerId };
     }
     default:
       return { action: 'noop' };
