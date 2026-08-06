@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe/client';
 import { buildCheckoutSessionParams } from '@/lib/stripe/checkout';
+import { getPublicOrigin } from '@/lib/stripe/origin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -8,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   try {
     const { name, email, src } = await req.json().catch(() => ({}));
-    const origin = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
+    const origin = getPublicOrigin(req);
 
     const params = buildCheckoutSessionParams({ name, email, src, origin });
     const session = await stripe.checkout.sessions.create(params);

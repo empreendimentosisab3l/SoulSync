@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 import prisma from '@/lib/prisma';
 import { stripe } from '@/lib/stripe/client';
+import { getPublicOrigin } from '@/lib/stripe/origin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
     const customer = customers.data[0];
     if (!customer) return NextResponse.json({ error: 'Cliente não encontrado' }, { status: 404 });
 
-    const origin = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
+    const origin = getPublicOrigin(req);
     const portal = await stripe.billingPortal.sessions.create({
       customer: customer.id,
       return_url: `${origin}/membros`,
