@@ -24,7 +24,7 @@ describe('buildCheckoutSessionParams', () => {
     ]);
     expect(params.subscription_data?.trial_period_days).toBe(3);
     expect(params.subscription_data?.metadata).toEqual({ email: 'maria@example.com', name: 'Maria', src: 'ig-bio' });
-    expect(params.success_url).toBe('https://soulsync.com/quiz-v3/sucesso?session_id={CHECKOUT_SESSION_ID}');
+    expect(params.success_url).toBe('https://soulsync.com/obrigado');
     expect(params.cancel_url).toBe('https://soulsync.com/quiz-v3/checkout');
   });
 

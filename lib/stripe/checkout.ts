@@ -30,7 +30,7 @@ export function buildCheckoutSessionParams(input: CheckoutInput): Stripe.Checkou
       metadata,
     },
     metadata,
-    success_url: `${input.origin}/quiz-v3/sucesso?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${input.origin}/obrigado`,
     cancel_url: `${input.origin}/quiz-v3/checkout`,
   };
 }

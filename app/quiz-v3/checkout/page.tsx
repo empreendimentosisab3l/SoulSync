@@ -145,6 +145,8 @@ export default function QuizV3Checkout() {
     setIsRedirecting(true);
     try {
       trackQuizV3PurchaseIntent('trial 3 dias', 4.9);
+      // Guarda o email para a pagina /obrigado (pos-pagamento) pre-preencher o cadastro de acesso
+      if (userData.email) sessionStorage.setItem('userEmail', userData.email);
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
