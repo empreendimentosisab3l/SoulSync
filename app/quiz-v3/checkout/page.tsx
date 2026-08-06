@@ -471,7 +471,7 @@ export default function QuizV3Checkout() {
             className="w-full bg-teal-600 text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-teal-600/30 hover:bg-teal-700 hover:scale-[1.01] transition-all"
           >
             COMEÇAR AGORA
-            <span className="block text-sm font-normal text-teal-100 mt-1 opacity-90">Acesso imediato • R$ 1,33/dia</span>
+            <span className="block text-sm font-normal text-teal-100 mt-1 opacity-90">Comece hoje por apenas R$ 4,90</span>
           </button>
 
           <div className="flex items-center justify-center gap-6 mt-4 text-xs font-medium text-gray-500 uppercase tracking-wide">
@@ -961,9 +961,9 @@ export default function QuizV3Checkout() {
             onClick={handleCheckout}
             className="w-full bg-teal-600 text-white py-6 rounded-full font-bold text-2xl hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02]"
           >
-            🚀 RECEBER O MEU PLANO - R$ 1,33/dia
+            🚀 RECEBER O MEU PLANO - Comece por R$ 4,90
           </button>
-          <p className="text-gray-400 text-sm mt-4">Acesso instantâneo ao programa completo</p>
+          <p className="text-gray-400 text-sm mt-4">Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.</p>
         </div>
 
         {/* Trust Signals */}
