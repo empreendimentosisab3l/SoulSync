@@ -422,7 +422,7 @@ export default function QuizV3Checkout() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-sm text-gray-500 line-through">R$ 39,90</div>
+                  <div className="text-sm text-gray-500 line-through">R$ 99,90</div>
                   <div className="text-5xl font-extrabold text-teal-600">R$ 4,90</div>
                   <div className="text-sm text-gray-600 mt-1">para começar hoje</div>
                   <div className="text-[7px] leading-tight text-gray-400 mt-2">
