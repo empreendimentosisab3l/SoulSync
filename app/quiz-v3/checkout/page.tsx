@@ -425,7 +425,7 @@ export default function QuizV3Checkout() {
                   <div className="text-sm text-gray-500 line-through">R$ 39,90</div>
                   <div className="text-5xl font-extrabold text-teal-600">R$ 4,90</div>
                   <div className="text-sm text-gray-600 mt-1">para começar hoje</div>
-                  <div className="text-xs text-gray-400 mt-2">
+                  <div className="text-[10px] leading-tight text-gray-400 mt-2">
                     Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.
                   </div>
                 </div>
@@ -965,7 +965,7 @@ export default function QuizV3Checkout() {
           >
             🚀 RECEBER O MEU PLANO - Comece por R$ 4,90
           </button>
-          <p className="text-gray-400 text-sm mt-4">Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.</p>
+          <p className="text-gray-400 text-[10px] leading-tight mt-4">Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.</p>
         </div>
 
         {/* Trust Signals */}
