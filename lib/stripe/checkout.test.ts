@@ -33,4 +33,28 @@ describe('buildCheckoutSessionParams', () => {
     expect(params.subscription_data?.metadata).toEqual({ email: '', name: '', src: '' });
     expect(params.customer_email).toBeUndefined();
   });
+
+  it('offer downsell usa STRIPE_PRICE_DOWNSELL como taxa avulsa', () => {
+    process.env.STRIPE_PRICE_DOWNSELL = 'price_downsell_test';
+    const params = buildCheckoutSessionParams({ origin: 'https://soulsync.com', offer: 'downsell' });
+    expect(params.line_items).toEqual([
+      { price: 'price_sub_test', quantity: 1 },
+      { price: 'price_downsell_test', quantity: 1 },
+    ]);
+  });
+
+  it('sem offer usa a taxa padrão mesmo com downsell configurado', () => {
+    process.env.STRIPE_PRICE_DOWNSELL = 'price_downsell_test';
+    const params = buildCheckoutSessionParams({ origin: 'https://soulsync.com' });
+    expect(params.line_items).toEqual([
+      { price: 'price_sub_test', quantity: 1 },
+      { price: 'price_access_test', quantity: 1 },
+    ]);
+  });
+
+  it('offer downsell sem STRIPE_PRICE_DOWNSELL lança erro claro', () => {
+    delete process.env.STRIPE_PRICE_DOWNSELL;
+    expect(() => buildCheckoutSessionParams({ origin: 'https://soulsync.com', offer: 'downsell' }))
+      .toThrow('STRIPE_PRICE_DOWNSELL não configurada');
+  });
 });

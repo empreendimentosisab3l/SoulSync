@@ -8,10 +8,16 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, src } = await req.json().catch(() => ({}));
+    const { name, email, src, offer } = await req.json().catch(() => ({}));
     const origin = getPublicOrigin(req);
 
-    const params = buildCheckoutSessionParams({ name, email, src, origin });
+    const params = buildCheckoutSessionParams({
+      name,
+      email,
+      src,
+      origin,
+      offer: offer === 'downsell' ? 'downsell' : undefined,
+    });
     const session = await stripe.checkout.sessions.create(params);
 
     return NextResponse.json({ url: session.url });

@@ -71,4 +71,14 @@ describe('buildSaleRow', () => {
   it('evento não rastreado → null', () => {
     expect(buildSaleRow(evt('customer.created', {}))).toBeNull();
   });
+
+  it('checkout.session.completed com amount_total 100 → valor "1,00" (downsell)', () => {
+    const r = buildSaleRow(evt('checkout.session.completed', {
+      metadata: { src: 'whats-jan', name: 'Maria', email: 'maria@x.com' },
+      customer_details: { email: 'maria@x.com', name: 'Maria' },
+      subscription: 'sub_123',
+      amount_total: 100,
+    }));
+    expect(r?.valor).toBe('1,00');
+  });
 });

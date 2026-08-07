@@ -32,7 +32,7 @@ export function buildSaleRow(
         nome: s.metadata?.name || s.customer_details?.name || '',
         email: s.customer_details?.email || s.customer_email || s.metadata?.email || '',
         evento: 'Trial iniciado',
-        valor: '4,90',
+        valor: (s as any).amount_total != null ? brl((s as any).amount_total) : '4,90',
         subscriptionId: subId(s.subscription as any),
       };
     }
