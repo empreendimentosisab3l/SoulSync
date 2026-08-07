@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Timer, ArrowRight, Check, Lock, Star } from 'lucide-react';
 import { pageview, trackQuizV3CheckoutView, trackQuizV3PurchaseIntent, trackQuizV3FreeTrialStart } from '@/lib/analytics';
 import { getTrafficSource } from '@/lib/trafficSource';
+import ExitOfferModal from '@/components/ExitOfferModal';
+import { useExitIntent } from '@/lib/hooks/useExitIntent';
 
 interface UserData {
   name?: string;
@@ -27,6 +29,7 @@ export default function QuizV3Checkout() {
   const [eventDate, setEventDate] = useState<string>(''); // Data do evento do card 42
   const [couponCode, setCouponCode] = useState<string>('HYPNO50'); // Código do cupom dinâmico
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const { showOffer, dismiss } = useExitIntent();
 
   useEffect(() => {
     // Track checkout page view
@@ -140,11 +143,11 @@ export default function QuizV3Checkout() {
     return eventTexts[eventType] || '';
   };
 
-  const handleCheckout = async () => {
+  const startCheckout = async (offer?: 'downsell') => {
     if (isRedirecting) return;
     setIsRedirecting(true);
     try {
-      trackQuizV3PurchaseIntent('trial 3 dias', 4.9);
+      trackQuizV3PurchaseIntent(offer === 'downsell' ? 'downsell 3 dias' : 'trial 3 dias', offer === 'downsell' ? 1 : 4.9);
       // Guarda o email para a pagina /obrigado (pos-pagamento) pre-preencher o cadastro de acesso
       if (userData.email) sessionStorage.setItem('userEmail', userData.email);
       const res = await fetch('/api/stripe/checkout', {
@@ -154,6 +157,7 @@ export default function QuizV3Checkout() {
           name: userData.name,
           email: userData.email,
           src: getTrafficSource(),
+          ...(offer ? { offer } : {}),
         }),
       });
       const data = await res.json();
@@ -168,6 +172,8 @@ export default function QuizV3Checkout() {
       setIsRedirecting(false);
     }
   };
+
+  const handleCheckout = () => startCheckout();
 
   const faqs = [
     {
@@ -190,6 +196,12 @@ export default function QuizV3Checkout() {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+      <ExitOfferModal
+        open={showOffer}
+        accepting={isRedirecting}
+        onAccept={() => startCheckout('downsell')}
+        onDecline={dismiss}
+      />
       {/* Header com Timer e CTA */}
       <div className="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
