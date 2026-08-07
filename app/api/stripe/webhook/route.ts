@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe/client';
 import { resolveStripeEvent } from '@/lib/stripe/webhookResolver';
 import { grantAccess } from '@/lib/access/grantAccess';
 import prisma from '@/lib/prisma';
+import { buildSaleRow } from '@/lib/stripe/saleFromEvent';
+import { appendSaleRow } from '@/lib/sheets/salesSheet';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -48,6 +51,27 @@ export async function POST(req: NextRequest) {
       } else {
         console.error('⚠️ Revoke sem email resolvível para subscription/customer:', resolved.customerId);
       }
+    }
+
+    // Tracking de vendas na planilha (não bloqueia o webhook)
+    try {
+      let subForSale: Stripe.Subscription | null = null;
+      if (event.type === 'invoice.paid') {
+        const inv = event.data.object as Stripe.Invoice;
+        const invSubId =
+          typeof (inv as any).subscription === 'string'
+            ? (inv as any).subscription
+            : (inv as any).subscription?.id ??
+              (inv as any).parent?.subscription_details?.subscription ??
+              null;
+        if (invSubId) {
+          subForSale = await stripe.subscriptions.retrieve(invSubId);
+        }
+      }
+      const saleRow = buildSaleRow(event, subForSale);
+      if (saleRow) await appendSaleRow(saleRow);
+    } catch (e) {
+      console.error('⚠️ Falha no tracking de venda (não bloqueante):', e);
     }
 
     return NextResponse.json({ received: true });
