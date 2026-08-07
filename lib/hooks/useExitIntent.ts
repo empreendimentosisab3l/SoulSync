@@ -29,8 +29,8 @@ export function useExitIntent(): { showOffer: boolean; dismiss: () => void } {
 
     const onPopState = () => {
       if (!sessionStorage.getItem(FLAG)) {
-        // Re-arma a sentinela e mostra a oferta em vez de sair
-        history.pushState({ exitGuard: true }, '', window.location.href);
+        // Mostra a oferta em vez de sair; sem re-push da sentinela,
+        // o próximo "voltar" sai de verdade em 1 clique.
         trigger();
       }
       // Já mostrado: não interfere — navegação segue normalmente
