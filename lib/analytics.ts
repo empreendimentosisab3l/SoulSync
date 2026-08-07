@@ -1,18 +1,27 @@
 /**
- * Analytics Stub
- *
- * Este arquivo é um stub vazio para manter compatibilidade com código existente.
- * O tracking real de analytics agora é feito via Google Analytics.
- *
- * Todas as funções abaixo são no-ops (não fazem nada).
+ * Analytics GA4 (gtag.js carregado em components/GoogleAnalytics.tsx).
+ * Eventos do funil quiz-v3, todos com o parâmetro `src` (campanha).
+ * Funções V2 permanecem no-ops (funis antigos).
  */
 
-// No-op functions para evitar erros de build
-export const pageview = (...args: any[]) => {
-  // Google Analytics deve ser adicionado via Google Tag Manager ou script no layout
-};
+import { getTrafficSource } from './trafficSource';
 
-// Quiz V2
+type GaParams = Record<string, string | number>;
+
+function gaEvent(name: string, params: GaParams = {}): void {
+  if (typeof window === 'undefined') return;
+  const gtag = (window as any).gtag;
+  if (typeof gtag !== 'function') return;
+  try {
+    gtag('event', name, { ...params, src: getTrafficSource() || '(sem origem)' });
+  } catch {
+    // analytics nunca quebra a página
+  }
+}
+
+export const pageview = (path: string) => gaEvent('page_view', { page_path: path });
+
+// Quiz V2 (no-ops — funis antigos)
 export const trackQuizStart = (...args: any[]) => {};
 export const trackQuizStep = (...args: any[]) => {};
 export const trackQuizAnswer = (...args: any[]) => {};
@@ -24,16 +33,19 @@ export const trackFreeTrialStart = (...args: any[]) => {};
 export const trackConversion = (...args: any[]) => {};
 
 // Quiz V3
-export const trackQuizV3Start = (...args: any[]) => {};
-export const trackQuizV3Step = (...args: any[]) => {};
-export const trackQuizV3Answer = (...args: any[]) => {};
-export const trackQuizV3Complete = (...args: any[]) => {};
-export const trackQuizV3EmailCapture = (...args: any[]) => {};
-export const trackQuizV3CheckoutView = (...args: any[]) => {};
-export const trackQuizV3PurchaseIntent = (...args: any[]) => {};
-export const trackQuizV3FreeTrialStart = (...args: any[]) => {};
+export const trackQuizV3Start = () => gaEvent('quiz_v3_start');
+export const trackQuizV3Step = (step: number | string, questionType?: string) =>
+  gaEvent('quiz_v3_step', { step: Number(step), question_type: questionType ?? '' });
+export const trackQuizV3Answer = (step: number | string, value: unknown) =>
+  gaEvent('quiz_v3_answer', { step: Number(step), answer: String(value).slice(0, 100) });
+export const trackQuizV3Complete = (step: number | string) =>
+  gaEvent('quiz_v3_complete', { step: Number(step) });
+export const trackQuizV3EmailCapture = () => gaEvent('quiz_v3_email_capture');
+export const trackQuizV3CheckoutView = () => gaEvent('quiz_v3_checkout_view');
+export const trackQuizV3PurchaseIntent = (plan: string, value: number) =>
+  gaEvent('quiz_v3_purchase_intent', { plan, value, currency: 'BRL' });
+export const trackQuizV3FreeTrialStart = () => gaEvent('quiz_v3_free_trial_start');
 
-// Para compatibilidade com qualquer outro código
 export default {
   pageview,
   trackQuizStart,
