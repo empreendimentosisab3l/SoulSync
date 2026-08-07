@@ -3,6 +3,8 @@ import { SignJWT } from 'jose';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
+import { stripe } from '@/lib/stripe/client';
+import { verifyPaidSession } from '@/lib/stripe/verifySession';
 
 // Helper simples para serializar cookies (copiado do login por praticidade)
 const serializeCookie = (name: string, value: string, options: any = {}) => {
@@ -22,9 +24,8 @@ const serializeCookie = (name: string, value: string, options: any = {}) => {
 };
 
 const registerSchema = z.object({
-    email: z.string().email(),
+    sessionId: z.string().min(1),
     password: z.string().min(6),
-    name: z.string().optional(),
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -33,22 +34,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { email, password, name } = registerSchema.parse(req.body);
+        const { sessionId, password } = registerSchema.parse(req.body);
+
+        const verification = await verifyPaidSession(
+            sessionId,
+            (id) => stripe.checkout.sessions.retrieve(id),
+        );
+        if (verification.status === 'error') {
+            return res.status(503).json({ error: 'stripe_unavailable' });
+        }
+        if (verification.status !== 'paid') {
+            return res.status(402).json({ error: 'payment_not_confirmed' });
+        }
+        const email = verification.email;
+        if (!email) {
+            return res.status(422).json({ error: 'email_missing' });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Upsert user: create if not exists, update if exists
         const user = await prisma.user.upsert({
             where: { email },
             update: {
                 password: hashedPassword,
                 status: 'active',
-                name: name || undefined,
             },
             create: {
                 email,
                 password: hashedPassword,
-                name,
                 status: 'active',
                 plan: 'standard',
             },
