@@ -30,7 +30,7 @@ export default function ExitOfferModal({ open, accepting, onAccept, onDecline }:
         >
           {accepting ? 'Aguarde...' : 'QUERO POR R$ 1,00'}
         </button>
-        <p className="text-[7px] leading-tight text-gray-400 mt-2">
+        <p className="text-[6px] leading-tight text-gray-200 mt-2">
           Depois de 3 dias, R$ 39,90/mês. Cancele quando quiser.
         </p>
         <button
