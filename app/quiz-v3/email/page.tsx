@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { pageview, trackQuizV3EmailCapture } from "@/lib/analytics";
+import { pageview } from "@/lib/analytics";
 
 interface AnalysisStep {
   label: string;
@@ -32,7 +32,6 @@ export default function AnalysisPage() {
     if (currentStep >= steps.length) {
       // Todas as etapas concluídas - navegar para resultado
       setTimeout(() => {
-        trackQuizV3EmailCapture();
         router.push("/quiz-v3/result");
       }, 800);
       return;
