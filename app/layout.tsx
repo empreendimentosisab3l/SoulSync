@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MauticTracking from "@/components/MauticTracking";
 
 export const metadata: Metadata = {
   title: "Hypnotherapy para Emagrecimento | Transforme sua vida",
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className="antialiased">
         <GoogleAnalytics />
+        <MauticTracking />
         <AuthProvider>
           {children}
         </AuthProvider>
